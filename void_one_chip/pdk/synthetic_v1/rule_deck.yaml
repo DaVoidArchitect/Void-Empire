@@ -1,0 +1,30 @@
+version: "synthetic_v1"
+profile_id: "SV-LIVING-STACK-ALPHA"
+
+hard_fails:
+  silicon_allowed: false
+  copper_allowed: false
+  l3_treasury_mutable: false
+  dark_channel_required: true
+
+scoring:
+  viability_threshold: 0.72
+  viability_headroom_target: 0.08
+  max_heat_load_k: 950.0
+  weights:
+    thermal_stability: 0.30
+    dark_channel_affinity: 0.20
+    defect_tolerance: 0.20
+    constitutional_alignment: 0.30
+
+kpi_targets:
+  thermal:
+    l0_surface_temp_k_max: 315.0
+    collapse_guard_entry_k_min: 950.0
+    max_heat_load_k: 950.0
+  defect_sovereignty:
+    performance_retention_pct_min: 70.0
+    remap_latency_cycles_max: 128
+  living_system:
+    homeostasis_oscillation_index_max: 0.15
+    immune_false_positive_rate_max: 0.08
