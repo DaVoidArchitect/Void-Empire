@@ -1,0 +1,28 @@
+intent Mailbox {
+    steward: "kernel_hal";
+    target: "capability_verifier";
+    license: "PRIVATE";
+    scope: "Subnet";
+    provenance: "kernel_registry";
+    lifetime: 24 hours;
+
+    require {
+        energy 50.0 Wh;
+    }
+
+    state Idle {
+        on receive_envelope [replayed == 1] -> Idle {
+            require energy 1.0 Wh;
+        }
+        on receive_envelope [replayed == 0 and is_valid_sig == 1] -> Processing {
+            require energy 0.1 Wh;
+        }
+        on receive_envelope [replayed == 0 and is_valid_sig == 0] -> Idle {
+            require energy 0.5 Wh;
+        }
+    }
+
+    state Processing {
+        on done -> Idle;
+    }
+}
