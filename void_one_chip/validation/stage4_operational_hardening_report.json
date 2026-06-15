@@ -1,0 +1,8 @@
+{
+  "generated_utc": "2026-06-14T15:16:41.109361+00:00",
+  "slo_report": "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\stage4_slo_report.json",
+  "fault_injection_report": "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\stage4_fault_injection_report.json",
+  "disaster_recovery_report": "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\stage4_disaster_recovery_report.json",
+  "supply_chain_report": "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\stage4_supply_chain_report.json",
+  "pass": true
+}
