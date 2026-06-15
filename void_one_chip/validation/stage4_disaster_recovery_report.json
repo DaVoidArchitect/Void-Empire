@@ -1,0 +1,14 @@
+{
+  "generated_utc": "2026-06-14T15:16:41.109361+00:00",
+  "objectives": {
+    "rto_seconds_max": 600,
+    "rpo_seconds_max": 120
+  },
+  "drill_result": {
+    "restore_completed": true,
+    "journal_head_integrity": true,
+    "rto_seconds": 210,
+    "rpo_seconds": 30
+  },
+  "pass": true
+}
