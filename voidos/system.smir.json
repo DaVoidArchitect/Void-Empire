@@ -349,6 +349,253 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Storage",
+      "headers": {
+        "steward": "kernel_fs",
+        "target": "diamond_lattice_storage",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "kernel_registry",
+        "lifetime": {
+          "value": 1,
+          "unit": "days"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 540000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "write_block",
+              "target": "Writing",
+              "line": 14,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "read_block",
+              "target": "Reading",
+              "line": 17,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "transitions": [
+            {
+              "event": "commit",
+              "target": "Idle",
+              "line": 23,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 72.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "rollback",
+              "target": "Idle",
+              "line": 26
+            }
+          ]
+        },
+        {
+          "name": "Reading",
+          "transitions": [
+            {
+              "event": "close",
+              "target": "Idle",
+              "line": 30
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Session",
+      "headers": {
+        "steward": "kernel_auth",
+        "target": "session_manager",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "kernel_registry",
+        "lifetime": {
+          "value": 8,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 180000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Closed",
+          "transitions": [
+            {
+              "event": "request_auth",
+              "target": "Authenticating",
+              "line": 14,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Authenticating",
+          "transitions": [
+            {
+              "event": "verify_phrase",
+              "target": "Active",
+              "line": 20,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "is_valid_phrase"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "reject_phrase",
+              "target": "Closed",
+              "line": 23,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 720.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Active",
+          "transitions": [
+            {
+              "event": "tick_expiry",
+              "target": "Expired",
+              "line": 29,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": ">=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "time_elapsed"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 8
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "close",
+              "target": "Closed",
+              "line": 32
+            }
+          ]
+        },
+        {
+          "name": "Expired",
+          "transitions": [
+            {
+              "event": "renew",
+              "target": "Active",
+              "line": 36,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "is_valid_phrase"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 288.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "close",
+              "target": "Closed",
+              "line": 39
+            }
+          ]
+        }
+      ]
     }
   ]
 }
