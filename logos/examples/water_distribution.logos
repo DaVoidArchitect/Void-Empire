@@ -1,0 +1,52 @@
+# ============================================================================
+# LOGOS EXAMPLE: Water Distribution Intent — Pure Declarative Syntax
+# ============================================================================
+# This intent declares a state machine for distributing water resources
+# across a physical mesh network. The compilation layer verifies all
+# thermodynamic constraints before emission.
+# ============================================================================
+
+intent WaterDistribution {
+    steward: "Hydro Council";
+    target: "Sector 7 Agricultural Grid";
+    license: "CC0-1.0";
+    scope: "regional";
+    provenance: "ground_well_alpha";
+    lifetime: 365 days;
+
+    require {
+        mass 5000.0 kg;
+        energy 2.5 kWh;
+        entropy 100.0;
+        cycle 12 cycles;
+    }
+
+    constraint {
+        energy max 10.0 kWh;
+        entropy max 500.0;
+        mass min 100.0 kg;
+    }
+
+    state Idle {
+        on request_water -> Verifying;
+    }
+
+    state Verifying {
+        on approved [priority > 2] -> Distributing {
+            require energy 0.5 kWh;
+        }
+        on denied -> Idle;
+    }
+
+    state Distributing {
+        on delivery_complete -> Delivered {
+            require mass 500.0 kg;
+            require energy 0.1 kWh;
+        }
+        on delivery_failed -> Verifying;
+    }
+
+    state Delivered {
+        on acknowledge -> Idle;
+    }
+}
