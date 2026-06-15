@@ -102,7 +102,7 @@ def _run_batch(vm: LogosVM, events_path: str):
             continue
 
         status = result["status"]
-        icon = "✓" if status == "transitioned" else "✗" if status == "blocked" else "○"
+        icon = "+" if status == "transitioned" else "-" if status == "blocked" else "?"
         print(f"[EVENT {i}] {icon} {result['from']} --({event})--> {result['to']} [{status}]")
         if status != "transitioned":
             print(f"          Detail: {result['detail']}")
@@ -155,7 +155,7 @@ def _run_interactive(vm: LogosVM):
             continue
 
         status = result["status"]
-        icon = "✓" if status == "transitioned" else "✗" if status == "blocked" else "○"
+        icon = "+" if status == "transitioned" else "-" if status == "blocked" else "?"
         print(f"  {icon} {result['from']} --({event})--> {result['to']} [{status}]")
         if status != "transitioned":
             print(f"     Detail: {result['detail']}")
