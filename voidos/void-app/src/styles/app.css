@@ -2110,10 +2110,18 @@ th {
 }
 
 .landing-logo {
-  width: 90px;
+  width: 140px;
   height: auto;
-  filter: drop-shadow(0 0 20px rgba(124, 58, 237, 0.5));
-  animation: logo-glow 4s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 24px rgba(124, 58, 237, 0.5));
+  animation: 
+    logo-glow 4s ease-in-out infinite alternate,
+    logo-float 6s ease-in-out infinite;
+}
+
+@keyframes logo-float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(1deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
 }
 
 @keyframes logo-glow {
