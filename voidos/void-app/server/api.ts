@@ -113,7 +113,7 @@ async function handleSession(req: Request) {
   }
 
   if (!body.email || !body.accessPhrase) {
-    return json({ ok: false, message: "Email and private account phrase are required." }, 400);
+    return json({ ok: false, message: "Biosignature and Passkey credentials are required." }, 400);
   }
 
   const session = await createCitizenSession(body.email, body.accessPhrase);
@@ -128,7 +128,7 @@ async function handleSession(req: Request) {
       state.mesh = nextMesh;
       await writeVoidState(state);
     } catch (vmErr) {}
-    return json({ ok: false, message: "Invalid email or private account phrase." }, 401);
+    return json({ ok: false, message: "Invalid Biosignature QR Code or Passkey handshake." }, 401);
   }
 
   // Session authentication VM events
