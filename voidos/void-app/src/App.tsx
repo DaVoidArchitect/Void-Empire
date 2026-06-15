@@ -1586,7 +1586,7 @@ interface LandingPageProps {
 }
 
 function LandingPage({ dispatch, onSession }: LandingPageProps) {
-  const [tab, setTab] = useState<"login" | "register">("login");
+  const [authView, setAuthView] = useState<"landing" | "register" | "login">("landing");
   
   // Registration state
   const [regName, setRegName] = useState("");
@@ -1626,7 +1626,7 @@ function LandingPage({ dispatch, onSession }: LandingPageProps) {
     return () => clearInterval(interval);
   }, []);
 
-  // 3D Particle Vortex background simulation
+  // 3D Twinkling Starfield background simulation
   useEffect(() => {
     const canvas = particleCanvasRef.current;
     if (!canvas) return;
@@ -1644,86 +1644,67 @@ function LandingPage({ dispatch, onSession }: LandingPageProps) {
     };
     window.addEventListener("resize", handleResize);
 
-    const numParticles = 280;
-    const particles: Array<{
+    const numStars = 200;
+    const stars: Array<{
       x: number;
       y: number;
       z: number;
-      angle: number;
-      radius: number;
-      speed: number;
-      color: string;
       size: number;
+      twinkleSpeed: number;
+      phase: number;
     }> = [];
 
-    const colors = [
-      "rgba(124, 58, 237, ",  // purple
-      "rgba(168, 119, 255, ",  // violet
-      "rgba(216, 177, 95, ",   // gold
-      "rgba(244, 213, 141, "   // soft gold
-    ];
-
-    for (let i = 0; i < numParticles; i++) {
-      particles.push({
-        x: 0,
-        y: 0,
-        z: Math.random() * 800 - 400,
-        angle: Math.random() * Math.PI * 2,
-        radius: Math.random() * 260 + 50,
-        speed: (Math.random() * 0.008 + 0.002) * (Math.random() > 0.5 ? 1 : -1),
-        color: colors[Math.floor(Math.random() * colors.length)],
-        size: Math.random() * 2.2 + 0.6
+    for (let i = 0; i < numStars; i++) {
+      stars.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        z: Math.random() * 0.8 + 0.2,
+        size: Math.random() * 1.5 + 0.5,
+        twinkleSpeed: Math.random() * 0.03 + 0.01,
+        phase: Math.random() * Math.PI * 2
       });
     }
 
-    let mouse = { x: width / 2, y: height / 2, active: false };
+    let mouse = { x: width / 2, y: height / 2, targetX: width / 2, targetY: height / 2 };
     const handleMouseMove = (e: MouseEvent) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-      mouse.active = true;
+      mouse.targetX = e.clientX;
+      mouse.targetY = e.clientY;
     };
     window.addEventListener("mousemove", handleMouseMove);
 
-    const focalLength = 320;
-    const centerX = width / 2;
-    const centerY = height / 2;
-
     const render = () => {
-      ctx.fillStyle = "rgba(10, 10, 13, 0.22)"; // Fade trail
+      mouse.x += (mouse.targetX - mouse.x) * 0.05;
+      mouse.y += (mouse.targetY - mouse.y) * 0.05;
+
+      ctx.fillStyle = "#000000";
       ctx.fillRect(0, 0, width, height);
 
-      // Swirling center gravity
-      particles.forEach((p) => {
-        p.angle += p.speed;
-        
-        const targetX = mouse.active ? mouse.x - centerX : 0;
-        const targetY = mouse.active ? mouse.y - centerY : 0;
-        
-        const rawX = Math.cos(p.angle) * p.radius + targetX * 0.15;
-        const rawY = Math.sin(p.angle) * p.radius * 0.48 + targetY * 0.15;
-        
-        p.z -= 1.8;
-        if (p.z < -focalLength) {
-          p.z = 400;
-          p.radius = Math.random() * 260 + 50;
-        }
+      stars.forEach((s) => {
+        const offsetX = (mouse.x - width / 2) * 0.03 * s.z;
+        const offsetY = (mouse.y - height / 2) * 0.03 * s.z;
 
-        const scale = focalLength / (focalLength + p.z);
-        const projX = rawX * scale + centerX;
-        const projY = rawY * scale + centerY;
+        let starX = s.x - offsetX;
+        let starY = s.y - offsetY;
 
-        const size = p.size * scale;
-        const alpha = Math.min(1, Math.max(0, scale * (1 - Math.abs(p.z) / 400)));
+        if (starX < 0) starX += width;
+        if (starX > width) starX -= width;
+        if (starY < 0) starY += height;
+        if (starY > height) starY -= height;
+
+        s.phase += s.twinkleSpeed;
+        const brightness = 0.3 + Math.abs(Math.sin(s.phase)) * 0.7;
+
+        ctx.beginPath();
+        ctx.arc(starX, starY, s.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${brightness.toFixed(2)})`;
         
-        if (projX > 0 && projX < width && projY > 0 && projY < height) {
-          ctx.beginPath();
-          ctx.arc(projX, projY, size, 0, Math.PI * 2);
-          ctx.fillStyle = p.color + alpha.toFixed(2) + ")";
-          ctx.shadowBlur = size * 2.5;
-          ctx.shadowColor = p.color.includes("216") ? "#d8b15f" : "#a877ff";
-          ctx.fill();
-          ctx.shadowBlur = 0;
+        if (s.size > 1.2) {
+          ctx.shadowBlur = s.size * 3;
+          ctx.shadowColor = "rgba(255, 255, 255, 0.8)";
         }
+        
+        ctx.fill();
+        ctx.shadowBlur = 0;
       });
 
       animationFrameId = requestAnimationFrame(render);
@@ -1738,7 +1719,6 @@ function LandingPage({ dispatch, onSession }: LandingPageProps) {
     };
   }, []);
 
-  // Helper to add log messages
   const addLog = (msg: string) => {
     setLogs((prev) => [...prev, msg]);
   };
@@ -1747,21 +1727,10 @@ function LandingPage({ dispatch, onSession }: LandingPageProps) {
     setLoginLogs((prev) => [...prev, msg]);
   };
 
-  // Trigger Biometric Scan and Passkey generation
   const startBiometricEnrollment = () => {
-    if (!regName || !regPurpose) {
-      alert("Please enter a Citizen Name and Purpose before scanning.");
-      return;
-    }
-    if (regType === "AI Agent" && !regOperator) {
-      alert("AI agents require an accountable operator or sponsor.");
-      return;
-    }
-
     setBiometricStep("scanning");
-    addLog(`[INFO] Scanning biometric patterns for citizen: ${regName}...`);
+    addLog(`[INFO] Scanning biometric patterns...`);
     
-    // Simulate multi-step biometric sweep
     setTimeout(() => {
       addLog("[INFO] Calibrating digital grid coordinates...");
     }, 800);
@@ -1781,21 +1750,17 @@ function LandingPage({ dispatch, onSession }: LandingPageProps) {
       addLog("[SUCCESS] Elliptic curve Passkey pair generated in secure enclave.");
       addLog("[SUCCESS] Hardware Passkey registered.");
       
-      // Save local credentials for instant passkey login
       localStorage.setItem("void_biosig_id", bId);
       localStorage.setItem("void_passkey", pId);
-      localStorage.setItem("void_citizen_name", regName);
     }, 2500);
   };
 
-  // Redraw QR code when credentials are generated
   useEffect(() => {
     if (biometricStep === "enrolled" && canvasRef.current && biosigId && passkeyId) {
-      drawQrCode(canvasRef.current, biosigId, passkeyId, regName);
+      drawQrCode(canvasRef.current, biosigId, passkeyId, regName || "Anonymous Citizen");
     }
   }, [biometricStep, biosigId, passkeyId, regName]);
 
-  // Handle Download QR code
   const downloadQrCode = () => {
     if (!canvasRef.current || !biosigId || !passkeyId) return;
     const dataUrl = canvasRef.current.toDataURL("image/png");
@@ -1806,10 +1771,19 @@ function LandingPage({ dispatch, onSession }: LandingPageProps) {
     addLog("[SUCCESS] Biosignature Identity QR Code downloaded. Keep this file safe.");
   };
 
-  // Submit/Complete Account Creation
   const handleRegisterSubmit = async () => {
     if (!biosigId || !passkeyId) {
       alert("Please perform the Biometric Scan first.");
+      return;
+    }
+    const citizenNameInput = regName.trim();
+    if (!citizenNameInput) {
+      alert("Please enter your Citizen Name.");
+      return;
+    }
+    const purposeInput = regPurpose.trim();
+    if (!purposeInput) {
+      alert("Please enter your Core Purpose.");
       return;
     }
     
@@ -1817,27 +1791,29 @@ function LandingPage({ dispatch, onSession }: LandingPageProps) {
     addLog("[INFO] Broadcasting activation request to VPS Treasury/Mailbox...");
     
     try {
-      // Map to standard backend registration fields
       const email = `biosig_${biosigId}@void.network`;
       const accessPhrase = `passkey_${passkeyId}_military_grade`;
       
       dispatch({
         type: "requestActivation",
         payload: {
-          name: regName,
+          name: citizenNameInput,
           email,
           type: regType as any,
           operator: regOperator,
-          purpose: regPurpose,
+          purpose: purposeInput,
           accessPhrase
         }
       });
       
       addLog("[SUCCESS] Citizen profile created on ledger. Initializing session...");
       
-      // Create session
       const session = await createRemoteSession(email, accessPhrase);
       addLog("[SUCCESS] Session authenticated.");
+      
+      // Save local citizen name
+      localStorage.setItem("void_citizen_name", citizenNameInput);
+      
       setTimeout(() => {
         onSession(session);
       }, 1000);
@@ -1847,7 +1823,6 @@ function LandingPage({ dispatch, onSession }: LandingPageProps) {
     }
   };
 
-  // Passkey Login Flow
   const handlePasskeyLogin = async () => {
     const localBiosig = localStorage.getItem("void_biosig_id");
     const localPasskey = localStorage.getItem("void_passkey");
@@ -1886,7 +1861,6 @@ function LandingPage({ dispatch, onSession }: LandingPageProps) {
     }, 1800);
   };
 
-  // File Upload Login Flow (QR Code)
   const handleQrUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -1894,7 +1868,6 @@ function LandingPage({ dispatch, onSession }: LandingPageProps) {
     setLoginStep("verifying");
     addLoginLog(`[INFO] Ingesting identity package: ${file.name}...`);
     
-    // Parse filename to extract credentials
     const match = file.name.match(/void_biosignature_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)/);
     
     setTimeout(() => {
@@ -1904,7 +1877,7 @@ function LandingPage({ dispatch, onSession }: LandingPageProps) {
     setTimeout(async () => {
       if (!match || match.length < 3) {
         setLoginStep("error");
-        addLoginLog("[ERROR] Invalid identity package metadata format.");
+        addLoginLog("[ERROR] Invalid identity package format.");
         addLoginLog("[WARNING] Ensure the file name is intact: 'void_biosignature_[ID]_[KEY].png'");
         return;
       }
@@ -1923,7 +1896,6 @@ function LandingPage({ dispatch, onSession }: LandingPageProps) {
         setLoginStep("success");
         addLoginLog(`[SUCCESS] Session authorization granted.`);
         
-        // Save locally so passkeys work next time on this device
         localStorage.setItem("void_biosig_id", fileBiosigId);
         localStorage.setItem("void_passkey", filePasskeyId);
         
@@ -1932,185 +1904,191 @@ function LandingPage({ dispatch, onSession }: LandingPageProps) {
         }, 800);
       } catch (err: any) {
         setLoginStep("error");
-        addLoginLog(`[ERROR] Verification rejected by system.smir: ${err.message}`);
+        addLoginLog(`[ERROR] Verification rejected: ${err.message}`);
       }
     }, 2000);
   };
 
   return (
-    <div className="landing-container" style={{ position: "relative", overflow: "hidden" }}>
-      <canvas ref={particleCanvasRef} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 0, pointerEvents: "none" }} />
-      <div className="landing-card" style={{ zIndex: 1 }}>
-        <div className="landing-logo-container">
-          <img src="/void-official-logo.png?v=void-official-logo-v1" alt="Void Logo" className="landing-logo" />
-          <h2 className="landing-title">VOID CIVILIZATION PORTAL</h2>
-          <p className="landing-subtitle" style={{ minHeight: "18px", fontFamily: "monospace", color: "var(--void-violet-hot)", letterSpacing: "0.05em", fontSize: "11px" }}>{tagline || " "}</p>
-        </div>
-
-        <div className="landing-tabs">
-          <button className={tab === "login" ? "active" : ""} onClick={() => setTab("login")}>
-            Secure Session Auth
-          </button>
-          <button className={tab === "register" ? "active" : ""} onClick={() => setTab("register")}>
-            Register Biosignature
-          </button>
-        </div>
-
-        {tab === "login" ? (
-          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-            <div 
-              className={`biosignature-scanner-viewport ${loginStep === "verifying" ? "scanning" : ""}`}
-              style={{ height: "140px" }}
-            >
-              {loginStep === "verifying" && <div className="scanner-laser"></div>}
-              <div className="scanner-target-ring">
-                {loginStep === "verifying" && <div className="scanner-pulse"></div>}
-                <Fingerprint size={32} style={{ color: loginStep === "success" ? "#10b981" : loginStep === "error" ? "#ff6b6b" : "var(--void-violet-hot)" }} />
-              </div>
-              <span className={`scanner-status-text ${loginStep === "success" ? "ok" : ""}`}>
-                {loginStep === "verifying" ? "Authenticating Passkey..." : loginStep === "success" ? "ACCESS GRANTED" : loginStep === "error" ? "AUTH FAULT" : "TERMINAL STANDBY"}
-              </span>
+    <div className="landing-container">
+      <canvas ref={particleCanvasRef} className="landing-starfield-canvas" />
+      <div className="landing-content">
+        {authView === "landing" && (
+          <>
+            <div className="void-brand-group">
+              <h1 className="void-logo-text">
+                V<span className="void-logo-o"></span>ID
+              </h1>
+              <p className="void-brand-subtitle">FORERUNNER COMPANY</p>
             </div>
-
-            <div className="terminal-status-logs" style={{ height: "80px" }}>
-              {loginLogs.map((log, i) => (
-                <div key={i} className={log.includes("[SUCCESS]") ? "success" : log.includes("[ERROR]") || log.includes("[WARNING]") ? "warning" : "info"}>
-                  {log}
-                </div>
-              ))}
+            <div className="landing-links">
+              <button onClick={() => setAuthView("register")}>Become a Citizen</button>
+              <span className="landing-links-dot">·</span>
+              <button onClick={() => setAuthView("login")}>Enter VoidOS</button>
             </div>
+          </>
+        )}
 
-            <button className="military-btn" onClick={handlePasskeyLogin} disabled={loginStep === "verifying"}>
-              <ShieldCheck size={18} /> Verify Enclave Passkey
-            </button>
-
-            <div style={{ position: "relative", textAlign: "center", margin: "5px 0" }}>
-              <span style={{ background: "var(--matte-black)", padding: "0 10px", fontSize: "11px", color: "var(--muted-deep)", fontFamily: "monospace" }}>OR IMPORT HARDWARE KEY</span>
-              <div style={{ position: "absolute", top: "50%", left: 0, right: 0, height: "1px", background: "rgba(255,255,255,0.06)", zIndex: -1 }}></div>
+        {authView === "register" && (
+          <>
+            <div className="void-brand-group" style={{ marginBottom: "0px", transform: "scale(0.5)", height: "80px" }}>
+              <h1 className="void-logo-text">
+                V<span className="void-logo-o"></span>ID
+              </h1>
             </div>
+            
+            <div className="landing-modal-card">
+              <h2 className="modal-header">Citizen Registration</h2>
+              <div style={{ height: "1px", background: "rgba(244, 213, 141, 0.12)", margin: "-8px 0" }}></div>
+              <p className="modal-body-text">
+                Your identity is bound to this device. No passwords. No data leaves your hardware.
+              </p>
 
-            <label className="qr-file-dropzone">
-              <Upload size={24} />
-              <span>Import Biosignature QR Key</span>
-              <small>Select the void_biosignature_[ID]_[KEY].png file</small>
-              <input type="file" accept="image/png" onChange={handleQrUpload} style={{ display: "none" }} disabled={loginStep === "verifying"} />
-            </label>
-          </div>
-        ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            <div className="grid-form" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-              <div style={{ display: "flex", gap: "12px" }}>
-                <div style={{ flex: 1 }}>
-                  <label style={{ display: "block", fontSize: "10px", textTransform: "uppercase", color: "var(--muted-deep)", fontWeight: "bold", marginBottom: "4px" }}>Citizen Name</label>
-                  <input 
-                    type="text" 
-                    value={regName} 
-                    onChange={(e) => setRegName(e.target.value)} 
-                    placeholder="DaVoidArchitect" 
-                    maxLength={80} 
-                    style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "var(--radius)", color: "#fff" }}
-                    disabled={biometricStep !== "idle"}
-                  />
+              {biometricStep === "idle" ? (
+                <div className="modal-actions">
+                  <button className="modal-btn secondary" onClick={() => alert("Please register on your mobile device or use 'Use This Device' to generate local enclave keys.")}>
+                    Register with Phone
+                  </button>
+                  <button className="modal-btn primary" onClick={startBiometricEnrollment}>
+                    Use This Device
+                  </button>
                 </div>
-                <div style={{ width: "120px" }}>
-                  <label style={{ display: "block", fontSize: "10px", textTransform: "uppercase", color: "var(--muted-deep)", fontWeight: "bold", marginBottom: "4px" }}>Type</label>
-                  <select 
-                    value={regType} 
-                    onChange={(e) => setRegType(e.target.value)} 
-                    style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "var(--radius)", color: "#fff" }}
-                    disabled={biometricStep !== "idle"}
-                  >
-                    <option>Human</option>
-                    <option>AI Agent</option>
-                    <option>Machine</option>
-                    <option>Organization</option>
-                  </select>
-                </div>
-              </div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                  <div className={`modal-scanner-viewport ${biometricStep === "scanning" ? "scanning" : ""}`}>
+                    {biometricStep === "scanning" && <div className="scanner-laser" style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: "#10b981", boxShadow: "0 0 10px #10b981", animation: "scanAnim 2s infinite ease-in-out" }}></div>}
+                    <div className="scanner-target-ring" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <Fingerprint size={32} style={{ color: biometricStep === "enrolled" ? "#10b981" : "var(--void-purple-bright)" }} />
+                    </div>
+                    <span className={`modal-scanner-status ${biometricStep === "enrolled" ? "ok" : ""}`}>
+                      {biometricStep === "scanning" ? "SCANNING BIOSIGNATURE..." : "BIOSIGNATURE ACQUIRED"}
+                    </span>
+                  </div>
 
-              {regType === "AI Agent" && (
-                <div>
-                  <label style={{ display: "block", fontSize: "10px", textTransform: "uppercase", color: "var(--muted-deep)", fontWeight: "bold", marginBottom: "4px" }}>Accountable Operator / Sponsor</label>
-                  <input 
-                    type="text" 
-                    value={regOperator} 
-                    onChange={(e) => setRegOperator(e.target.value)} 
-                    placeholder="Sponsor name" 
-                    maxLength={120} 
-                    style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "var(--radius)", color: "#fff" }}
-                    disabled={biometricStep !== "idle"}
-                  />
+                  <div className="modal-terminal-logs">
+                    {logs.map((log, i) => (
+                      <div key={i} className={log.includes("[SUCCESS]") ? "success" : log.includes("[ERROR]") ? "warning" : "info"}>
+                        {log}
+                      </div>
+                    ))}
+                  </div>
+
+                  {biometricStep === "enrolled" && (
+                    <>
+                      <div className="modal-qr-box">
+                        <canvas ref={canvasRef} width={140} height={140} style={{ display: "none" }}></canvas>
+                        <canvas 
+                          width={140} 
+                          height={140} 
+                          style={{ background: "#ffffff", padding: "8px", borderRadius: "0px", width: "120px", height: "120px" }}
+                          ref={(c) => {
+                            if (c && biosigId && passkeyId) {
+                              drawQrCode(c, biosigId, passkeyId, regName || "Anonymous Citizen");
+                            }
+                          }}
+                        ></canvas>
+                        <button className="modal-btn secondary" onClick={downloadQrCode} style={{ padding: "8px 16px", fontSize: "10px", minHeight: "auto", width: "auto" }}>
+                          <Download size={14} style={{ marginRight: "6px" }} /> Download Biosignature QR
+                        </button>
+                      </div>
+
+                      <div className="modal-field">
+                        <label>Citizen Name</label>
+                        <input 
+                          type="text" 
+                          value={regName} 
+                          onChange={(e) => setRegName(e.target.value)} 
+                          placeholder="e.g. DaVoidArchitect" 
+                          maxLength={80}
+                        />
+                      </div>
+
+                      <div className="modal-field">
+                        <label>Core Purpose</label>
+                        <textarea 
+                          value={regPurpose} 
+                          onChange={(e) => setRegPurpose(e.target.value)} 
+                          placeholder="What is your directive inside Void?" 
+                          maxLength={1200}
+                          rows={2}
+                        />
+                      </div>
+
+                      <button className="modal-btn primary" onClick={handleRegisterSubmit} disabled={isSubmitting}>
+                        Activate & Sign In
+                      </button>
+                    </>
+                  )}
                 </div>
               )}
 
-              <div>
-                <label style={{ display: "block", fontSize: "10px", textTransform: "uppercase", color: "var(--muted-deep)", fontWeight: "bold", marginBottom: "4px" }}>Core Purpose</label>
-                <textarea 
-                  value={regPurpose} 
-                  onChange={(e) => setRegPurpose(e.target.value)} 
-                  placeholder="What is your directive inside Void?" 
-                  maxLength={1200} 
-                  rows={2}
-                  style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "var(--radius)", color: "#fff", resize: "none" }}
-                  disabled={biometricStep !== "idle"}
-                />
-              </div>
+              <p className="modal-footer-text">
+                Your biometric never leaves your device
+              </p>
             </div>
 
-            {biometricStep === "idle" && (
-              <button className="military-btn" onClick={startBiometricEnrollment}>
-                <Fingerprint size={18} /> Scan Biometric signature
-              </button>
-            )}
+            <div className="modal-toggle-link">
+              Already a Citizen? <span onClick={() => setAuthView("login")}>Sign in</span>
+            </div>
+          </>
+        )}
 
-            {biometricStep !== "idle" && (
-              <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                <div className={`biosignature-scanner-viewport ${biometricStep === "scanning" ? "scanning" : ""}`}>
-                  {biometricStep === "scanning" && <div className="scanner-laser"></div>}
-                  <div className="scanner-target-ring">
-                    {biometricStep === "scanning" && <div className="scanner-pulse"></div>}
-                    <Fingerprint size={36} style={{ color: biometricStep === "enrolled" ? "#10b981" : "var(--void-violet-hot)" }} />
+        {authView === "login" && (
+          <>
+            <div className="void-brand-group" style={{ marginBottom: "0px", transform: "scale(0.5)", height: "80px" }}>
+              <h1 className="void-logo-text">
+                V<span className="void-logo-o"></span>ID
+              </h1>
+            </div>
+
+            <div className="landing-modal-card">
+              <h2 className="modal-header">Citizen Sign In</h2>
+              <div style={{ height: "1px", background: "rgba(244, 213, 141, 0.12)", margin: "-8px 0" }}></div>
+              <p className="modal-body-text">
+                Present your passkey signature or upload your downloaded Biosignature QR Code key.
+              </p>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                <div className={`modal-scanner-viewport ${loginStep === "verifying" ? "scanning" : ""}`}>
+                  {loginStep === "verifying" && <div className="scanner-laser" style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: "#10b981", boxShadow: "0 0 10px #10b981", animation: "scanAnim 2s infinite ease-in-out" }}></div>}
+                  <div className="scanner-target-ring" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Fingerprint size={32} style={{ color: loginStep === "success" ? "#10b981" : loginStep === "error" ? "#ff6b6b" : "var(--void-purple-bright)" }} />
                   </div>
-                  <span className={`scanner-status-text ${biometricStep === "enrolled" ? "ok" : ""}`}>
-                    {biometricStep === "scanning" ? "SCANNING BIOSIGNATURE..." : "BIOSIGNATURE ACQUIRED"}
+                  <span className={`modal-scanner-status ${loginStep === "success" ? "ok" : ""}`}>
+                    {loginStep === "verifying" ? "Authenticating Passkey..." : loginStep === "success" ? "ACCESS GRANTED" : loginStep === "error" ? "AUTH FAULT" : "TERMINAL STANDBY"}
                   </span>
                 </div>
 
-                <div className="terminal-status-logs">
-                  {logs.map((log, i) => (
-                    <div key={i} className={log.includes("[SUCCESS]") ? "success" : log.includes("[ERROR]") ? "warning" : "info"}>
+                <div className="modal-terminal-logs">
+                  {loginLogs.map((log, i) => (
+                    <div key={i} className={log.includes("[SUCCESS]") ? "success" : log.includes("[ERROR]") || log.includes("[WARNING]") ? "warning" : "info"}>
                       {log}
                     </div>
                   ))}
                 </div>
 
-                {biometricStep === "enrolled" && (
-                  <>
-                    <div className="qr-download-container">
-                      <canvas ref={canvasRef} width={140} height={140} style={{ display: "none" }}></canvas>
-                      <canvas 
-                        width={140} 
-                        height={140} 
-                        style={{ background: "#ffffff", padding: "8px", borderRadius: "6px", width: "120px", height: "120px" }}
-                        ref={(c) => {
-                          if (c && biosigId && passkeyId) {
-                            drawQrCode(c, biosigId, passkeyId, regName);
-                          }
-                        }}
-                      ></canvas>
-                      <button className="military-btn secondary" onClick={downloadQrCode} style={{ padding: "8px 16px", fontSize: "12px" }}>
-                        <Download size={14} /> Download Biosignature QR
-                      </button>
-                    </div>
+                <button className="modal-btn primary" onClick={handlePasskeyLogin} disabled={loginStep === "verifying"}>
+                  <ShieldCheck size={18} style={{ marginRight: "8px" }} /> Verify Enclave Passkey
+                </button>
 
-                    <button className="military-btn" onClick={handleRegisterSubmit} disabled={isSubmitting}>
-                      <ShieldCheck size={18} /> Activate & Sign In
-                    </button>
-                  </>
-                )}
+                <div style={{ position: "relative", textAlign: "center", margin: "5px 0" }}>
+                  <span style={{ background: "#050507", padding: "0 10px", fontSize: "10px", color: "rgba(255,255,255,0.3)", fontFamily: "monospace", letterSpacing: "0.1em" }}>OR IMPORT HARDWARE KEY</span>
+                  <div style={{ position: "absolute", top: "50%", left: 0, right: 0, height: "1px", background: "rgba(255,255,255,0.06)", zIndex: -1 }}></div>
+                </div>
+
+                <label className="qr-file-dropzone">
+                  <Upload size={24} />
+                  <span>Import Biosignature QR Key</span>
+                  <small>Select the void_biosignature_[ID]_[KEY].png file</small>
+                  <input type="file" accept="image/png" onChange={handleQrUpload} style={{ display: "none" }} disabled={loginStep === "verifying"} />
+                </label>
               </div>
-            )}
-          </div>
+            </div>
+
+            <div className="modal-toggle-link">
+              New Citizen? <span onClick={() => setAuthView("register")}>Register</span>
+            </div>
+          </>
         )}
       </div>
     </div>
