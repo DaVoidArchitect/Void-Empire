@@ -1,0 +1,7 @@
+item_id,layer_symbol,material,composition,function,thickness_um,notes
+XBOM-001,L0_VOID_BARRIER_C60_AEROGEL,C60 Aerogel Composite,C60 carbon allotrope + aerogel matrix,Surface-cool barrier + transient damping,2.50,Outer touch-safe shell target with low-radiative profile
+XBOM-002,L1_SUBSTRATE_12C,Isotopic Diamond,99.99% Carbon-12,Thermal steering and containment hull,50.00,No silicon substrate substitution permitted
+XBOM-003,L2_COUPLING_BEALO4,Beryllium Aluminate,BeAl2O4,Mechanical-phase continuity layer,1.50,Maintains interlayer coupling under transmutation loads
+XBOM-004,L3_LOGIC_RE6SE8CL2,Moire Superatomic Logic,Re6Se8Cl2,Topological compute + immutable Recursive Treasury core,0.35,L3 is non-modifiable and hard-law locked
+XBOM-005,L4_DARK_CHANNEL_CARBON_BISB,Amorphous Carbon BiSb Dark Layer,Amorphous C + BiSb doping,Dark-channel transport and shielding,2.20,Replaces photonic waveguide assumptions
+XBOM-006,L5_GRAPHENE_MULTI_DOPED,Multi-Doped Graphene,C + B/N/P + heavy-spin dopants,High-coherence interconnect lattice,0.12,Copper prohibited in vias/interconnect/package routes
