@@ -1,0 +1,354 @@
+{
+  "logos_version": "2.0-declarative",
+  "intents": [
+    {
+      "name": "Mailbox",
+      "headers": {
+        "steward": "kernel_hal",
+        "target": "capability_verifier",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "kernel_registry",
+        "lifetime": {
+          "value": 24,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 180000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "receive_envelope",
+              "target": "Idle",
+              "line": 14,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "replayed"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 3600.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "receive_envelope",
+              "target": "Processing",
+              "line": 17,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "and",
+                  "left": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "replayed"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 0
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "is_valid_sig"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 1
+                    }
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "receive_envelope",
+              "target": "Idle",
+              "line": 20,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "and",
+                  "left": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "replayed"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 0
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "is_valid_sig"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 0
+                    }
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 1800.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Processing",
+          "transitions": [
+            {
+              "event": "done",
+              "target": "Idle",
+              "line": 26
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Scheduler",
+      "headers": {
+        "steward": "kernel_core",
+        "target": "scheduler_core",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "kernel_registry",
+        "lifetime": {
+          "value": 1,
+          "unit": "days"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 360000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "dispatch_task",
+              "target": "Running",
+              "line": 14,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": ">",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "priority"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 2
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 7200.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "dispatch_task",
+              "target": "Running",
+              "line": 17,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "<=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "priority"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 2
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 1800.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Running",
+          "transitions": [
+            {
+              "event": "complete",
+              "target": "Idle",
+              "line": 22
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Treasury",
+      "headers": {
+        "steward": "genesis_treasury",
+        "target": "settlement_ledger",
+        "license": "RESTRICTED_LICENSE",
+        "scope": "Global",
+        "provenance": "genesis_registry",
+        "lifetime": {
+          "value": 1,
+          "unit": "days"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 720000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "process_payment",
+              "target": "Settled",
+              "line": 14,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "is_inter_subnet"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 22248.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "process_payment",
+              "target": "Settled",
+              "line": 17,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "is_inter_subnet"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 0
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 5824.8,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Settled",
+          "transitions": [
+            {
+              "event": "reset",
+              "target": "Idle",
+              "line": 22
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
