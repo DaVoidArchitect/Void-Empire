@@ -1,31 +1,31 @@
 :root {
   color-scheme: dark;
-  --matte-black: #0a0a0d;
-  --gloss-black: #161620;
-  --deep-black: #08080d;
-  --black-glass: rgba(10, 10, 13, 0.78);
-  --black-glass-strong: rgba(8, 8, 13, 0.92);
-  --void-purple: #2c0f46;
+  --matte-black: #050507;
+  --gloss-black: #111119;
+  --deep-black: #050507;
+  --black-glass: rgba(5, 5, 7, 0.78);
+  --black-glass-strong: rgba(5, 5, 7, 0.92);
+  --void-purple: #7c3aed;
   --void-purple-bright: #7c3aed;
-  --void-violet-hot: #a877ff;
-  --void-lilac: #d7c8ff;
+  --void-violet-hot: #bb9cff;
+  --void-lilac: #bb9cff;
   --void-purple-soft: rgba(124, 58, 237, 0.14);
-  --void-purple-quiet: rgba(44, 15, 70, 0.42);
+  --void-purple-quiet: rgba(124, 58, 237, 0.08);
   --text: #ececf4;
   --text-strong: #ffffff;
   --muted: #b7b8c9;
   --muted-deep: #7f8196;
   --line: rgba(124, 58, 237, 0.35);
-  --line-strong: rgba(200, 181, 255, 0.45);
+  --line-strong: rgba(187, 156, 255, 0.45);
   --line-quiet: rgba(255, 255, 255, 0.08);
-  --impact-gold: #d8b15f;
-  --impact-gold-soft: rgba(216, 177, 95, 0.12);
+  --impact-gold: #f4d58d;
+  --impact-gold-soft: rgba(244, 213, 141, 0.12);
   --danger: #ff6b6b;
   --good: #91e3a7;
   --radius: 8px;
-  --shadow-deep: 0 24px 80px rgba(0, 0, 0, 0.42);
-  --shadow-tight: 0 12px 34px rgba(0, 0, 0, 0.34);
-  --shadow-premium: 0 18px 60px rgba(0, 0, 0, 0.56), 0 0 36px rgba(124, 58, 237, 0.12);
+  --shadow-deep: 0 24px 80px rgba(0, 0, 0, 0.52);
+  --shadow-tight: 0 12px 34px rgba(0, 0, 0, 0.44);
+  --shadow-premium: 0 18px 60px rgba(0, 0, 0, 0.65), 0 0 36px rgba(124, 58, 237, 0.15);
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
