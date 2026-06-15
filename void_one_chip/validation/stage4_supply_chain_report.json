@@ -1,0 +1,27 @@
+{
+  "generated_utc": "2026-06-14T15:16:41.109361+00:00",
+  "design_version": "V2.0-FRONTIER-R1",
+  "release_id": "VOIDONE-2.0-FRONTIER-R1",
+  "program_id": "VOID-MASTER-TAPEOUT-ONE-2.0",
+  "release_tree_sha256": "b281bdc475e22bcfd621073eb04b9c0aee4d82a45f1fda25c2b8537fcefe8bfa",
+  "sbom": {
+    "component_count": 8,
+    "components": [
+      "software/voidos/apis/gateway.py",
+      "software/voidos/apis/intent_adapter.py",
+      "software/voidos/services/treasury_service.py",
+      "software/voidos/services/quest_service.py",
+      "software/voidos/services/legacy_service.py",
+      "software/voidos/services/knowledge_service.py",
+      "software/voidos/services/governance_service.py",
+      "software/voidos/kernel/mutation_coordinator.py"
+    ],
+    "sbom_digest_sha256": "157e0dd9fe741040828433b7e3ee344dd165613a60ba22890f4469d0f6812c8a"
+  },
+  "attestation": {
+    "signer": "VOID_BUILD_AUTHORITY",
+    "provenance_digest_sha256": "34d997007b8c3b634e236848473fdb68994ee9c4a1f90299a8950e489062bdb7",
+    "signature_scheme": "SHA256_ATTESTATION_SIM"
+  },
+  "pass": true
+}
