@@ -1,0 +1,102 @@
+{
+  "generated_utc": "2026-06-14T15:16:41.842381+00:00",
+  "design_version": "V2.0-FRONTIER-R1",
+  "release_id": "VOIDONE-2.0-FRONTIER-R1",
+  "program_id": "VOID-MASTER-TAPEOUT-ONE-2.0",
+  "check_count": 3,
+  "pass_count": 3,
+  "checks": [
+    {
+      "name": "Motherboard mapping domain completeness",
+      "pass": true,
+      "detail": "coverage map includes all required merged-chip domains",
+      "evidence": {
+        "mapped_domain_count": 16,
+        "missing_domains": []
+      }
+    },
+    {
+      "name": "Motherboard mapping rights completeness",
+      "pass": true,
+      "detail": "coverage map includes all required governed rights",
+      "evidence": {
+        "mapped_right_count": 23,
+        "missing_rights": []
+      }
+    },
+    {
+      "name": "Motherboard gateway domain smoke",
+      "pass": true,
+      "detail": "all motherboard-equivalent gateway domain actions dispatch successfully",
+      "evidence": {
+        "dispatch_results": [
+          {
+            "domain": "device",
+            "action": "register",
+            "ok": true,
+            "code": "OK",
+            "detail": "platform device registration",
+            "event_id": "device:SOV-A:1:mb-1"
+          },
+          {
+            "domain": "power",
+            "action": "transition",
+            "ok": true,
+            "code": "OK",
+            "detail": "platform power transition",
+            "event_id": "power:SOV-A:1:mb-2"
+          },
+          {
+            "domain": "memory",
+            "action": "write",
+            "ok": true,
+            "code": "OK",
+            "detail": "platform memory write",
+            "event_id": "memory:SOV-A:1:mb-3"
+          },
+          {
+            "domain": "storage",
+            "action": "write",
+            "ok": true,
+            "code": "OK",
+            "detail": "platform storage write",
+            "event_id": "storage:SOV-A:1:mb-4"
+          },
+          {
+            "domain": "io",
+            "action": "emit",
+            "ok": true,
+            "code": "OK",
+            "detail": "platform io emit",
+            "event_id": "io:SOV-A:1:mb-5"
+          },
+          {
+            "domain": "network",
+            "action": "tx",
+            "ok": true,
+            "code": "OK",
+            "detail": "platform network tx",
+            "event_id": "network:SOV-A:1:mb-6"
+          },
+          {
+            "domain": "peripheral",
+            "action": "command",
+            "ok": true,
+            "code": "OK",
+            "detail": "platform peripheral command",
+            "event_id": "peripheral:SOV-A:1:mb-7"
+          },
+          {
+            "domain": "platform",
+            "action": "route_event",
+            "ok": true,
+            "code": "OK",
+            "detail": "platform route event",
+            "event_id": "platform:SOV-A:1:mb-8"
+          }
+        ]
+      }
+    }
+  ],
+  "overall_pass": true
+}
