@@ -1,0 +1,74 @@
+{
+  "generated_utc": "2026-03-04T23:25:02.611358+00:00",
+  "flow": "virtual_tapeout_open_source",
+  "strict_mode": true,
+  "design_name": "Void One",
+  "design_version": "V2.0-FRONTIER-R1",
+  "release_id": "VOIDONE-2.0-FRONTIER-R1",
+  "program_id": "VOID-MASTER-TAPEOUT-ONE-2.0",
+  "step_results": [
+    {
+      "name": "build_gds",
+      "command": [
+        "C:\\Users\\dacoo\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "C:\\Users\\dacoo\\Desktop\\Artifact_Origins\\VoidAlchmey\\AlchemyGDSII\\build_alchemy_gdsii.py"
+      ],
+      "rc": 0,
+      "pass": true,
+      "output_tail": "generated: C:\\Users\\dacoo\\Desktop\\Artifact_Origins\\VoidAlchmey\\AlchemyGDSII\\xenalchemy_core_mask_maps.gds\ngenerated: C:\\Users\\dacoo\\Desktop\\Artifact_Origins\\VoidAlchmey\\AlchemyGDSII\\xenalchemy_core_mask_maps.gdsii\ngenerated: C:\\Users\\dacoo\\Desktop\\Artifact_Origins\\VoidAlchmey\\AlchemyGDSII\\xenalchemy_core_mask_maps.gdsbin\ngenerated: C:\\Users\\dacoo\\Desktop\\Artifact_Origins\\VoidAlchmey\\AlchemyGDSII\\xenalchemy_core_mask_maps_geometry.json\ngenerated: C:\\Users\\dacoo\\Desktop\\Artifact_Origins\\VoidAlchmey\\AlchemyGDSII\\xenalchemy_core_mask_maps_coordinates.bin\nrecords: 88\n"
+    },
+    {
+      "name": "run_validation_suite",
+      "command": [
+        "C:\\Users\\dacoo\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "C:\\Users\\dacoo\\Desktop\\Artifact_Origins\\VoidAlchmey\\validation\\run_xenalchemy_tests.py"
+      ],
+      "rc": 0,
+      "pass": true,
+      "output_tail": "=== Void One Validation Summary ===\nversion: V2.0-FRONTIER-R1 release: VOIDONE-2.0-FRONTIER-R1\nformal: PASS\ntcad: PASS\ndefect_connectome: PASS\nvoid_channel: PASS\nmaterial_compliance: PASS\nyield_model: PASS\nyield_gate: PASS\nsynthetic_pdk: PASS\n\nTAPE-OUT READY\n"
+    },
+    {
+      "name": "generate_frontier_readiness",
+      "command": [
+        "C:\\Users\\dacoo\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "C:\\Users\\dacoo\\Desktop\\Artifact_Origins\\VoidAlchmey\\tools\\generate_frontier_readiness_report.py"
+      ],
+      "rc": 0,
+      "pass": true,
+      "output_tail": "[frontier_readiness] index: 1.0000\n[frontier_readiness] legacy_weighted_index: 1.0000\n[frontier_readiness] hard_gate_fraction: 1.0000\n[frontier_readiness] recommendations: 1\n[frontier_readiness] report: C:\\Users\\dacoo\\Desktop\\Artifact_Origins\\VoidAlchmey\\validation\\frontier_readiness_report.json\n"
+    },
+    {
+      "name": "generate_release_manifest",
+      "command": [
+        "C:\\Users\\dacoo\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "C:\\Users\\dacoo\\Desktop\\Artifact_Origins\\VoidAlchmey\\tools\\generate_xenalchemy_release_manifest.py"
+      ],
+      "rc": 0,
+      "pass": true,
+      "output_tail": "[release_manifest] design_version: V2.0-FRONTIER-R1\n[release_manifest] release_id: VOIDONE-2.0-FRONTIER-R1\n[release_manifest] file_count: 115\n[release_manifest] tree_sha256: 09d9c307462847239ed24e2b15ac5ac6cce73cea63e9fecc324389f70b668a63\n[release_manifest] output: C:\\Users\\dacoo\\Desktop\\Artifact_Origins\\VoidAlchmey\\validation\\xenalchemy_release_manifest.json\n"
+    }
+  ],
+  "all_steps_pass": true,
+  "validation_overall_pass": true,
+  "frontier_readiness_index": 1.0,
+  "frontier_certification": "FRONTIER_V2_CERTIFIED",
+  "release_manifest": {
+    "file_count": 115,
+    "tree_sha256": "09d9c307462847239ed24e2b15ac5ac6cce73cea63e9fecc324389f70b668a63"
+  },
+  "tooling_detection": {
+    "python": "C:\\Users\\dacoo\\AppData\\Local\\Programs\\Python\\Python311\\python.EXE",
+    "yosys": null,
+    "sby": null,
+    "yowasp-sby": "C:\\Users\\dacoo\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\yowasp-sby.EXE",
+    "z3": null,
+    "iverilog": null,
+    "verilator": null,
+    "openroad": null,
+    "opensta": null,
+    "magic": null,
+    "netgen": null,
+    "klayout": null
+  },
+  "overall_virtual_tapeout_ready": true
+}
