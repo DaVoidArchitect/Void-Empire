@@ -1,0 +1,46 @@
+SOVEREIGN OPEN HARDWARE LICENSE (S-OHL)
+Version 2.0
+
+Copyright (c) 2024 Primal Origins SoC IP Core
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "IP Core"), to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the IP Core, and to permit persons to whom the IP Core is furnished to do so,
+subject to the following conditions:
+
+1. HARD-LAW IMMUTABILITY:
+   The 6.18% System Fund constants (FOUNDER_RATE, SYSTEM_RATE, TOTAL_TAX_RATE)
+   are HARD-CODED in the RTL and MUST NOT be modified. These constants are
+   intended to be implemented as metal-mask constants in the final silicon.
+
+2. PUF REQUIREMENT:
+   The Physical Unclonable Function (PUF) implementation MUST be preserved.
+   The PUF is essential for chip uniqueness and security.
+
+3. ATTRIBUTION:
+   Redistributions of source code must retain the above copyright notice,
+   this list of conditions, and the following disclaimer.
+
+4. NO WARRANTY:
+   THE IP CORE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE IP CORE OR THE USE OR OTHER DEALINGS IN THE
+   IP CORE.
+
+5. COMMERCIAL USE:
+   Commercial use is permitted, including manufacturing and sale of chips
+   incorporating this IP Core.
+
+6. MODIFICATIONS:
+   Modifications are permitted EXCEPT for the Hard-Law constants specified
+   in condition 1. All modifications must be clearly documented.
+
+7. DISTRIBUTION:
+   You may distribute this IP Core in source or binary form, provided that
+   you meet the above conditions.
+
+END OF TERMS AND CONDITIONS
