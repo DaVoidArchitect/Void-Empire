@@ -1,0 +1,27 @@
+{
+  "generated_utc": "2026-06-14T15:16:41.109361+00:00",
+  "scenarios": [
+    {
+      "name": "mailbox_duplicate_envelope",
+      "injected": true,
+      "expected_code": "E_COUNTER_REPLAY",
+      "observed_code": "E_COUNTER_REPLAY",
+      "recovered": true
+    },
+    {
+      "name": "forced_audit_failure",
+      "injected": true,
+      "expected_code": "E_AUDIT_COMMIT_FAILED",
+      "observed_code": "E_AUDIT_COMMIT_FAILED",
+      "recovered": true
+    },
+    {
+      "name": "signature_tamper",
+      "injected": true,
+      "expected_code": "E_POLICY_BLOCKED",
+      "observed_code": "E_POLICY_BLOCKED",
+      "recovered": true
+    }
+  ],
+  "pass": true
+}
