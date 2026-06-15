@@ -1,0 +1,45 @@
+version: "synthetic_v1"
+profile_id: "SV-LIVING-STACK-ALPHA"
+
+thermal_bands:
+  cultivation:
+    core_temp_k_min: 320.0
+    core_temp_k_max: 420.0
+    objective: "entropy_gain_and_lock_quality"
+  sovereign:
+    core_temp_k_min: 420.0
+    core_temp_k_max: 900.0
+    objective: "sustained_peak_zone"
+  sovereign_excursion:
+    core_temp_k_min: 900.0
+    core_temp_k_max: 950.0
+    objective: "qualified_peak_excursion_with_logic_feedback"
+  collapse_guard:
+    core_temp_k_min: 950.0
+    core_temp_k_max: 1100.0
+    objective: "stabilize_and_derate"
+
+living_system_policy:
+  sensing:
+    required_signals:
+      - thermal_input_milliK
+      - defect_density
+      - entropy_gain
+      - route_congestion
+      - treasury_flow
+  homeostasis:
+    enabled: true
+    max_derate_per_window_pct: 18.0
+  immune_response:
+    enabled: true
+    quarantine_on_anomaly_score_ge: 0.82
+  regeneration:
+    enabled: true
+    remap_latency_cycles_target: 64
+
+defect_sovereignty:
+  supported_density_ppm:
+    min: 10
+    max: 5000
+  runtime_remap_required: true
+  target_performance_retention_pct: 72.0
