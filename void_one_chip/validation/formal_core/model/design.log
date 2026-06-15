@@ -1,0 +1,684 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.66 (git sha1 86f2ddebc, ccache clang++  -O3 -fwasm-exceptions -mllvm) [yowasp/yosys at release-0.66]
+
+-- Executing script file `../model/design.ys' --
+
+1. Executing Verilog-2005 frontend: ../src/sovereign_core_top.sv
+Parsing formal SystemVerilog input from `../src/sovereign_core_top.sv' to AST representation.
+Storing AST representation for module `$abstract\sovereign_core_top'.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: ../src/string_resonant_alu.sv
+Parsing formal SystemVerilog input from `../src/string_resonant_alu.sv' to AST representation.
+Storing AST representation for module `$abstract\string_resonant_alu'.
+Successfully finished Verilog frontend.
+
+3. Executing Verilog-2005 frontend: ../src/subnet_charter_reg.sv
+Parsing formal SystemVerilog input from `../src/subnet_charter_reg.sv' to AST representation.
+Storing AST representation for module `$abstract\subnet_charter_reg'.
+Successfully finished Verilog frontend.
+
+4. Executing Verilog-2005 frontend: ../src/transaction_routing_alu.sv
+Parsing formal SystemVerilog input from `../src/transaction_routing_alu.sv' to AST representation.
+Storing AST representation for module `$abstract\transaction_routing_alu'.
+Successfully finished Verilog frontend.
+
+5. Executing Verilog-2005 frontend: formal_properties.sv
+Parsing formal SystemVerilog input from `formal_properties.sv' to AST representation.
+Storing AST representation for module `$abstract\formal_properties'.
+Successfully finished Verilog frontend.
+
+6. Executing PREP pass.
+
+6.1. Executing HIERARCHY pass (managing design hierarchy).
+
+6.2. Executing AST frontend in derive mode using pre-parsed AST for module `\formal_properties'.
+Generating RTLIL representation for module `\formal_properties'.
+
+6.2.1. Analyzing design hierarchy..
+Top module:  \formal_properties
+Parameter \SUBNET_ID_W = 8
+Parameter \VALUE_W = 64
+
+6.2.2. Executing AST frontend in derive mode using pre-parsed AST for module `\transaction_routing_alu'.
+Parameter \SUBNET_ID_W = 8
+Parameter \VALUE_W = 64
+Generating RTLIL representation for module `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu'.
+Parameter \SUBNET_ID_W = 8
+Parameter \VALUE_W = 64
+
+6.2.3. Executing AST frontend in derive mode using pre-parsed AST for module `\subnet_charter_reg'.
+Parameter \SUBNET_ID_W = 8
+Parameter \VALUE_W = 64
+Generating RTLIL representation for module `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg'.
+
+6.2.4. Analyzing design hierarchy..
+Top module:  \formal_properties
+Used module:     $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu
+Used module:     $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg
+
+6.2.5. Analyzing design hierarchy..
+Top module:  \formal_properties
+Used module:     $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu
+Used module:     $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg
+Removing unused module `$abstract\formal_properties'.
+Removing unused module `$abstract\transaction_routing_alu'.
+Removing unused module `$abstract\subnet_charter_reg'.
+Removing unused module `$abstract\string_resonant_alu'.
+Removing unused module `$abstract\sovereign_core_top'.
+Removed 5 unused modules.
+Module formal_properties directly or indirectly contains formal properties -> setting "keep" attribute.
+
+6.3. Executing PROC pass (convert processes to netlists).
+
+6.3.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+6.3.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 2 switch rules as full_case in process $proc$../src/subnet_charter_reg.sv:115$120 in module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.
+Marked 2 switch rules as full_case in process $proc$../src/subnet_charter_reg.sv:75$107 in module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.
+Marked 1 switch rules as full_case in process $proc$../src/transaction_routing_alu.sv:105$80 in module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.
+Marked 3 switch rules as full_case in process $proc$../src/transaction_routing_alu.sv:68$55 in module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.
+Removed a total of 0 dead cases.
+
+6.3.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 9 redundant assignments.
+Promoted 66 assignments to connections.
+
+6.3.4. Executing PROC_INIT pass (extract init attributes).
+
+6.3.5. Executing PROC_ARST pass (detect async resets in processes).
+Found async reset \state_reset_i in `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:75$107'.
+Found async reset \state_reset_i in `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:105$80'.
+
+6.3.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~15 debug messages>
+
+6.3.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\formal_properties.$proc$formal_properties.sv:56$53'.
+Creating decoders for process `\formal_properties.$proc$formal_properties.sv:182$46'.
+Creating decoders for process `\formal_properties.$proc$formal_properties.sv:177$37'.
+     1/1: $assert$formal_properties.sv:178$44_EN
+Creating decoders for process `\formal_properties.$proc$formal_properties.sv:170$25'.
+     1/3: $assert$formal_properties.sv:173$35_EN
+     2/3: $assert$formal_properties.sv:172$33_EN
+     3/3: $assert$formal_properties.sv:171$32_EN
+Creating decoders for process `\formal_properties.$proc$formal_properties.sv:164$16'.
+     1/2: $assert$formal_properties.sv:166$22_EN
+     2/2: $assert$formal_properties.sv:165$20_EN
+Creating decoders for process `\formal_properties.$proc$formal_properties.sv:156$9'.
+Creating decoders for process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:115$120'.
+     1/4: $2\collapse_guard_o[0:0]
+     2/4: $2\thermal_zone_o[1:0]
+     3/4: $1\collapse_guard_o[0:0]
+     4/4: $1\thermal_zone_o[1:0]
+Creating decoders for process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:75$107'.
+     1/7: $0\cultivation_depth_q[15:0]
+     2/7: $0\lease_age_q[15:0]
+     3/7: $0\internal_volume_q[63:0]
+     4/7: $0\revoke_subnet_id_o[0:0]
+     5/7: $0\minted_asset_value_o[63:0]
+     6/7: $0\minted_subnet_id_o[7:0]
+     7/7: $0\asset_minted_o[0:0]
+Creating decoders for process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:68$103'.
+Creating decoders for process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:118$89'.
+Creating decoders for process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:105$80'.
+     1/1: $0\internal_volume_q[63:0]
+Creating decoders for process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:68$55'.
+     1/5: $1\routed_value_o[63:0]
+     2/5: $2\collapse_guard_o[0:0]
+     3/5: $2\thermal_zone_o[1:0]
+     4/5: $1\collapse_guard_o[0:0]
+     5/5: $1\thermal_zone_o[1:0]
+
+6.3.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\formal_properties.\activation_i' from process `\formal_properties.$proc$formal_properties.sv:56$53'.
+No latch inferred for signal `\formal_properties.\state_reset_i' from process `\formal_properties.$proc$formal_properties.sv:56$53'.
+No latch inferred for signal `\formal_properties.\ledger_pulse_i' from process `\formal_properties.$proc$formal_properties.sv:56$53'.
+No latch inferred for signal `\formal_properties.\routing_pulse_i' from process `\formal_properties.$proc$formal_properties.sv:56$53'.
+No latch inferred for signal `\formal_properties.\chakra_band_i' from process `\formal_properties.$proc$formal_properties.sv:56$53'.
+No latch inferred for signal `\formal_properties.\cultivation_stage_i' from process `\formal_properties.$proc$formal_properties.sv:56$53'.
+No latch inferred for signal `\formal_properties.\thermal_input_milliK_i' from process `\formal_properties.$proc$formal_properties.sv:56$53'.
+No latch inferred for signal `\formal_properties.\defect_density_i' from process `\formal_properties.$proc$formal_properties.sv:56$53'.
+No latch inferred for signal `\formal_properties.\mint_req_i' from process `\formal_properties.$proc$formal_properties.sv:56$53'.
+No latch inferred for signal `\formal_properties.\mint_subnet_id_i' from process `\formal_properties.$proc$formal_properties.sv:56$53'.
+No latch inferred for signal `\formal_properties.\recursive_protocol_collateral_i' from process `\formal_properties.$proc$formal_properties.sv:56$53'.
+No latch inferred for signal `\formal_properties.\lease_tick_i' from process `\formal_properties.$proc$formal_properties.sv:56$53'.
+No latch inferred for signal `\formal_properties.\lease_paid_i' from process `\formal_properties.$proc$formal_properties.sv:56$53'.
+No latch inferred for signal `\formal_properties.\tx_valid_i' from process `\formal_properties.$proc$formal_properties.sv:56$53'.
+No latch inferred for signal `\formal_properties.\src_subnet_id_i' from process `\formal_properties.$proc$formal_properties.sv:56$53'.
+No latch inferred for signal `\formal_properties.\dst_subnet_id_i' from process `\formal_properties.$proc$formal_properties.sv:56$53'.
+No latch inferred for signal `\formal_properties.\tx_value_i' from process `\formal_properties.$proc$formal_properties.sv:56$53'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.\entropy_gain_ppm_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:115$120'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.\thermal_zone_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:115$120'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.\collapse_guard_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:115$120'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.\no_silicon_hardlaw_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:115$120'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.\no_copper_hardlaw_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:115$120'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.\dark_channel_required_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:115$120'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.\golden_width_um_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:115$120'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.\golden_length_um_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:115$120'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.\preferred_turn_mdeg_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:115$120'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.\right_angle_forbidden_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:115$120'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.\orthogonal_grid_forbidden_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:115$120'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.\mint_scaled_w' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:68$103'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.\mint_base_value_w' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:68$103'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.\no_silicon_hardlaw_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:118$89'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.\no_copper_hardlaw_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:118$89'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.\dark_channel_required_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:118$89'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.\golden_width_um_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:118$89'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.\golden_length_um_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:118$89'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.\preferred_turn_mdeg_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:118$89'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.\right_angle_forbidden_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:118$89'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.\orthogonal_grid_forbidden_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:118$89'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.\inter_subnet_route_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:68$55'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.\routed_value_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:68$55'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.\tariff_value_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:68$55'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.\lease_value_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:68$55'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.\treasury_address_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:68$55'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.\treasury_credit_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:68$55'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.\entropy_gain_ppm_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:68$55'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.\thermal_zone_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:68$55'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.\collapse_guard_o' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:68$55'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.\tariff_product' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:68$55'.
+No latch inferred for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.\lease_product' from process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:68$55'.
+
+6.3.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.\asset_minted_o' using process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:75$107'.
+  created $adff cell `$procdff$236' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.\minted_subnet_id_o' using process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:75$107'.
+  created $adff cell `$procdff$239' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.\minted_asset_value_o' using process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:75$107'.
+  created $adff cell `$procdff$242' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.\revoke_subnet_id_o' using process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:75$107'.
+  created $adff cell `$procdff$245' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.\internal_volume_q' using process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:75$107'.
+  created $adff cell `$procdff$248' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.\lease_age_q' using process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:75$107'.
+  created $adff cell `$procdff$251' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.\cultivation_depth_q' using process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:75$107'.
+  created $adff cell `$procdff$254' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.\internal_volume_q' using process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:105$80'.
+  created $adff cell `$procdff$257' with positive edge clock and positive level reset.
+
+6.3.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+6.3.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `formal_properties.$proc$formal_properties.sv:56$53'.
+Removing empty process `formal_properties.$proc$formal_properties.sv:182$46'.
+Found and cleaned up 1 empty switch in `\formal_properties.$proc$formal_properties.sv:177$37'.
+Removing empty process `formal_properties.$proc$formal_properties.sv:177$37'.
+Found and cleaned up 1 empty switch in `\formal_properties.$proc$formal_properties.sv:170$25'.
+Removing empty process `formal_properties.$proc$formal_properties.sv:170$25'.
+Found and cleaned up 1 empty switch in `\formal_properties.$proc$formal_properties.sv:164$16'.
+Removing empty process `formal_properties.$proc$formal_properties.sv:164$16'.
+Removing empty process `formal_properties.$proc$formal_properties.sv:156$9'.
+Found and cleaned up 2 empty switches in `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:115$120'.
+Removing empty process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:115$120'.
+Found and cleaned up 6 empty switches in `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:75$107'.
+Removing empty process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:75$107'.
+Removing empty process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$proc$../src/subnet_charter_reg.sv:68$103'.
+Removing empty process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:118$89'.
+Found and cleaned up 1 empty switch in `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:105$80'.
+Removing empty process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:105$80'.
+Found and cleaned up 3 empty switches in `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:68$55'.
+Removing empty process `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$proc$../src/transaction_routing_alu.sv:68$55'.
+Cleaned up 15 empty switches.
+
+6.3.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module formal_properties.
+<suppressed ~24 debug messages>
+Optimizing module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.
+<suppressed ~7 debug messages>
+Optimizing module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.
+<suppressed ~1 debug messages>
+
+6.4. Executing FUTURE pass.
+
+6.5. Executing OPT_EXPR pass (perform const folding).
+Optimizing module formal_properties.
+Optimizing module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.
+Optimizing module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.
+
+6.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \formal_properties..
+Finding unused cells or wires in module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg..
+Finding unused cells or wires in module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu..
+Removed 8 unused cells and 176 unused wires.
+<suppressed ~12 debug messages>
+
+6.7. Executing CHECK pass (checking for obvious problems).
+Checking module formal_properties...
+Checking module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg...
+Checking module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu...
+Found and reported 0 problems.
+
+6.8. Executing OPT pass (performing simple optimizations).
+
+6.8.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module formal_properties.
+Optimizing module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.
+Optimizing module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.
+
+6.8.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\formal_properties'.
+Computing hashes of 30 cells of `\formal_properties'.
+Finding duplicate cells in `\formal_properties'.
+Computing hashes of 29 cells of `\formal_properties'.
+Finding duplicate cells in `\formal_properties'.
+<suppressed ~3 debug messages>
+Finding identical cells in module `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg'.
+Computing hashes of 61 cells of `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg'.
+Finding duplicate cells in `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg'.
+Finding identical cells in module `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu'.
+Computing hashes of 49 cells of `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu'.
+Finding duplicate cells in `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu'.
+Computing hashes of 48 cells of `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu'.
+Finding duplicate cells in `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu'.
+<suppressed ~3 debug messages>
+Removed a total of 2 cells.
+
+6.8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \formal_properties..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 1/2 on $mux $procmux$167.
+    dead port 1/2 on $mux $procmux$161.
+Running muxtree optimizer on module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 1/2 on $mux $procmux$226.
+    dead port 1/2 on $mux $procmux$220.
+Removed 4 multiplexer ports.
+<suppressed ~76 debug messages>
+
+6.8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \formal_properties.
+  Optimizing cells in module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.
+  Optimizing cells in module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.
+Performed a total of 0 changes.
+
+6.8.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\formal_properties'.
+Computing hashes of 29 cells of `\formal_properties'.
+Finding duplicate cells in `\formal_properties'.
+Computing hashes of 25 cells of `\formal_properties'.
+Finding duplicate cells in `\formal_properties'.
+<suppressed ~12 debug messages>
+Finding identical cells in module `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg'.
+Computing hashes of 59 cells of `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg'.
+Finding duplicate cells in `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg'.
+Finding identical cells in module `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu'.
+Computing hashes of 46 cells of `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu'.
+Finding duplicate cells in `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu'.
+Removed a total of 4 cells.
+
+6.8.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \formal_properties..
+Finding unused cells or wires in module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg..
+Finding unused cells or wires in module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu..
+Removed 0 unused cells and 10 unused wires.
+<suppressed ~3 debug messages>
+
+6.8.7. Executing OPT_EXPR pass (perform const folding).
+Optimizing module formal_properties.
+Optimizing module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.
+Optimizing module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.
+
+6.8.8. Rerunning OPT passes. (Maybe there is more to do..)
+
+6.8.9. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \formal_properties..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~64 debug messages>
+
+6.8.10. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \formal_properties.
+  Optimizing cells in module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.
+  Optimizing cells in module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.
+Performed a total of 0 changes.
+
+6.8.11. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\formal_properties'.
+Computing hashes of 25 cells of `\formal_properties'.
+Finding duplicate cells in `\formal_properties'.
+Finding identical cells in module `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg'.
+Computing hashes of 59 cells of `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg'.
+Finding duplicate cells in `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg'.
+Finding identical cells in module `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu'.
+Computing hashes of 46 cells of `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu'.
+Finding duplicate cells in `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu'.
+Removed a total of 0 cells.
+
+6.8.12. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \formal_properties..
+Finding unused cells or wires in module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg..
+Finding unused cells or wires in module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu..
+
+6.8.13. Executing OPT_EXPR pass (perform const folding).
+Optimizing module formal_properties.
+Optimizing module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.
+Optimizing module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.
+
+6.8.14. Finished fast OPT passes. (There is nothing left to do.)
+
+6.9. Executing WREDUCE pass (reducing word size of cells).
+Removed top 50 bits (of 64) from port B of cell formal_properties.$le$formal_properties.sv:165$21 ($le).
+Removed top 50 bits (of 64) from port B of cell formal_properties.$le$formal_properties.sv:166$24 ($le).
+Removed top 31 bits (of 32) from port B of cell formal_properties.$gt$formal_properties.sv:173$36 ($gt).
+Removed top 12 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$div$../src/subnet_charter_reg.sv:64$143 ($div).
+Removed top 22 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$div$../src/subnet_charter_reg.sv:91$113 ($div).
+Removed top 18 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$div$../src/subnet_charter_reg.sv:71$105 ($div).
+Removed top 22 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:70$104 ($mul).
+Removed top 54 bits (of 128) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:70$104 ($mul).
+Removed top 64 bits (of 128) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:71$106 ($add).
+Removed top 64 bits (of 128) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:71$106 ($add).
+Removed top 8 bits (of 16) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$lt$../src/subnet_charter_reg.sv:100$116 ($lt).
+Removed top 8 bits (of 16) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$ge$../src/subnet_charter_reg.sv:105$119 ($ge).
+Removed top 20 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$le$../src/subnet_charter_reg.sv:118$125 ($le).
+Removed top 19 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$le$../src/subnet_charter_reg.sv:121$126 ($le).
+Removed top 11 bits (of 16) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:130$127 ($mul).
+Removed top 8 bits (of 16) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:130$127 ($mul).
+Removed top 6 bits (of 16) from port A of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:130$128 ($add).
+Removed top 8 bits (of 16) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:130$128 ($add).
+Removed top 5 bits (of 16) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:130$128 ($add).
+Removed top 11 bits (of 16) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:130$129 ($mul).
+Removed top 7 bits (of 16) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:130$129 ($mul).
+Removed top 5 bits (of 16) from port A of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:130$130 ($add).
+Removed top 7 bits (of 16) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:130$130 ($add).
+Removed top 4 bits (of 16) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:130$130 ($add).
+Removed top 12 bits (of 16) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:131$131 ($mul).
+Removed top 4 bits (of 16) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:131$131 ($mul).
+Removed top 4 bits (of 16) from port A of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:130$132 ($add).
+Removed top 4 bits (of 16) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:130$132 ($add).
+Removed top 3 bits (of 16) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:130$132 ($add).
+Removed top 1 bits (of 2) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$eq$../src/subnet_charter_reg.sv:132$133 ($eq).
+Removed top 8 bits (of 16) from mux cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$ternary$../src/subnet_charter_reg.sv:132$134 ($mux).
+Removed top 3 bits (of 16) from port A of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:130$135 ($add).
+Removed top 8 bits (of 16) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:130$135 ($add).
+Removed top 2 bits (of 16) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:130$135 ($add).
+Removed top 2 bits (of 16) from mux cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$ternary$../src/subnet_charter_reg.sv:129$136 ($mux).
+Removed top 29 bits (of 32) from port A of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:135$137 ($mul).
+Removed top 27 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:135$137 ($mul).
+Removed top 24 bits (of 32) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:135$137 ($mul).
+Removed top 24 bits (of 32) from port A of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:135$138 ($add).
+Removed top 24 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:135$138 ($add).
+Removed top 23 bits (of 32) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:135$138 ($add).
+Removed top 28 bits (of 32) from port A of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:135$139 ($mul).
+Removed top 28 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:135$139 ($mul).
+Removed top 24 bits (of 32) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:135$139 ($mul).
+Removed top 23 bits (of 32) from port A of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:135$140 ($add).
+Removed top 24 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:135$140 ($add).
+Removed top 22 bits (of 32) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:135$140 ($add).
+Removed top 22 bits (of 32) from mux cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$ternary$../src/subnet_charter_reg.sv:136$141 ($mux).
+Removed top 22 bits (of 32) from port A of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:63$142 ($mul).
+Removed top 11 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:63$142 ($mul).
+Removed top 33 bits (of 64) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:63$142 ($mul).
+Removed top 33 bits (of 64) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$0\mul_phi$func$../src/subnet_charter_reg.sv:137$102.scaled[63:0]$124.
+Removed top 8 bits (of 16) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:130$127_Y.
+Removed top 22 bits (of 32) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$0$unnamed_block$4.width_seed[31:0]$121.
+Removed top 5 bits (of 16) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:130$128_Y.
+Removed top 24 bits (of 32) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:135$139_Y.
+Removed top 23 bits (of 32) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:135$138_Y.
+Removed top 24 bits (of 32) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:135$137_Y.
+Removed top 2 bits (of 16) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:130$135_Y.
+Removed top 8 bits (of 16) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$ternary$../src/subnet_charter_reg.sv:132$134_Y.
+Removed top 3 bits (of 16) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:130$132_Y.
+Removed top 4 bits (of 16) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:131$131_Y.
+Removed top 4 bits (of 16) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$add$../src/subnet_charter_reg.sv:130$130_Y.
+Removed top 54 bits (of 128) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.mint_scaled_w.
+Removed top 7 bits (of 16) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.$mul$../src/subnet_charter_reg.sv:130$129_Y.
+Removed top 12 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$div$../src/transaction_routing_alu.sv:64$100 ($div).
+Removed top 18 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$div$../src/transaction_routing_alu.sv:86$63 ($div).
+Removed top 18 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$div$../src/transaction_routing_alu.sv:85$61 ($div).
+Removed top 20 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$le$../src/transaction_routing_alu.sv:71$57 ($le).
+Removed top 19 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$le$../src/transaction_routing_alu.sv:74$58 ($le).
+Removed top 22 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$mul$../src/transaction_routing_alu.sv:82$59 ($mul).
+Removed top 54 bits (of 128) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$mul$../src/transaction_routing_alu.sv:82$59 ($mul).
+Removed top 27 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$mul$../src/transaction_routing_alu.sv:83$60 ($mul).
+Removed top 59 bits (of 128) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$mul$../src/transaction_routing_alu.sv:83$60 ($mul).
+Removed top 64 bits (of 128) from mux cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$ternary$../src/transaction_routing_alu.sv:85$62 ($mux).
+Removed top 64 bits (of 128) from mux cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$ternary$../src/transaction_routing_alu.sv:86$64 ($mux).
+Removed top 8 bits (of 16) from mux cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$ternary$../src/transaction_routing_alu.sv:98$72 ($mux).
+Removed top 6 bits (of 16) from port A of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$add$../src/transaction_routing_alu.sv:98$73 ($add).
+Removed top 8 bits (of 16) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$add$../src/transaction_routing_alu.sv:98$73 ($add).
+Removed top 5 bits (of 16) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$add$../src/transaction_routing_alu.sv:98$73 ($add).
+Removed top 13 bits (of 16) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$mul$../src/transaction_routing_alu.sv:99$74 ($mul).
+Removed top 5 bits (of 16) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$mul$../src/transaction_routing_alu.sv:99$74 ($mul).
+Removed top 5 bits (of 16) from port A of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$add$../src/transaction_routing_alu.sv:98$75 ($add).
+Removed top 5 bits (of 16) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$add$../src/transaction_routing_alu.sv:98$75 ($add).
+Removed top 4 bits (of 16) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$add$../src/transaction_routing_alu.sv:98$75 ($add).
+Removed top 1 bits (of 2) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$eq$../src/transaction_routing_alu.sv:100$76 ($eq).
+Removed top 9 bits (of 16) from mux cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$ternary$../src/transaction_routing_alu.sv:100$77 ($mux).
+Removed top 4 bits (of 16) from port A of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$add$../src/transaction_routing_alu.sv:98$78 ($add).
+Removed top 9 bits (of 16) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$add$../src/transaction_routing_alu.sv:98$78 ($add).
+Removed top 3 bits (of 16) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$add$../src/transaction_routing_alu.sv:98$78 ($add).
+Removed top 3 bits (of 16) from mux cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$ternary$../src/transaction_routing_alu.sv:97$79 ($mux).
+Removed top 29 bits (of 32) from port A of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$mul$../src/transaction_routing_alu.sv:121$94 ($mul).
+Removed top 27 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$mul$../src/transaction_routing_alu.sv:121$94 ($mul).
+Removed top 24 bits (of 32) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$mul$../src/transaction_routing_alu.sv:121$94 ($mul).
+Removed top 24 bits (of 32) from port A of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$add$../src/transaction_routing_alu.sv:121$95 ($add).
+Removed top 24 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$add$../src/transaction_routing_alu.sv:121$95 ($add).
+Removed top 23 bits (of 32) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$add$../src/transaction_routing_alu.sv:121$95 ($add).
+Removed top 28 bits (of 32) from port A of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$mul$../src/transaction_routing_alu.sv:121$96 ($mul).
+Removed top 28 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$mul$../src/transaction_routing_alu.sv:121$96 ($mul).
+Removed top 24 bits (of 32) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$mul$../src/transaction_routing_alu.sv:121$96 ($mul).
+Removed top 23 bits (of 32) from port A of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$add$../src/transaction_routing_alu.sv:121$97 ($add).
+Removed top 24 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$add$../src/transaction_routing_alu.sv:121$97 ($add).
+Removed top 22 bits (of 32) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$add$../src/transaction_routing_alu.sv:121$97 ($add).
+Removed top 22 bits (of 32) from mux cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$ternary$../src/transaction_routing_alu.sv:122$98 ($mux).
+Removed top 22 bits (of 32) from port A of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$mul$../src/transaction_routing_alu.sv:63$99 ($mul).
+Removed top 11 bits (of 32) from port B of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$mul$../src/transaction_routing_alu.sv:63$99 ($mul).
+Removed top 33 bits (of 64) from port Y of cell $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$mul$../src/transaction_routing_alu.sv:63$99 ($mul).
+Removed top 5 bits (of 16) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$add$../src/transaction_routing_alu.sv:98$73_Y.
+Removed top 8 bits (of 16) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$ternary$../src/transaction_routing_alu.sv:98$72_Y.
+Removed top 33 bits (of 64) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$0\mul_phi$func$../src/transaction_routing_alu.sv:123$54.scaled[63:0]$93.
+Removed top 5 bits (of 16) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$mul$../src/transaction_routing_alu.sv:99$74_Y.
+Removed top 24 bits (of 32) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$mul$../src/transaction_routing_alu.sv:121$94_Y.
+Removed top 23 bits (of 32) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$add$../src/transaction_routing_alu.sv:121$95_Y.
+Removed top 24 bits (of 32) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$mul$../src/transaction_routing_alu.sv:121$96_Y.
+Removed top 4 bits (of 16) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$add$../src/transaction_routing_alu.sv:98$75_Y.
+Removed top 22 bits (of 32) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$0$unnamed_block$5.width_seed[31:0]$90.
+Removed top 3 bits (of 16) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$add$../src/transaction_routing_alu.sv:98$78_Y.
+Removed top 9 bits (of 16) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.$ternary$../src/transaction_routing_alu.sv:100$77_Y.
+Removed top 59 bits (of 128) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.lease_product.
+Removed top 54 bits (of 128) from wire $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.tariff_product.
+
+6.10. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \formal_properties..
+Finding unused cells or wires in module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg..
+Finding unused cells or wires in module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu..
+Removed 0 unused cells and 30 unused wires.
+<suppressed ~2 debug messages>
+
+6.11. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+6.12. Executing OPT pass (performing simple optimizations).
+
+6.12.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module formal_properties.
+Optimizing module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg.
+Optimizing module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu.
+
+6.12.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\formal_properties'.
+Computing hashes of 25 cells of `\formal_properties'.
+Finding duplicate cells in `\formal_properties'.
+Finding identical cells in module `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg'.
+Computing hashes of 59 cells of `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg'.
+Finding duplicate cells in `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg'.
+Finding identical cells in module `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu'.
+Computing hashes of 46 cells of `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu'.
+Finding duplicate cells in `$paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu'.
+Removed a total of 0 cells.
+
+6.12.3. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \formal_properties..
+Finding unused cells or wires in module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg..
+Finding unused cells or wires in module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu..
+
+6.12.4. Finished fast OPT passes.
+
+6.13. Executing SORT pass.
+
+6.14. Printing statistics.
+
+=== $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       81 wires
+     1759 wire bits
+       34 public wires
+      667 public wire bits
+       28 ports
+      353 port bits
+       59 cells
+       11   $add
+        6   $adff
+        3   $div
+        1   $eq
+        1   $ge
+        2   $le
+        1   $logic_and
+        1   $logic_not
+        1   $lt
+        8   $mul
+       24   $mux
+
+=== $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       68 wires
+     1920 wire bits
+       34 public wires
+      909 public wire bits
+       29 ports
+      606 port bits
+       46 cells
+        9   $add
+        1   $adff
+        3   $div
+        1   $eq
+        1   $ge
+        2   $le
+        4   $logic_and
+        2   $logic_not
+        6   $mul
+       14   $mux
+        1   $ne
+        2   $sub
+
+=== formal_properties ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       49 wires
+      829 wire bits
+       41 public wires
+      758 public wire bits
+       23 cells
+        1   $add
+       15   $check
+        1   $eq
+        1   $gt
+        1   $initstate
+        2   $le
+        1   $logic_not
+        1   $mux
+        2 submodules
+        1   $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg
+        1   $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu
+
+=== design hierarchy ===
+
+        +----------Count including submodules.
+        | 
+      128 formal_properties
+       59 $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg
+       46 $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu
+
+        +----------Count including submodules.
+        | 
+      198 wires
+     4508 wire bits
+      109 public wires
+     2334 public wire bits
+       57 ports
+      959 port bits
+        - memories
+        - memory bits
+        - processes
+      128 cells
+       21   $add
+        7   $adff
+       15   $check
+        6   $div
+        3   $eq
+        2   $ge
+        1   $gt
+        1   $initstate
+        6   $le
+        5   $logic_and
+        4   $logic_not
+        1   $lt
+       14   $mul
+       39   $mux
+        1   $ne
+        2   $sub
+        2 submodules
+        1   $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg
+        1   $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu
+
+6.15. Executing CHECK pass (checking for obvious problems).
+Checking module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg...
+Checking module $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu...
+Checking module formal_properties...
+Found and reported 0 problems.
+
+7. Executing HIERARCHY pass (managing design hierarchy).
+Attribute `top' found on module `formal_properties'. Setting top module to formal_properties.
+
+7.1. Analyzing design hierarchy..
+Top module:  \formal_properties
+Used module:     $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg
+Used module:     $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu
+
+7.2. Analyzing design hierarchy..
+Top module:  \formal_properties
+Used module:     $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\subnet_charter_reg
+Used module:     $paramod$ceae6ccf34295ceb48a1440c295b9ce851fe6da1\transaction_routing_alu
+Removed 0 unused modules.
+Module formal_properties directly or indirectly contains formal properties -> setting "keep" attribute.
+
+8. Executing jny backend.
+
+9. Executing RTLIL backend.
+Output filename: ../model/design.il
+
+End of script. Logfile hash: d3699f1900, time: 0.43s, user: 0.51s, system: 0.00s
+Yosys 0.66 (git sha1 86f2ddebc, ccache clang++  -O3 -fwasm-exceptions -mllvm) [yowasp/yosys at release-0.66]
+Time spent: 44% 2x check (0 sec), 11% 2x hierarchy (0 sec), ...
