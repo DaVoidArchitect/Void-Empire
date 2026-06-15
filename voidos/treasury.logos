@@ -1,0 +1,24 @@
+intent Treasury {
+    steward: "genesis_treasury";
+    target: "settlement_ledger";
+    license: "RESTRICTED_LICENSE";
+    scope: "Global";
+    provenance: "genesis_registry";
+    lifetime: 1 days;
+
+    require {
+        energy 200.0 Wh;
+    }
+
+    state Idle {
+        on process_payment [is_inter_subnet == 1] -> Settled {
+            require energy 6.18 Wh;
+        }
+        on process_payment [is_inter_subnet == 0] -> Settled {
+            require energy 1.618 Wh;
+        }
+    }
+    state Settled {
+        on reset -> Idle;
+    }
+}
