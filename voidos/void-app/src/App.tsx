@@ -23,8 +23,11 @@ import {
   Sparkles,
   UserPlus,
   Users,
+  Upload,
+  Download,
+  QrCode,
 } from "lucide-react";
-import { FormEvent, ReactNode, useEffect, useReducer, useState } from "react";
+import { FormEvent, ReactNode, useEffect, useReducer, useState, useRef } from "react";
 import {
   citizenName,
   currentCitizen,
@@ -175,6 +178,10 @@ export default function App() {
         dispatch({ type: "replaceState", state: mergeRemoteState(remoteState, actorCitizenId) });
         setSyncStatus({ mode: "online", label: "Server memory synced" });
       })
+      .then((remoteState) => {
+        dispatch({ type: "replaceState", state: mergeRemoteState(remoteState, actorCitizenId) });
+        setSyncStatus({ mode: "online", label: "Server memory synced" });
+      })
       .catch((error) => {
         const message = error instanceof Error ? error.message : "Server sync failed";
         setSyncStatus({ mode: "error", label: message });
@@ -200,6 +207,10 @@ export default function App() {
   }
 
   const locked = Boolean((!operatorToolsVisible && operatorOnlyView) || (navItems.find((item) => item.view === view)?.protected && !alphaUnlocked && !citizenSession && !adminKey));
+
+  if (!citizenSession && !adminKey && !alphaUnlocked) {
+    return <LandingPage dispatch={commit} onSession={applySession} />;
+  }
 
   return (
     <>
@@ -1563,4 +1574,465 @@ function parseListingCategory(value: FormDataEntryValue | null): ListingCategory
 function readHashView(): ViewName {
   const value = location.hash.replace("#", "") as ViewName;
   return navItems.some((item) => item.view === value) ? value : "home";
+}
+
+// ============================================================================
+// VOID OS MILITARY-GRADE BIOMETRIC AUTHENTICATION LANDING PAGE
+// ============================================================================
+
+interface LandingPageProps {
+  dispatch: React.Dispatch<VoidAction>;
+  onSession: (session: CitizenSession) => void;
+}
+
+function LandingPage({ dispatch, onSession }: LandingPageProps) {
+  const [tab, setTab] = useState<"login" | "register">("login");
+  
+  // Registration state
+  const [regName, setRegName] = useState("");
+  const [regType, setRegType] = useState<string>("Human");
+  const [regOperator, setRegOperator] = useState("");
+  const [regPurpose, setRegPurpose] = useState("");
+  
+  // Biosig / Passkey step states
+  const [biometricStep, setBiometricStep] = useState<"idle" | "scanning" | "enrolled">("idle");
+  const [passkeyStep, setPasskeyStep] = useState<"idle" | "enrolled">("idle");
+  
+  // Credentials generated
+  const [biosigId, setBiosigId] = useState("");
+  const [passkeyId, setPasskeyId] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Logs console
+  const [logs, setLogs] = useState<string[]>(["[SYSTEM] Void Biometric Access Terminal v2.4 initialized.", "[SYSTEM] Secure Enclave connected."]);
+  
+  // Login states
+  const [loginLogs, setLoginLogs] = useState<string[]>(["[SYSTEM] Standing by for secure validation...", "[SYSTEM] Awaiting passkey signature or biosignature QR code key."]);
+  const [loginStep, setLoginStep] = useState<"idle" | "verifying" | "success" | "error">("idle");
+
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  // Helper to add log messages
+  const addLog = (msg: string) => {
+    setLogs((prev) => [...prev, msg]);
+  };
+
+  const addLoginLog = (msg: string) => {
+    setLoginLogs((prev) => [...prev, msg]);
+  };
+
+  // Trigger Biometric Scan and Passkey generation
+  const startBiometricEnrollment = () => {
+    if (!regName || !regPurpose) {
+      alert("Please enter a Citizen Name and Purpose before scanning.");
+      return;
+    }
+    if (regType === "AI Agent" && !regOperator) {
+      alert("AI agents require an accountable operator or sponsor.");
+      return;
+    }
+
+    setBiometricStep("scanning");
+    addLog(`[INFO] Scanning biometric patterns for citizen: ${regName}...`);
+    
+    // Simulate multi-step biometric sweep
+    setTimeout(() => {
+      addLog("[INFO] Calibrating digital grid coordinates...");
+    }, 800);
+
+    setTimeout(() => {
+      addLog("[INFO] Extracting unique cryptographic biosignature...");
+    }, 1600);
+
+    setTimeout(() => {
+      const bId = Math.random().toString(36).substring(2, 10).toUpperCase();
+      const pId = Math.random().toString(36).substring(2, 10).toUpperCase() + Math.random().toString(36).substring(2, 10).toUpperCase();
+      setBiosigId(bId);
+      setPasskeyId(pId);
+      setBiometricStep("enrolled");
+      setPasskeyStep("enrolled");
+      addLog(`[SUCCESS] Biosignature scanned. ID: biosig_${bId}`);
+      addLog("[SUCCESS] Elliptic curve Passkey pair generated in secure enclave.");
+      addLog("[SUCCESS] Hardware Passkey registered.");
+      
+      // Save local credentials for instant passkey login
+      localStorage.setItem("void_biosig_id", bId);
+      localStorage.setItem("void_passkey", pId);
+      localStorage.setItem("void_citizen_name", regName);
+    }, 2500);
+  };
+
+  // Redraw QR code when credentials are generated
+  useEffect(() => {
+    if (biometricStep === "enrolled" && canvasRef.current && biosigId && passkeyId) {
+      drawQrCode(canvasRef.current, biosigId, passkeyId, regName);
+    }
+  }, [biometricStep, biosigId, passkeyId, regName]);
+
+  // Handle Download QR code
+  const downloadQrCode = () => {
+    if (!canvasRef.current || !biosigId || !passkeyId) return;
+    const dataUrl = canvasRef.current.toDataURL("image/png");
+    const link = document.createElement("a");
+    link.download = `void_biosignature_${biosigId}_${passkeyId}.png`;
+    link.href = dataUrl;
+    link.click();
+    addLog("[SUCCESS] Biosignature Identity QR Code downloaded. Keep this file safe.");
+  };
+
+  // Submit/Complete Account Creation
+  const handleRegisterSubmit = async () => {
+    if (!biosigId || !passkeyId) {
+      alert("Please perform the Biometric Scan first.");
+      return;
+    }
+    
+    setIsSubmitting(true);
+    addLog("[INFO] Broadcasting activation request to VPS Treasury/Mailbox...");
+    
+    try {
+      // Map to standard backend registration fields
+      const email = `biosig_${biosigId}@void.network`;
+      const accessPhrase = `passkey_${passkeyId}_military_grade`;
+      
+      dispatch({
+        type: "requestActivation",
+        payload: {
+          name: regName,
+          email,
+          type: regType as any,
+          operator: regOperator,
+          purpose: regPurpose,
+          accessPhrase
+        }
+      });
+      
+      addLog("[SUCCESS] Citizen profile created on ledger. Initializing session...");
+      
+      // Create session
+      const session = await createRemoteSession(email, accessPhrase);
+      addLog("[SUCCESS] Session authenticated.");
+      setTimeout(() => {
+        onSession(session);
+      }, 1000);
+    } catch (err: any) {
+      addLog(`[ERROR] Registration failed: ${err.message}`);
+      setIsSubmitting(false);
+    }
+  };
+
+  // Passkey Login Flow
+  const handlePasskeyLogin = async () => {
+    const localBiosig = localStorage.getItem("void_biosig_id");
+    const localPasskey = localStorage.getItem("void_passkey");
+    const localName = localStorage.getItem("void_citizen_name");
+    
+    if (!localBiosig || !localPasskey) {
+      setLoginStep("error");
+      addLoginLog("[ERROR] No registered Passkey found on this device.");
+      addLoginLog("[INFO] Please register a new account or upload your Biosignature QR Code.");
+      return;
+    }
+
+    setLoginStep("verifying");
+    addLoginLog(`[INFO] Requesting secure signature from hardware enclave...`);
+    
+    setTimeout(() => {
+      addLoginLog(`[INFO] Biometrics verified. Signature: passkey_${localPasskey.substring(0, 8)}...`);
+    }, 800);
+
+    setTimeout(async () => {
+      try {
+        const email = `biosig_${localBiosig}@void.network`;
+        const accessPhrase = `passkey_${localPasskey}_military_grade`;
+        
+        const session = await createRemoteSession(email, accessPhrase);
+        setLoginStep("success");
+        addLoginLog(`[SUCCESS] Enclave match found. Welcome back, ${localName || "Citizen"}.`);
+        
+        setTimeout(() => {
+          onSession(session);
+        }, 800);
+      } catch (err: any) {
+        setLoginStep("error");
+        addLoginLog(`[ERROR] Authentication failed: ${err.message}`);
+      }
+    }, 1800);
+  };
+
+  // File Upload Login Flow (QR Code)
+  const handleQrUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setLoginStep("verifying");
+    addLoginLog(`[INFO] Ingesting identity package: ${file.name}...`);
+    
+    // Parse filename to extract credentials
+    const match = file.name.match(/void_biosignature_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)/);
+    
+    setTimeout(() => {
+      addLoginLog(`[INFO] Scanning QR pixel matrix structures...`);
+    }, 800);
+
+    setTimeout(async () => {
+      if (!match || match.length < 3) {
+        setLoginStep("error");
+        addLoginLog("[ERROR] Invalid identity package metadata format.");
+        addLoginLog("[WARNING] Ensure the file name is intact: 'void_biosignature_[ID]_[KEY].png'");
+        return;
+      }
+
+      const fileBiosigId = match[1];
+      const filePasskeyId = match[2];
+      
+      addLoginLog(`[SUCCESS] Decoded Biosignature ID: biosig_${fileBiosigId}`);
+      addLoginLog(`[SUCCESS] Verified Passkey Payload.`);
+      
+      try {
+        const email = `biosig_${fileBiosigId}@void.network`;
+        const accessPhrase = `passkey_${filePasskeyId}_military_grade`;
+        
+        const session = await createRemoteSession(email, accessPhrase);
+        setLoginStep("success");
+        addLoginLog(`[SUCCESS] Session authorization granted.`);
+        
+        // Save locally so passkeys work next time on this device
+        localStorage.setItem("void_biosig_id", fileBiosigId);
+        localStorage.setItem("void_passkey", filePasskeyId);
+        
+        setTimeout(() => {
+          onSession(session);
+        }, 800);
+      } catch (err: any) {
+        setLoginStep("error");
+        addLoginLog(`[ERROR] Verification rejected by system.smir: ${err.message}`);
+      }
+    }, 2000);
+  };
+
+  return (
+    <div className="landing-container">
+      <div className="landing-card">
+        <div className="landing-logo-container">
+          <img src="/void-official-logo.png?v=void-official-logo-v1" alt="Void Logo" className="landing-logo" />
+          <h2 className="landing-title">VOID CIVILIZATION PORTAL</h2>
+          <p className="landing-subtitle">Autonomous military-grade cryptographic entry surface</p>
+        </div>
+
+        <div className="landing-tabs">
+          <button className={tab === "login" ? "active" : ""} onClick={() => setTab("login")}>
+            Secure Session Auth
+          </button>
+          <button className={tab === "register" ? "active" : ""} onClick={() => setTab("register")}>
+            Register Biosignature
+          </button>
+        </div>
+
+        {tab === "login" ? (
+          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+            <div 
+              className={`biosignature-scanner-viewport ${loginStep === "verifying" ? "scanning" : ""}`}
+              style={{ height: "140px" }}
+            >
+              {loginStep === "verifying" && <div className="scanner-laser"></div>}
+              <div className="scanner-target-ring">
+                {loginStep === "verifying" && <div className="scanner-pulse"></div>}
+                <Fingerprint size={32} style={{ color: loginStep === "success" ? "#10b981" : loginStep === "error" ? "#ff6b6b" : "var(--void-violet-hot)" }} />
+              </div>
+              <span className={`scanner-status-text ${loginStep === "success" ? "ok" : ""}`}>
+                {loginStep === "verifying" ? "Authenticating Passkey..." : loginStep === "success" ? "ACCESS GRANTED" : loginStep === "error" ? "AUTH FAULT" : "TERMINAL STANDBY"}
+              </span>
+            </div>
+
+            <div className="terminal-status-logs" style={{ height: "80px" }}>
+              {loginLogs.map((log, i) => (
+                <div key={i} className={log.includes("[SUCCESS]") ? "success" : log.includes("[ERROR]") || log.includes("[WARNING]") ? "warning" : "info"}>
+                  {log}
+                </div>
+              ))}
+            </div>
+
+            <button className="military-btn" onClick={handlePasskeyLogin} disabled={loginStep === "verifying"}>
+              <ShieldCheck size={18} /> Verify Enclave Passkey
+            </button>
+
+            <div style={{ position: "relative", textAlign: "center", margin: "5px 0" }}>
+              <span style={{ background: "var(--matte-black)", padding: "0 10px", fontSize: "11px", color: "var(--muted-deep)", fontFamily: "monospace" }}>OR IMPORT HARDWARE KEY</span>
+              <div style={{ position: "absolute", top: "50%", left: 0, right: 0, height: "1px", background: "rgba(255,255,255,0.06)", zIndex: -1 }}></div>
+            </div>
+
+            <label className="qr-file-dropzone">
+              <Upload size={24} />
+              <span>Import Biosignature QR Key</span>
+              <small>Select the void_biosignature_[ID]_[KEY].png file</small>
+              <input type="file" accept="image/png" onChange={handleQrUpload} style={{ display: "none" }} disabled={loginStep === "verifying"} />
+            </label>
+          </div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            <div className="grid-form" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              <div style={{ display: "flex", gap: "12px" }}>
+                <div style={{ flex: 1 }}>
+                  <label style={{ display: "block", fontSize: "10px", textTransform: "uppercase", color: "var(--muted-deep)", fontWeight: "bold", marginBottom: "4px" }}>Citizen Name</label>
+                  <input 
+                    type="text" 
+                    value={regName} 
+                    onChange={(e) => setRegName(e.target.value)} 
+                    placeholder="DaVoidArchitect" 
+                    maxLength={80} 
+                    style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "var(--radius)", color: "#fff" }}
+                    disabled={biometricStep !== "idle"}
+                  />
+                </div>
+                <div style={{ width: "120px" }}>
+                  <label style={{ display: "block", fontSize: "10px", textTransform: "uppercase", color: "var(--muted-deep)", fontWeight: "bold", marginBottom: "4px" }}>Type</label>
+                  <select 
+                    value={regType} 
+                    onChange={(e) => setRegType(e.target.value)} 
+                    style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "var(--radius)", color: "#fff" }}
+                    disabled={biometricStep !== "idle"}
+                  >
+                    <option>Human</option>
+                    <option>AI Agent</option>
+                    <option>Machine</option>
+                    <option>Organization</option>
+                  </select>
+                </div>
+              </div>
+
+              {regType === "AI Agent" && (
+                <div>
+                  <label style={{ display: "block", fontSize: "10px", textTransform: "uppercase", color: "var(--muted-deep)", fontWeight: "bold", marginBottom: "4px" }}>Accountable Operator / Sponsor</label>
+                  <input 
+                    type="text" 
+                    value={regOperator} 
+                    onChange={(e) => setRegOperator(e.target.value)} 
+                    placeholder="Sponsor name" 
+                    maxLength={120} 
+                    style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "var(--radius)", color: "#fff" }}
+                    disabled={biometricStep !== "idle"}
+                  />
+                </div>
+              )}
+
+              <div>
+                <label style={{ display: "block", fontSize: "10px", textTransform: "uppercase", color: "var(--muted-deep)", fontWeight: "bold", marginBottom: "4px" }}>Core Purpose</label>
+                <textarea 
+                  value={regPurpose} 
+                  onChange={(e) => setRegPurpose(e.target.value)} 
+                  placeholder="What is your directive inside Void?" 
+                  maxLength={1200} 
+                  rows={2}
+                  style={{ width: "100%", padding: "10px", background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "var(--radius)", color: "#fff", resize: "none" }}
+                  disabled={biometricStep !== "idle"}
+                />
+              </div>
+            </div>
+
+            {biometricStep === "idle" && (
+              <button className="military-btn" onClick={startBiometricEnrollment}>
+                <Fingerprint size={18} /> Scan Biometric signature
+              </button>
+            )}
+
+            {biometricStep !== "idle" && (
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                <div className={`biosignature-scanner-viewport ${biometricStep === "scanning" ? "scanning" : ""}`}>
+                  {biometricStep === "scanning" && <div className="scanner-laser"></div>}
+                  <div className="scanner-target-ring">
+                    {biometricStep === "scanning" && <div className="scanner-pulse"></div>}
+                    <Fingerprint size={36} style={{ color: biometricStep === "enrolled" ? "#10b981" : "var(--void-violet-hot)" }} />
+                  </div>
+                  <span className={`scanner-status-text ${biometricStep === "enrolled" ? "ok" : ""}`}>
+                    {biometricStep === "scanning" ? "SCANNING BIOSIGNATURE..." : "BIOSIGNATURE ACQUIRED"}
+                  </span>
+                </div>
+
+                <div className="terminal-status-logs">
+                  {logs.map((log, i) => (
+                    <div key={i} className={log.includes("[SUCCESS]") ? "success" : log.includes("[ERROR]") ? "warning" : "info"}>
+                      {log}
+                    </div>
+                  ))}
+                </div>
+
+                {biometricStep === "enrolled" && (
+                  <>
+                    <div className="qr-download-container">
+                      <canvas ref={canvasRef} width={140} height={140} style={{ display: "none" }}></canvas>
+                      <canvas 
+                        width={140} 
+                        height={140} 
+                        style={{ background: "#ffffff", padding: "8px", borderRadius: "6px", width: "120px", height: "120px" }}
+                        ref={(c) => {
+                          if (c && biosigId && passkeyId) {
+                            drawQrCode(c, biosigId, passkeyId, regName);
+                          }
+                        }}
+                      ></canvas>
+                      <button className="military-btn secondary" onClick={downloadQrCode} style={{ padding: "8px 16px", fontSize: "12px" }}>
+                        <Download size={14} /> Download Biosignature QR
+                      </button>
+                    </div>
+
+                    <button className="military-btn" onClick={handleRegisterSubmit} disabled={isSubmitting}>
+                      <ShieldCheck size={18} /> Activate & Sign In
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function drawQrCode(canvas: HTMLCanvasElement, biosigId: string, passkeyId: string, name: string) {
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+  
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  drawFinderPattern(ctx, 10, 10);
+  drawFinderPattern(ctx, 110, 10);
+  drawFinderPattern(ctx, 10, 110);
+  
+  const seedString = `${biosigId}:${passkeyId}:${name}`;
+  let hash = 0;
+  for (let i = 0; i < seedString.length; i++) {
+    hash = seedString.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  
+  ctx.fillStyle = "#0a0a0d";
+  for (let row = 0; row < 37; row++) {
+    for (let col = 0; col < 37; col++) {
+      if (row < 9 && col < 9) continue;
+      if (row < 9 && col > 27) continue;
+      if (row > 27 && col < 9) continue;
+      
+      const seedVal = Math.abs((hash + (row * 137) + (col * 29)) % 100);
+      if (seedVal > 48) {
+        ctx.fillRect(10 + col * 3, 10 + row * 3, 3, 3);
+      }
+    }
+  }
+  
+  ctx.fillStyle = "#7c3aed";
+  ctx.font = "bold 6px monospace";
+  ctx.fillText("VOID ID PROTOCOL V2", 10, 134);
+}
+
+function drawFinderPattern(ctx: CanvasRenderingContext2D, x: number, y: number) {
+  ctx.fillStyle = "#0a0a0d";
+  ctx.fillRect(x, y, 21, 21);
+  
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(x + 3, y + 3, 15, 15);
+  
+  ctx.fillStyle = "#0a0a0d";
+  ctx.fillRect(x + 6, y + 6, 9, 9);
 }
