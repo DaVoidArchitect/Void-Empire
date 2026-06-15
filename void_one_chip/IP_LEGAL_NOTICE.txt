@@ -1,0 +1,31 @@
+XENALCHEMY VOID ONE ASSET NOTICE
+Hard-Law Source + Metamaterial Trade Secret Protection
+
+This directory and all associated artifacts are designated Void One Assets of VOID.
+The included source, design logic, validation pipelines, and metamaterial specifications are
+classified as Hard-Law Source and Metamaterial Trade Secrets.
+
+Protected Scope Includes (non-exhaustive):
+- Gate-level Recursive Treasury enforcement logic
+- Subnet Sovereignty charter and revocation logic
+- Resonant + Chaotic hybrid processing architecture
+- Isotopic-superatomic stack definitions and associated simulation methods
+- No-Silicon / No-Copper constitutional material constraints
+
+Legal Basis:
+- Defend Trade Secrets Act of 2016 (DTSA), 18 U.S.C. § 1836 et seq.
+- Applicable federal and state trade secret, contract, and unfair competition law
+
+Prohibited Conduct:
+- Unauthorized access, extraction, disclosure, or replication of Hard-Law Source
+- Reverse engineering of Recursive Treasury pathways and associated enforcement behavior
+- Derivation attempts targeting Metamaterial Trade Secret structures
+- Unauthorized silicon/copper substitution attempts in protected fabrication flows
+
+Security Handshake Clause:
+The Recursive Treasury pathways are coupled to internal hardware security handshakes.
+Tampering, bypass attempts, or reverse-engineering actions are treated as unauthorized
+intrusion events and may trigger civil enforcement, injunctive action, and monetary recovery.
+
+By accessing this directory, you acknowledge proprietary control by VOID and agree
+that all use is strictly limited to authorized review under confidentiality constraints.
