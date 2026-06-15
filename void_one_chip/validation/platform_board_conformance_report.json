@@ -1,0 +1,510 @@
+{
+  "generated_utc": "2026-06-14T15:16:41.352279+00:00",
+  "design_version": "V2.0-FRONTIER-R1",
+  "release_id": "VOIDONE-2.0-FRONTIER-R1",
+  "program_id": "VOID-MASTER-TAPEOUT-ONE-2.0",
+  "check_count": 10,
+  "pass_count": 10,
+  "checks": [
+    {
+      "name": "Platform device registry governance",
+      "pass": true,
+      "detail": "device registration/removal is governed and conflict-safe",
+      "evidence": {
+        "register": {
+          "ok": true,
+          "code": "OK",
+          "committed": true,
+          "event_id": "pb-device-reg-1",
+          "detail": "",
+          "data": {
+            "device": {
+              "device_id": "dev-memory-ctrl-0",
+              "device_class": "memory_controller",
+              "subnet_scope": "SOV-A",
+              "metadata": {
+                "lane": "M0"
+              }
+            }
+          }
+        },
+        "duplicate": {
+          "ok": false,
+          "code": "E_LEDGER_CONFLICT",
+          "committed": false,
+          "event_id": "pb-device-reg-dup",
+          "detail": "device already exists",
+          "data": null
+        },
+        "remove": {
+          "ok": true,
+          "code": "OK",
+          "committed": true,
+          "event_id": "pb-device-remove-1",
+          "detail": "",
+          "data": {
+            "device": {
+              "device_id": "dev-memory-ctrl-0",
+              "device_class": "memory_controller",
+              "subnet_scope": "SOV-A",
+              "metadata": {
+                "lane": "M0"
+              }
+            }
+          }
+        },
+        "remove_missing": {
+          "ok": false,
+          "code": "E_POLICY_BLOCKED",
+          "committed": false,
+          "event_id": "pb-device-remove-missing",
+          "detail": "device not found",
+          "data": null
+        }
+      }
+    },
+    {
+      "name": "Platform boot/power transition governance",
+      "pass": true,
+      "detail": "power transitions are legal-state constrained and audit-coupled",
+      "evidence": {
+        "bootstrap": {
+          "ok": true,
+          "code": "OK",
+          "committed": true,
+          "event_id": "pb-power-bootstrap",
+          "detail": "",
+          "data": {
+            "state": "BOOTSTRAP",
+            "history": [
+              "OFF",
+              "BOOTSTRAP"
+            ]
+          }
+        },
+        "ready": {
+          "ok": true,
+          "code": "OK",
+          "committed": true,
+          "event_id": "pb-power-ready",
+          "detail": "",
+          "data": {
+            "state": "READY",
+            "history": [
+              "OFF",
+              "BOOTSTRAP",
+              "READY"
+            ]
+          }
+        },
+        "illegal": {
+          "ok": false,
+          "code": "E_POLICY_BLOCKED",
+          "committed": false,
+          "event_id": "pb-power-illegal",
+          "detail": "illegal transition READY -> BOOTSTRAP",
+          "data": null
+        },
+        "audit_fail": {
+          "ok": false,
+          "code": "E_AUDIT_COMMIT_FAILED",
+          "committed": false,
+          "event_id": "pb-power-audit-fail",
+          "detail": "audit digest append failed; staged mutation rolled back",
+          "data": null
+        },
+        "degraded": {
+          "ok": true,
+          "code": "OK",
+          "committed": true,
+          "event_id": "pb-power-degraded",
+          "detail": "",
+          "data": {
+            "state": "DEGRADED",
+            "history": [
+              "OFF",
+              "BOOTSTRAP",
+              "READY",
+              "DEGRADED"
+            ]
+          }
+        },
+        "history": [
+          "OFF",
+          "BOOTSTRAP",
+          "READY",
+          "DEGRADED"
+        ]
+      }
+    },
+    {
+      "name": "Platform memory governance",
+      "pass": true,
+      "detail": "memory fabric reads/writes are bounded and audit-gated",
+      "evidence": {
+        "write": {
+          "ok": true,
+          "code": "OK",
+          "committed": true,
+          "event_id": "pb-mem-write-1",
+          "detail": "",
+          "data": {
+            "address": 5,
+            "stored_value": 4660
+          }
+        },
+        "read": {
+          "ok": true,
+          "code": "OK",
+          "committed": true,
+          "event_id": "pb-mem-read-1",
+          "detail": "",
+          "data": {
+            "address": 5,
+            "value": 4660
+          }
+        },
+        "range_fail": {
+          "ok": false,
+          "code": "E_POLICY_BLOCKED",
+          "committed": false,
+          "event_id": "pb-mem-range-fail",
+          "detail": "memory address out of range",
+          "data": null
+        },
+        "audit_fail": {
+          "ok": false,
+          "code": "E_AUDIT_COMMIT_FAILED",
+          "committed": false,
+          "event_id": "pb-mem-audit-fail",
+          "detail": "audit digest append failed; staged mutation rolled back",
+          "data": null
+        },
+        "read_after_fail": {
+          "ok": true,
+          "code": "OK",
+          "committed": true,
+          "event_id": "pb-mem-read-6",
+          "detail": "",
+          "data": {
+            "address": 6,
+            "value": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "Platform storage governance",
+      "pass": true,
+      "detail": "storage bridge enforces block bounds and audit-coupled updates",
+      "evidence": {
+        "write": {
+          "ok": true,
+          "code": "OK",
+          "committed": true,
+          "event_id": "pb-storage-write-1",
+          "detail": "",
+          "data": {
+            "block_id": 2,
+            "bytes_written": 8
+          }
+        },
+        "read": {
+          "ok": true,
+          "code": "OK",
+          "committed": true,
+          "event_id": "pb-storage-read-1",
+          "detail": "",
+          "data": {
+            "block_id": 2,
+            "payload": "blob-001"
+          }
+        },
+        "range_fail": {
+          "ok": false,
+          "code": "E_POLICY_BLOCKED",
+          "committed": false,
+          "event_id": "pb-storage-range-fail",
+          "detail": "storage block out of range",
+          "data": null
+        },
+        "audit_fail": {
+          "ok": false,
+          "code": "E_AUDIT_COMMIT_FAILED",
+          "committed": false,
+          "event_id": "pb-storage-audit-fail",
+          "detail": "audit digest append failed; staged mutation rolled back",
+          "data": null
+        },
+        "read_after_fail": {
+          "ok": true,
+          "code": "OK",
+          "committed": true,
+          "event_id": "pb-storage-read-3",
+          "detail": "",
+          "data": {
+            "block_id": 3,
+            "payload": ""
+          }
+        }
+      }
+    },
+    {
+      "name": "Platform I/O bus governance",
+      "pass": true,
+      "detail": "I/O endpoint emits/polls are deterministic and bounded",
+      "evidence": {
+        "emit": {
+          "ok": true,
+          "code": "OK",
+          "committed": true,
+          "event_id": "pb-io-emit-1",
+          "detail": "",
+          "data": {
+            "endpoint_id": "uart0",
+            "queue_depth": 1
+          }
+        },
+        "poll": {
+          "ok": true,
+          "code": "OK",
+          "committed": true,
+          "event_id": "pb-io-poll-1",
+          "detail": "",
+          "data": {
+            "endpoint_id": "uart0",
+            "payload": {
+              "byte": 65
+            },
+            "remaining_depth": 0
+          }
+        },
+        "poll_empty": {
+          "ok": false,
+          "code": "E_POLICY_BLOCKED",
+          "committed": false,
+          "event_id": "pb-io-poll-empty",
+          "detail": "endpoint queue is empty",
+          "data": {
+            "endpoint_id": "uart0",
+            "payload": {},
+            "remaining_depth": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "Platform network governance",
+      "pass": true,
+      "detail": "network tx/rx is duplicate-safe and deterministic",
+      "evidence": {
+        "tx": {
+          "ok": true,
+          "code": "OK",
+          "committed": true,
+          "event_id": "pb-net-tx-1",
+          "detail": "",
+          "data": {
+            "packet_id": "b33ecdfcf34f77e14aae8597d4636d8c4ca3e1e09e101437745687de1e2f6cf5",
+            "tx_queue_depth": 1
+          }
+        },
+        "tx_dup": {
+          "ok": false,
+          "code": "E_COUNTER_REPLAY",
+          "committed": false,
+          "event_id": "pb-net-tx-dup",
+          "detail": "duplicate packet detected",
+          "data": {
+            "packet_id": "b33ecdfcf34f77e14aae8597d4636d8c4ca3e1e09e101437745687de1e2f6cf5",
+            "tx_queue_depth": 1
+          }
+        },
+        "rx": {
+          "ok": true,
+          "code": "OK",
+          "committed": true,
+          "event_id": "pb-net-rx-1",
+          "detail": "",
+          "data": {
+            "packet_id": "b33ecdfcf34f77e14aae8597d4636d8c4ca3e1e09e101437745687de1e2f6cf5",
+            "payload": {
+              "dst": "node-a",
+              "msg": "hello"
+            },
+            "remaining_depth": 0
+          }
+        },
+        "rx_empty": {
+          "ok": false,
+          "code": "E_POLICY_BLOCKED",
+          "committed": false,
+          "event_id": "pb-net-rx-empty",
+          "detail": "rx queue empty",
+          "data": {
+            "packet_id": "",
+            "payload": {},
+            "remaining_depth": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "Platform peripheral governance",
+      "pass": true,
+      "detail": "peripheral commands/queries are governed and stateful",
+      "evidence": {
+        "command": {
+          "ok": true,
+          "code": "OK",
+          "committed": true,
+          "event_id": "pb-per-cmd-1",
+          "detail": "",
+          "data": {
+            "peripheral_id": "sensor-0",
+            "command": "calibrate"
+          }
+        },
+        "query": {
+          "ok": true,
+          "code": "OK",
+          "committed": true,
+          "event_id": "pb-per-query-1",
+          "detail": "",
+          "data": {
+            "peripheral_id": "sensor-0",
+            "state": {
+              "mode": "idle",
+              "last_command": "calibrate",
+              "last_params": {
+                "level": 2
+              },
+              "command_count": 1
+            }
+          }
+        },
+        "query_unknown": {
+          "ok": false,
+          "code": "E_POLICY_BLOCKED",
+          "committed": false,
+          "event_id": "pb-per-query-unknown",
+          "detail": "peripheral not registered",
+          "data": {
+            "peripheral_id": "sensor-404",
+            "state": {}
+          }
+        }
+      }
+    },
+    {
+      "name": "Platform event routing determinism",
+      "pass": true,
+      "detail": "board routing resolves legal routes and preserves deterministic dispatch ordering",
+      "evidence": {
+        "route1": {
+          "ok": true,
+          "code": "OK",
+          "committed": true,
+          "event_id": "pb-route-1",
+          "detail": "",
+          "data": {
+            "routed": {
+              "event_id": "pb-route-1",
+              "source_domain": "io",
+              "action": "sensor_tick",
+              "target_domain": "memory",
+              "endpoint_id": "mem-lane-0",
+              "payload": {
+                "sample": 12
+              }
+            }
+          }
+        },
+        "route2": {
+          "ok": true,
+          "code": "OK",
+          "committed": true,
+          "event_id": "pb-route-2",
+          "detail": "",
+          "data": {
+            "routed": {
+              "event_id": "pb-route-2",
+              "source_domain": "network",
+              "action": "ingress_packet",
+              "target_domain": "storage",
+              "endpoint_id": "ssd-lane-0",
+              "payload": {
+                "bytes": 128
+              }
+            }
+          }
+        },
+        "route_missing": {
+          "ok": false,
+          "code": "E_POLICY_BLOCKED",
+          "committed": false,
+          "event_id": "pb-route-missing",
+          "detail": "route not found",
+          "data": null
+        },
+        "ordered_targets": [
+          "memory",
+          "storage"
+        ]
+      }
+    },
+    {
+      "name": "API contract board error code",
+      "pass": true,
+      "detail": "board-level API error codes are accepted by contract validator",
+      "evidence": {
+        "api_ok": true,
+        "api_reason": "OK"
+      }
+    },
+    {
+      "name": "Gateway board-domain dispatch",
+      "pass": true,
+      "detail": "gateway routes board-equivalent intents with policy and replay controls",
+      "evidence": {
+        "device": {
+          "ok": true,
+          "code": "OK",
+          "detail": "platform device registration",
+          "event_id": "device:SOV-A:1:pbg-1"
+        },
+        "power": {
+          "ok": true,
+          "code": "OK",
+          "detail": "platform power transition",
+          "event_id": "power:SOV-A:1:pbg-2"
+        },
+        "memory": {
+          "ok": true,
+          "code": "OK",
+          "detail": "platform memory write",
+          "event_id": "memory:SOV-A:1:pbg-3"
+        },
+        "memory_replay": {
+          "ok": false,
+          "code": "E_COUNTER_REPLAY",
+          "detail": "intent nonce replay detected",
+          "event_id": ""
+        },
+        "route": {
+          "ok": true,
+          "code": "OK",
+          "detail": "platform route event",
+          "event_id": "platform:SOV-A:1:pbg-4"
+        },
+        "bad": {
+          "ok": false,
+          "code": "E_POLICY_BLOCKED",
+          "detail": "unsupported route: memory/invalid_action",
+          "event_id": "memory:SOV-A:2:pbg-5"
+        }
+      }
+    }
+  ],
+  "overall_pass": true
+}
