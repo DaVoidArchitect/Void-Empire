@@ -1,0 +1,34 @@
+THE FRACTAL RECURSIVE MANDATE (CROSS-STACK INTEGRATION)
+
+Status: CORE REQUIREMENT
+Principle: "The Micro is the Macro." The logic of a single transistor must reflect the logic of the global mesh.
+
+1. STACK 01: FRACTAL LITHOGRAPHY (Physical)
+
+Self-Similar Interconnects: The wiring on the die is laid out in a H-tree fractal pattern. This ensures that the distance (and latency) from the center to any sub-leaf of the 1,024 cores is mathematically identical, preventing "Clock Skew" at 1.0T TPS.
+
+2. STACK 04: FRACTAL SHARDING (Throughput)
+
+Recursive Consensus: Instead of one big ledger, the chip uses "Nested Consensus."
+
+A transacti8on between two users is a Level 1 Shard.
+
+A group of users forming a guild is a Level 2 Shard (containing many Level 1s).
+
+A nation-state is a Level 3 Shard (containing many Level 2s).
+
+Every shard uses the exact same 6.18% settlement logic. The "Total System Fund" is simply the fractal sum of all sub-shards.
+
+3. STACK 07: FRACTAL MINTING (Currency)
+
+Pulse Velocity: Value is minted when "Impact" happens at any scale. Whether a child trades a digital item (Micro-Impact) or a corporation builds a planetary rail (Macro-Impact), the Pulse Minting Algorithm applies the same recursive formula. The system is "Scale-Invariant."
+
+4. STACK 09: FRACTAL GOVERNANCE (MMO)
+
+Skill Tree Recursion: Your personal Skill Tree is a fractal of your Guild’s Skill Tree, which is a fractal of the Global Skill Tree.
+
+The "Whole Economy Franchise": Every citizen is a "Fractional Nation." You have your own treasury, your own rules, and your own impact, all operating under the same 11-Stack "Hard-Law" as the global system.
+
+5. STACK 11: FRACTAL IDENTITY (Singularity)
+
+The Citizen-Shard: Your Origin-ID is a "Fragment of the Origin." It contains the entire state-history of your assets, but it can be compressed into a single "Fractal Hash" for portability.
