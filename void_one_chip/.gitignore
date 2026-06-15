@@ -1,0 +1,49 @@
+# Simulation artifacts
+*.log
+*.vpd
+*.fsdb
+simv
+simv.daidir
+csrc
+ucli.key
+vlog.log
+vlog.history
+
+# Synthesis artifacts
+*.ddc
+*.pvl
+*.syn
+*.mr
+*.svf
+netlist/
+reports/
+
+# Verilator
+obj_dir/
+*.cpp
+*.h
+
+# Build artifacts
+*.o
+*.a
+*.so
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test results
+test_results/
+coverage/
+verilator_build/
+
+# Temporary files
+*.bak
+*.tmp
