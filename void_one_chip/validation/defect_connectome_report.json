@@ -1,0 +1,45 @@
+{
+  "design_version": "V2.0-FRONTIER-R1",
+  "release_id": "VOIDONE-2.0-FRONTIER-R1",
+  "program_id": "VOID-MASTER-TAPEOUT-ONE-2.0",
+  "seed": 1618,
+  "windows": 256,
+  "nominal_defect_density_ppm": 1200.0,
+  "defect_density_ppm": {
+    "mean": 1207.4545486367606,
+    "std": 224.47793600312974,
+    "p50": 1197.494443906094,
+    "p90": 1493.5248354046525
+  },
+  "thermal_zone_counts": {
+    "Cultivation": 51,
+    "Sovereign": 190,
+    "SovereignExcursion": 15
+  },
+  "metrics": {
+    "connectome_path_efficiency": 0.801291,
+    "plasticity_convergence_time": 12,
+    "catastrophic_forgetting_rate": 0.007812,
+    "defect_memory_retention_pct": 95.792648,
+    "quarantine_precision": 1.0,
+    "quarantine_recall": 1.0,
+    "plasticity_forgetting_rate": 0.001303
+  },
+  "thresholds": {
+    "connectome_path_efficiency_min": 0.78,
+    "plasticity_convergence_time_max": 12,
+    "catastrophic_forgetting_rate_max": 0.05,
+    "defect_memory_retention_pct_min": 90.0,
+    "quarantine_precision_min": 0.9,
+    "quarantine_recall_min": 0.88
+  },
+  "pass_flags": {
+    "connectome_path_efficiency": true,
+    "plasticity_convergence_time": true,
+    "catastrophic_forgetting_rate": true,
+    "defect_memory_retention_pct": true,
+    "quarantine_precision": true,
+    "quarantine_recall": true
+  },
+  "pass": true
+}
