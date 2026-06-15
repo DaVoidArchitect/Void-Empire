@@ -1,0 +1,86 @@
+version: "synthetic_v1"
+generated_by: "manual_seed"
+materials:
+  - id: MAT_C60_AEROGEL
+    display_name: "C60 Aerogel Composite"
+    class: "thermal_barrier"
+    periodic_basis: ["C"]
+    thermal_conductivity_w_mk: 0.12
+    specific_heat_j_kgk: 710.0
+    density_kg_m3: 280.0
+    phase_stability_k:
+      min: 3.0
+      max: 1800.0
+    dark_channel_affinity: 0.82
+    defect_tolerance: 0.90
+    tags: ["outer_shell", "non_radiative_bias"]
+
+  - id: MAT_12C_DIAMOND
+    display_name: "Isotopic 12C Diamond"
+    class: "substrate"
+    periodic_basis: ["C"]
+    thermal_conductivity_w_mk: 2200.0
+    specific_heat_j_kgk: 509.0
+    density_kg_m3: 3510.0
+    phase_stability_k:
+      min: 3.0
+      max: 4500.0
+    dark_channel_affinity: 0.78
+    defect_tolerance: 0.95
+    tags: ["thermal_steering", "reliability"]
+
+  - id: MAT_BEAL2O4
+    display_name: "Beryllium Aluminate"
+    class: "coupling"
+    periodic_basis: ["Be", "Al", "O"]
+    thermal_conductivity_w_mk: 200.0
+    specific_heat_j_kgk: 880.0
+    density_kg_m3: 3010.0
+    phase_stability_k:
+      min: 10.0
+      max: 4200.0
+    dark_channel_affinity: 0.72
+    defect_tolerance: 0.91
+    tags: ["phase_continuity", "mechanical_coupling"]
+
+  - id: MAT_RE6SE8CL2
+    display_name: "Re6Se8Cl2 Superatomic Logic"
+    class: "logic"
+    periodic_basis: ["Re", "Se", "Cl"]
+    thermal_conductivity_w_mk: 320.0
+    specific_heat_j_kgk: 260.0
+    density_kg_m3: 6200.0
+    phase_stability_k:
+      min: 10.0
+      max: 3200.0
+    dark_channel_affinity: 0.95
+    defect_tolerance: 0.92
+    tags: ["topological_logic", "treasury_immutability"]
+
+  - id: MAT_AMORPH_C_BISB
+    display_name: "Amorphous Carbon / BiSb Dark Layer"
+    class: "dark_channel"
+    periodic_basis: ["C", "Bi", "Sb"]
+    thermal_conductivity_w_mk: 1.8
+    specific_heat_j_kgk: 640.0
+    density_kg_m3: 2350.0
+    phase_stability_k:
+      min: 5.0
+      max: 3000.0
+    dark_channel_affinity: 0.995
+    defect_tolerance: 0.94
+    tags: ["coherence_shield", "non_radiative_transport"]
+
+  - id: MAT_GRAPHENE_MULTI_DOPED
+    display_name: "Multi-Doped Graphene"
+    class: "interconnect"
+    periodic_basis: ["C", "B", "N", "P"]
+    thermal_conductivity_w_mk: 1500.0
+    specific_heat_j_kgk: 710.0
+    density_kg_m3: 2200.0
+    phase_stability_k:
+      min: 3.0
+      max: 3600.0
+    dark_channel_affinity: 0.90
+    defect_tolerance: 0.94
+    tags: ["copper_free", "coherent_backbone"]
