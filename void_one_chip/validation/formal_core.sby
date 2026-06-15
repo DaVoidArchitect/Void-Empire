@@ -1,0 +1,22 @@
+[options]
+mode prove
+depth 32
+wait on
+
+[engines]
+smtbmc z3
+
+[script]
+read -formal ../src/sovereign_core_top.sv
+read -formal ../src/string_resonant_alu.sv
+read -formal ../src/subnet_charter_reg.sv
+read -formal ../src/transaction_routing_alu.sv
+read -formal formal_properties.sv
+prep -top formal_properties
+
+[files]
+../src/sovereign_core_top.sv
+../src/string_resonant_alu.sv
+../src/subnet_charter_reg.sv
+../src/transaction_routing_alu.sv
+formal_properties.sv
