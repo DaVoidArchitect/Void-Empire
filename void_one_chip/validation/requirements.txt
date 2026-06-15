@@ -1,0 +1,6 @@
+devsim
+qutip
+numpy
+scipy
+z3-solver
+pyyaml
