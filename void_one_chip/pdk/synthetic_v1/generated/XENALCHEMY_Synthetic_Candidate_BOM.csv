@@ -1,0 +1,7 @@
+item_id,layer_symbol,material,composition,function,thickness_um,notes,material_id,thermal_conductivity_w_mk,dark_channel_affinity,defect_tolerance,thermal_stability
+SPDK-001,L0_THERMAL_BARRIER,C60 Aerogel Composite,C,thermal_barrier,2.5000,outer_shell; non_radiative_bias,MAT_C60_AEROGEL,0.1200,0.8200,0.9000,0.1797
+SPDK-002,L1_SUBSTRATE,Isotopic 12C Diamond,C,substrate,50.0000,thermal_steering; reliability,MAT_12C_DIAMOND,2200.0000,0.7800,0.9500,0.9997
+SPDK-003,L2_COUPLING,Beryllium Aluminate,"Be,Al,O",coupling,1.5000,phase_continuity; mechanical_coupling,MAT_BEAL2O4,200.0000,0.7200,0.9100,0.4690
+SPDK-004,L3_LOGIC,Re6Se8Cl2 Superatomic Logic,"Re,Se,Cl",logic,0.3500,topological_logic; treasury_immutability; immutable_hardlaw_zone,MAT_RE6SE8CL2,320.0000,0.9500,0.9200,0.3990
+SPDK-005,L4_DARK_CHANNEL,Amorphous Carbon / BiSb Dark Layer,"C,Bi,Sb",dark_channel,2.2000,coherence_shield; non_radiative_transport,MAT_AMORPH_C_BISB,1.8000,0.9950,0.9400,0.2999
+SPDK-006,L5_INTERCONNECT,Multi-Doped Graphene,"C,B,N,P",interconnect,0.1200,copper_free; coherent_backbone,MAT_GRAPHENE_MULTI_DOPED,1500.0000,0.9000,0.9400,0.7347
