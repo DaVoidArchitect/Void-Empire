@@ -1611,6 +1611,132 @@ function LandingPage({ dispatch, onSession }: LandingPageProps) {
   const [loginStep, setLoginStep] = useState<"idle" | "verifying" | "success" | "error">("idle");
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const particleCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [tagline, setTagline] = useState("");
+
+  // Typewriter cinematic subtitle
+  useEffect(() => {
+    const fullText = "CONNECTION ESTABLISHED. SEARCHING THE UNKNOWN VOID...";
+    let index = 0;
+    const interval = setInterval(() => {
+      setTagline(fullText.substring(0, index + 1));
+      index++;
+      if (index >= fullText.length) clearInterval(interval);
+    }, 60);
+    return () => clearInterval(interval);
+  }, []);
+
+  // 3D Particle Vortex background simulation
+  useEffect(() => {
+    const canvas = particleCanvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const handleResize = () => {
+      if (!canvas) return;
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+    window.addEventListener("resize", handleResize);
+
+    const numParticles = 280;
+    const particles: Array<{
+      x: number;
+      y: number;
+      z: number;
+      angle: number;
+      radius: number;
+      speed: number;
+      color: string;
+      size: number;
+    }> = [];
+
+    const colors = [
+      "rgba(124, 58, 237, ",  // purple
+      "rgba(168, 119, 255, ",  // violet
+      "rgba(216, 177, 95, ",   // gold
+      "rgba(244, 213, 141, "   // soft gold
+    ];
+
+    for (let i = 0; i < numParticles; i++) {
+      particles.push({
+        x: 0,
+        y: 0,
+        z: Math.random() * 800 - 400,
+        angle: Math.random() * Math.PI * 2,
+        radius: Math.random() * 260 + 50,
+        speed: (Math.random() * 0.008 + 0.002) * (Math.random() > 0.5 ? 1 : -1),
+        color: colors[Math.floor(Math.random() * colors.length)],
+        size: Math.random() * 2.2 + 0.6
+      });
+    }
+
+    let mouse = { x: width / 2, y: height / 2, active: false };
+    const handleMouseMove = (e: MouseEvent) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      mouse.active = true;
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+
+    const focalLength = 320;
+    const centerX = width / 2;
+    const centerY = height / 2;
+
+    const render = () => {
+      ctx.fillStyle = "rgba(10, 10, 13, 0.22)"; // Fade trail
+      ctx.fillRect(0, 0, width, height);
+
+      // Swirling center gravity
+      particles.forEach((p) => {
+        p.angle += p.speed;
+        
+        const targetX = mouse.active ? mouse.x - centerX : 0;
+        const targetY = mouse.active ? mouse.y - centerY : 0;
+        
+        const rawX = Math.cos(p.angle) * p.radius + targetX * 0.15;
+        const rawY = Math.sin(p.angle) * p.radius * 0.48 + targetY * 0.15;
+        
+        p.z -= 1.8;
+        if (p.z < -focalLength) {
+          p.z = 400;
+          p.radius = Math.random() * 260 + 50;
+        }
+
+        const scale = focalLength / (focalLength + p.z);
+        const projX = rawX * scale + centerX;
+        const projY = rawY * scale + centerY;
+
+        const size = p.size * scale;
+        const alpha = Math.min(1, Math.max(0, scale * (1 - Math.abs(p.z) / 400)));
+        
+        if (projX > 0 && projX < width && projY > 0 && projY < height) {
+          ctx.beginPath();
+          ctx.arc(projX, projY, size, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + alpha.toFixed(2) + ")";
+          ctx.shadowBlur = size * 2.5;
+          ctx.shadowColor = p.color.includes("216") ? "#d8b15f" : "#a877ff";
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+      });
+
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("mousemove", handleMouseMove);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
 
   // Helper to add log messages
   const addLog = (msg: string) => {
@@ -1812,12 +1938,13 @@ function LandingPage({ dispatch, onSession }: LandingPageProps) {
   };
 
   return (
-    <div className="landing-container">
-      <div className="landing-card">
+    <div className="landing-container" style={{ position: "relative", overflow: "hidden" }}>
+      <canvas ref={particleCanvasRef} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 0, pointerEvents: "none" }} />
+      <div className="landing-card" style={{ zIndex: 1 }}>
         <div className="landing-logo-container">
           <img src="/void-official-logo.png?v=void-official-logo-v1" alt="Void Logo" className="landing-logo" />
           <h2 className="landing-title">VOID CIVILIZATION PORTAL</h2>
-          <p className="landing-subtitle">Autonomous military-grade cryptographic entry surface</p>
+          <p className="landing-subtitle" style={{ minHeight: "18px", fontFamily: "monospace", color: "var(--void-violet-hot)", letterSpacing: "0.05em", fontSize: "11px" }}>{tagline || " "}</p>
         </div>
 
         <div className="landing-tabs">
