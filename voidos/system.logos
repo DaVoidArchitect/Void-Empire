@@ -7,3 +7,5 @@
 import "mailbox.logos";
 import "scheduler.logos";
 import "treasury.logos";
+import "storage.logos";
+import "session.logos";
