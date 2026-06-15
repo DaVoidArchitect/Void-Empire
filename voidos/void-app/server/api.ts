@@ -89,9 +89,26 @@ async function handleSession(req: Request) {
 
   const body = await readJson(req) as { email?: string; accessPhrase?: string; token?: string };
 
+  const state = await readVoidState();
+  const currentMesh = state.mesh || { mass: 10000.0, energy: 36000000.0, entropy: 0.1, cycle: 0.95 };
+
   if (body.token) {
     const session = await verifyCitizenSession(body.token);
     if (!session) return json({ ok: false, message: "Session is invalid or expired." }, 401);
+    
+    // Session validation VM events
+    try {
+      const vmEvents = [
+        { intent: "Session", event: "request_auth" },
+        { intent: "Session", event: "verify_phrase", context: { is_valid_phrase: 1 } }
+      ];
+      const nextMesh = await runLogosVM(vmEvents, currentMesh);
+      state.mesh = nextMesh;
+      await writeVoidState(state);
+    } catch (vmErr: any) {
+      return json({ ok: false, message: `Thermodynamic session fault: ${vmErr.message}` }, 400);
+    }
+
     return json({ ok: true, session });
   }
 
@@ -99,7 +116,35 @@ async function handleSession(req: Request) {
     return json({ ok: false, message: "Email and private account phrase are required." }, 400);
   }
 
-  return json({ ok: true, session: await createCitizenSession(body.email, body.accessPhrase) });
+  const session = await createCitizenSession(body.email, body.accessPhrase);
+  if (!session) {
+    // Session rejection VM events
+    try {
+      const vmEvents = [
+        { intent: "Session", event: "request_auth" },
+        { intent: "Session", event: "reject_phrase" }
+      ];
+      const nextMesh = await runLogosVM(vmEvents, currentMesh);
+      state.mesh = nextMesh;
+      await writeVoidState(state);
+    } catch (vmErr) {}
+    return json({ ok: false, message: "Invalid email or private account phrase." }, 401);
+  }
+
+  // Session authentication VM events
+  try {
+    const vmEvents = [
+      { intent: "Session", event: "request_auth" },
+      { intent: "Session", event: "verify_phrase", context: { is_valid_phrase: 1 } }
+    ];
+    const nextMesh = await runLogosVM(vmEvents, currentMesh);
+    state.mesh = nextMesh;
+    await writeVoidState(state);
+  } catch (vmErr: any) {
+    return json({ ok: false, message: `Thermodynamic session fault: ${vmErr.message}` }, 400);
+  }
+
+  return json({ ok: true, session });
 }
 
 async function handleRead(req: Request, route: string[]) {
@@ -107,6 +152,23 @@ async function handleRead(req: Request, route: string[]) {
   const actor = await actorFromRequest(req);
   const area = route[0] || "state";
   const readableState = scopedStateForActor(state, actor);
+
+  // Storage read VM events
+  try {
+    const vmEvents = [
+      { intent: "Storage", event: "read_block" },
+      { intent: "Storage", event: "close" }
+    ];
+    const currentMesh = state.mesh || { mass: 10000.0, energy: 36000000.0, entropy: 0.1, cycle: 0.95 };
+    const nextMesh = await runLogosVM(vmEvents, currentMesh);
+    state.mesh = nextMesh;
+    await writeVoidState(state);
+    
+    // Make sure the returned state object also has the updated mesh value
+    readableState.mesh = nextMesh;
+  } catch (vmErr) {
+    console.error("Storage read thermodynamic fault:", vmErr);
+  }
 
   if (area === "state" || area === "") {
     return json({ ok: true, state: readableState, pulse: pulseSafetyNotice() });
@@ -181,6 +243,12 @@ async function handleMutation(req: Request, route: string[]) {
       { intent: "Treasury", event: "reset" }
     );
   }
+
+  // Always append storage write cost to any mutation (since mutations write to database)
+  vmEvents.push(
+    { intent: "Storage", event: "write_block" },
+    { intent: "Storage", event: "commit" }
+  );
 
   // 2. Execute the Logos VM if events are queued
   let nextMesh = current.mesh;
