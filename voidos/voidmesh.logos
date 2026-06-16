@@ -1,7 +1,7 @@
 # ============================================================================
-# Sovereign Void OS — Decentralized Peer-to-Peer Mesh (VoidMesh)
+# Sovereign Void OS — Hardened Decentralized Peer-to-Peer Mesh (VoidMesh)
 # ============================================================================
-# Manages raw network controller frames and peer weight consensus verification.
+# Models raw network sliding-window frames and node cryptographic handshakes.
 # ============================================================================
 
 intent VoidMesh {
@@ -13,27 +13,59 @@ intent VoidMesh {
     lifetime: 24 hours;
 
     require {
-        energy 300.0 Wh;
-        cycle 2000 cycles;
+        energy 400.0 Wh;
+        cycle 3000 cycles;
     }
 
     state Disconnected {
-        # Direct physical MAC frame packet transmission and ethernet ring binding,
-        # bypassing the legacy OS TCP/IP socket layer.
-        on connect_nic -> Syncing {
+        # Direct physical MAC frame packet transmission and ethernet ring binding.
+        on connect_nic -> NodeHandshake {
             require energy 10.0 Wh;
             require cycle 100 cycles;
         }
     }
 
-    state Syncing {
-        on peer_handshake_done -> Connected {
+    state NodeHandshake {
+        # Enforce cryptographic challenge-handshake before node is admitted.
+        # Node must solve the active challenge $C_i$ using private token key $K_n$:
+        # $R_{\text{proof}} = \text{Sign}_{K_n}(C_i)$
+        on peer_challenge_verify [challenge_ok == 1] -> SlidingWindowSyncing {
+            require energy 15.0 Wh;
+            require cycle 150 cycles;
+        }
+        on peer_challenge_verify [challenge_ok == 0] -> RejectNode;
+    }
+
+    state SlidingWindowSyncing {
+        # Establish Sliding-Window sequence ranges inside L2 network frames.
+        # Window size is set to $W = 8$ frames.
+        on sliding_window_lock -> Connected {
             require energy 5.0 Wh;
             require cycle 50 cycles;
         }
     }
 
     state Connected {
+        # Send raw frame payload on active window index
+        on send_frame -> FrameSent {
+            require energy 1.0 Wh;
+            require cycle 10 cycles;
+        }
+        # Handle Sliding-Window ACK confirmation. Slide window pointer forward.
+        on receive_ack [ack_seq_ok == 1] -> Connected {
+            require energy 0.5 Wh;
+            require cycle 5 cycles;
+        }
+        # Handle frame drop or timeout, triggering selective re-transmission
+        on receive_ack [ack_seq_ok == 0] -> ReTransmitFrame {
+            require energy 2.0 Wh;
+            require cycle 20 cycles;
+        }
+        on frame_timeout -> ReTransmitFrame {
+            require energy 3.0 Wh;
+            require cycle 30 cycles;
+        }
+
         # Distribute neural network attention weight partitions to peer nodes
         on dispatch_weight_slice -> DistributingWeights {
             require energy 15.0 Wh;
@@ -48,6 +80,14 @@ intent VoidMesh {
         on disconnect -> Disconnected;
     }
 
+    state FrameSent {
+        on wait_ack -> Connected;
+    }
+
+    state ReTransmitFrame {
+        on retransmit_complete -> Connected;
+    }
+
     state DistributingWeights {
         on distribution_success -> Connected;
         on distribution_timeout -> Connected;
@@ -59,9 +99,12 @@ intent VoidMesh {
     }
 
     state AuditTrigger {
-        # Flag and isolate peers failing mathematical consensus check
         on flag_malicious_node -> Connected {
             require energy 50.0 Wh;
         }
+    }
+
+    state RejectNode {
+        on disconnect_peer -> Disconnected;
     }
 }
