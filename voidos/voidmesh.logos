@@ -1,0 +1,67 @@
+# ============================================================================
+# Sovereign Void OS — Decentralized Peer-to-Peer Mesh (VoidMesh)
+# ============================================================================
+# Manages raw network controller frames and peer weight consensus verification.
+# ============================================================================
+
+intent VoidMesh {
+    steward: "mesh_operator";
+    target: "network_interface_card";
+    license: "PRIVATE";
+    scope: "Global";
+    provenance: "mesh_authority";
+    lifetime: 24 hours;
+
+    require {
+        energy 300.0 Wh;
+        cycle 2000 cycles;
+    }
+
+    state Disconnected {
+        # Direct physical MAC frame packet transmission and ethernet ring binding,
+        # bypassing the legacy OS TCP/IP socket layer.
+        on connect_nic -> Syncing {
+            require energy 10.0 Wh;
+            require cycle 100 cycles;
+        }
+    }
+
+    state Syncing {
+        on peer_handshake_done -> Connected {
+            require energy 5.0 Wh;
+            require cycle 50 cycles;
+        }
+    }
+
+    state Connected {
+        # Distribute neural network attention weight partitions to peer nodes
+        on dispatch_weight_slice -> DistributingWeights {
+            require energy 15.0 Wh;
+            require cycle 150 cycles;
+        }
+        # Verify attention computation output consensus across peer results.
+        # Enforces agreement: $A_{\text{consensus}} = \text{mode}(A_1, A_2, \dots, A_n)$
+        on verify_consensus_pass -> VerifyingConsensus {
+            require energy 20.0 Wh;
+            require cycle 200 cycles;
+        }
+        on disconnect -> Disconnected;
+    }
+
+    state DistributingWeights {
+        on distribution_success -> Connected;
+        on distribution_timeout -> Connected;
+    }
+
+    state VerifyingConsensus {
+        on consensus_match -> Connected;
+        on consensus_mismatch -> AuditTrigger;
+    }
+
+    state AuditTrigger {
+        # Flag and isolate peers failing mathematical consensus check
+        on flag_malicious_node -> Connected {
+            require energy 50.0 Wh;
+        }
+    }
+}
