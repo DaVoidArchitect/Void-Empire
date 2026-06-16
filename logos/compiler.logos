@@ -1,0 +1,86 @@
+# ============================================================================
+# Logos Compiler Declarative State Machine
+# ============================================================================
+# Models the thermodynamic compilation process of Logos programs.
+# ============================================================================
+
+intent LogosCompiler {
+    steward: "logosc_core";
+    target: "compiler_bootstrap";
+    license: "PRIVATE";
+    scope: "Subnet";
+    provenance: "compiler_authority";
+    lifetime: 12 hours;
+
+    require {
+        energy 500.0 Wh;
+        mass 0.1 kg;
+    }
+
+    state Initialize {
+        # Scan source input: Transition to Lexing, consumes base energy
+        on scan_tokens -> Lexing {
+            require energy 5.0 Wh;
+            require cycle 100 cycles;
+        }
+    }
+
+    state Lexing {
+        # On successful token scan, transition to Parsing
+        on tokens_ready -> Parsing {
+            require energy 10.0 Wh;
+            require cycle 200 cycles;
+        }
+        # Handle syntax error
+        on syntax_error -> Error;
+    }
+
+    state Parsing {
+        # Build Abstract Syntax Tree, transition to Semantic Verification
+        on ast_built -> SemanticVerification {
+            require energy 25.0 Wh;
+            require cycle 500 cycles;
+        }
+        # Handle syntax error
+        on syntax_error -> Error;
+    }
+
+    state SemanticVerification {
+        # Check thermodynamic limits and import DAG, transition to Bytecode Lowering
+        on thermo_verified -> BytecodeLowering {
+            require energy 30.0 Wh;
+            require cycle 300 cycles;
+        }
+        # Handle verification deficit
+        on constraint_violation -> Error;
+    }
+
+    state BytecodeLowering {
+        # Lower AST to dense VSMB bytecode stream, transition to Emit Binary
+        on bytecode_ready -> EmitBinary {
+            require energy 15.0 Wh;
+            require cycle 200 cycles;
+        }
+    }
+
+    state EmitBinary {
+        # Write VSMB payload to disk, transition to Finished
+        on write_success -> Finished {
+            require energy 2.0 Wh;
+            require cycle 50 cycles;
+        }
+        on write_failure -> Error;
+    }
+
+    state Finished {
+        # Complete cycle and return compiler to Idle for next run
+        on reset -> Initialize;
+    }
+
+    state Error {
+        # Clear fault state and return compiler to Initialize
+        on fault_clear -> Initialize {
+            require energy 50.0 Wh;
+        }
+    }
+}
