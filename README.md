@@ -47,10 +47,15 @@ A zero-dependency secure bridge connecting legacy systems to the sovereign inner
 
 ## 4. Void OS (`voidos/`)
 The software layer of the Void Empire, written **entirely in Logos** (`.logos` files) and run on the Logos native execution pipeline:
+* `bootloader.logos`: Bare-metal bootloader interface initializing processor state ($GDT$ and $CR3$ page registers), physical page allocator mapping memory directly without virtualization, and the Interrupt Vector Table (IVT) handling page faults ($PF$) and double faults ($DF$) directly.
+* `memory_manager.logos`: Direct-to-physical memory allocator binding tensors up to 1GB directly to physical pages, and the `SovereignCompute` matrix engine mapping attention weights to vector registers $v0$–$v31$.
+* `logos_hdl_spec.logos`: Hardware description specification (Logos-HDL) and target RISC-V Vector Accelerator blueprint ($VLEN = 512$ bits, 128 parallel ALU lanes).
+* `hermetic_gateway.logos`: Hardware-enforced unidirectional optical data diode gateway and raw cryptographic hermetic protocol parsing container verifying signed 192-byte payload packets.
+* `voidmesh.logos`: Bare-metal network controller interface bypassing socket layers, managing peer-to-peer weight slicing and consensus attention verification.
 * `mailbox.logos`: Secure counter mailbox implementing signature verification and anti-replay guards.
 * `scheduler.logos`: Task scheduler allocating execution slots based on priority.
 * `treasury.logos`: Economic resource settlement engine distributing UBI splits.
-* `system.logos`: Combines all decoupled subsystem intents into a unified execution graph.
+* `system.logos`: Master operating system topology importing and combining all subsystems into a unified execution graph.
 * `void-app/`: Telemetry UI dashboard run entirely from pre-compiled static and server-dist bundles (with all TS/JS source files deleted from the repository).
 
 ## 5. Void One Chip (`void_one_chip/`)
