@@ -1,0 +1,93 @@
+# ============================================================================
+# Sovereign Void OS — Hermetic Gateway and Cryptographic Isolation Diode
+# ============================================================================
+# Models the unidirectional data diode and secure packet verification protocol.
+# ============================================================================
+
+intent HermeticGateway {
+    steward: "bridge_operator";
+    target: "optical_diode";
+    license: "PRIVATE";
+    scope: "Subnet";
+    provenance: "gateway_authority";
+    lifetime: 24 hours;
+
+    require {
+        energy 100.0 Wh;
+    }
+
+    state Closed {
+        on enable_diode -> OpenUnidirectional {
+            require energy 5.0 Wh;
+        }
+    }
+
+    state OpenUnidirectional {
+        # Optical/physical unidirectional data path (no feedback link).
+        # Feedback transmission rate limit: $R_{\text{feedback}} = 0$ bps.
+        on disable_diode -> Closed;
+    }
+}
+
+intent CryptographicHermeticProtocol {
+    steward: "bridge_security";
+    target: "isolation_container";
+    license: "PRIVATE";
+    scope: "Subnet";
+    provenance: "gateway_authority";
+    lifetime: 12 hours;
+
+    require {
+        energy 200.0 Wh;
+        cycle 1000 cycles;
+    }
+
+    state Listening {
+        # Ingest legacy packets. Format is strictly constrained:
+        # $\text{Packet} = \text{Encrypt}_{K_{\text{Void}}}(\text{Payload}) \parallel \text{Sign}_{K_{\text{Legacy}}}(\text{Payload})$
+        # Packet length is fixed to exactly 192 bytes. HTTP and JSON parsing are rejected.
+        on receive_packet [packet_size_bytes == 192] -> Decrypting {
+            require energy 2.0 Wh;
+            require cycle 50 cycles;
+        }
+        on receive_packet [packet_size_bytes != 192] -> DropPacket;
+    }
+
+    state Decrypting {
+        # Decrypt payload using private key $K_{\text{Void}}$
+        on decrypt_success -> VerifyingSignature {
+            require energy 5.0 Wh;
+            require cycle 100 cycles;
+        }
+        on decrypt_fail -> DropPacket;
+    }
+
+    state VerifyingSignature {
+        # Verify signature using legacy sender public key $K_{\text{Legacy}}$
+        on signature_valid -> Sanitizing {
+            require energy 5.0 Wh;
+            require cycle 100 cycles;
+        }
+        on signature_invalid -> DropPacket;
+    }
+
+    state Sanitizing {
+        # Sanitize variables to strictly within mapped state ranges.
+        # Enforces zero execution privileges to prevent arbitrary code injection.
+        on validation_success -> Forwarding {
+            require energy 1.0 Wh;
+            require cycle 20 cycles;
+        }
+        on validation_fail -> DropPacket;
+    }
+
+    state Forwarding {
+        on forward_complete -> Listening;
+    }
+
+    state DropPacket {
+        on reset_buffers -> Listening {
+            require energy 0.5 Wh;
+        }
+    }
+}
