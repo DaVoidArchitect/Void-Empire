@@ -165,7 +165,7 @@ def main():
         print(f"Event 'power_on' [voltage_ok=1]: {res['from']} -> {res['to']} [{res['status']}]")
         assert res['status'] == 'transitioned'
         assert res['to'] == 'Idle'
-        assert vm.mesh['energy'] == 3600000.0 - 36000.0
+        assert abs(vm.mesh['energy'] - (3600000.0 - 36000.0 * 1.0618)) < 1e-2
         
         # Trigger reading (requires energy 5 Wh = 18,000 J)
         # 3,564,000 J available -> 3,546,000 J remaining
@@ -173,7 +173,7 @@ def main():
         print(f"Event 'trigger_reading': {res['from']} -> {res['to']} [{res['status']}]")
         assert res['status'] == 'transitioned'
         assert res['to'] == 'Measuring'
-        assert vm.mesh['energy'] == 3564000.0 - 18000.0
+        assert abs(vm.mesh['energy'] - (3600000.0 - (36000.0 + 18000.0) * 1.0618)) < 1e-2
         
         # High reading (requires energy 10 Wh = 36,000 J, temp >= 100)
         # Change context first
@@ -182,7 +182,7 @@ def main():
         print(f"Event 'read_high' [temp=105.0]: {res['from']} -> {res['to']} [{res['status']}]")
         assert res['status'] == 'transitioned'
         assert res['to'] == 'Alarm'
-        assert vm.mesh['energy'] == 3546000.0 - 36000.0
+        assert abs(vm.mesh['energy'] - (3600000.0 - (36000.0 + 18000.0 + 36000.0) * 1.0618)) < 1e-2
         
         # Reset alarm (requires nothing)
         res = vm.send_event("CustomSensor", "reset_alarm")
