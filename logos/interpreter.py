@@ -41,10 +41,13 @@ class LogosVM:
 
     def __init__(
         self,
-        smir: dict,
+        smir: dict | bytes,
         mesh_context: dict[str, float],
         runtime_context: dict[str, Any] | None = None,
     ):
+        if isinstance(smir, bytes):
+            from .vsmb import decode_vsmb
+            smir = decode_vsmb(smir)
         self.smir = smir
         self.mesh = dict(mesh_context)  # working copy — will be mutated
         self.runtime_ctx = runtime_context or {}
