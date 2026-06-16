@@ -1,7 +1,7 @@
 # ============================================================================
-# Sovereign Void OS — Bare-Metal Memory Manager & Sovereign Compute Engine
+# Sovereign Void OS — Hardened Memory Manager & Sovereign Compute Engine
 # ============================================================================
-# Handles tensor memory page binding and direct vector register SIMD operations.
+# Handles tensor memory offset bounds checking and fused vector transformations.
 # ============================================================================
 
 intent MemoryManager {
@@ -13,31 +13,30 @@ intent MemoryManager {
     lifetime: 24 hours;
 
     require {
-        energy 150.0 Wh;
-        cycle 800 cycles;
+        energy 200.0 Wh;
+        cycle 1000 cycles;
     }
 
     state Idle {
         # Bind directly to physical memory allocation maps, bypassing virtual OS calls.
-        # Tensor limits: $S_{\text{tensor}} \le 1\text{GB}$ ($1073741824$ Bytes)
-        on allocate_tensor [tensor_size_bytes <= 1073741824] -> Allocating {
+        # Enforce compile-time bounds checking on tensor size to guarantee offsets remain within physical bounds.
+        # Invariant: $0 \le \text{Offset} < \text{PageBounds}$
+        on allocate_tensor [tensor_size_bytes <= 1073741824 and offset_bound_ok == 1] -> Allocating {
             require energy 5.0 Wh;
             require cycle 50 cycles;
         }
+        on allocate_tensor [tensor_size_bytes > 1073741824 or offset_bound_ok == 0] -> AllocationError;
     }
 
     state Allocating {
-        # Successfully mapped and locked physical page ranges
         on page_binding_success -> Allocated {
             require energy 1.0 Wh;
             require cycle 10 cycles;
         }
-        # Handled physical memory exhaustion
         on page_binding_error -> OutOfMemory;
     }
 
     state Allocated {
-        # Reclaim locked pages back to the free pool
         on release_tensor -> Releasing {
             require energy 2.0 Wh;
             require cycle 20 cycles;
@@ -46,6 +45,10 @@ intent MemoryManager {
 
     state Releasing {
         on page_free_success -> Idle;
+    }
+
+    state AllocationError {
+        on clear_error -> Idle;
     }
 
     state OutOfMemory {
@@ -69,11 +72,19 @@ intent SovereignCompute {
     }
 
     state Idle {
-        # Execute Matrix multiplication. Utilizes vector registers $v0$–$v31$.
+        # Execute standard Matrix multiplication. Utilizes vector registers $v0$–$v31$.
         # Performance bound: $\Delta t_{\text{kernel}} \propto \frac{D_{\text{matrix}}^3}{\text{Lanes}}$
         on dispatch_gemm [matrix_dim <= 4096] -> ComputingGEMM {
             require energy 20.0 Wh;
             require cycle 200 cycles;
+        }
+
+        # Optimized layer-fused vector instruction path: Bias Addition + Scale + Softmax
+        # Fuses three operations into a single-pass vector register pipeline, eliminating memory writebacks.
+        # Invariant: $\vec{x}_{\text{out}} = \text{Softmax}(\text{Scale} \cdot (\vec{x}_{\text{in}} + \vec{b}))$
+        on dispatch_fused_activation [vector_dim <= 16384] -> ComputingFusedActivation {
+            require energy 8.0 Wh;
+            require cycle 80 cycles;
         }
     }
 
@@ -81,6 +92,14 @@ intent SovereignCompute {
         on gemm_complete -> Idle {
             require energy 5.0 Wh;
             require cycle 50 cycles;
+        }
+        on computation_fault -> SystemPanic;
+    }
+
+    state ComputingFusedActivation {
+        on fusion_complete -> Idle {
+            require energy 2.0 Wh;
+            require cycle 20 cycles;
         }
         on computation_fault -> SystemPanic;
     }
