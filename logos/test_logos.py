@@ -597,6 +597,52 @@ class TestIntegration(unittest.TestCase):
 
 
 # ==========================================================================
+# 5. VSMB BYTECODE TESTS
+# ==========================================================================
+
+class TestVSMBBytecode(unittest.TestCase):
+
+    def test_vsmb_roundtrip(self):
+        """Test that compiling to VSMB and loading back produces identical results."""
+        from logos.vsmb import encode_vsmb, decode_vsmb
+        
+        mesh = {"mass": 1000.0, "energy": 1000.0, "entropy": 1000.0, "cycle": 1000.0}
+        smir_json = compile_logos(MINIMAL_INTENT, mesh)
+        
+        binary_data = encode_vsmb(smir_json)
+        self.assertTrue(binary_data.startswith(b"VSMB"))
+        
+        decoded_smir = decode_vsmb(binary_data)
+        
+        # Assert keys/values match
+        self.assertEqual(decoded_smir["logos_version"], smir_json["logos_version"])
+        self.assertEqual(len(decoded_smir["intents"]), len(smir_json["intents"]))
+        
+        intent_json = smir_json["intents"][0]
+        intent_decoded = decoded_smir["intents"][0]
+        self.assertEqual(intent_decoded["name"], intent_json["name"])
+        self.assertEqual(intent_decoded["headers"], intent_json["headers"])
+        self.assertEqual(intent_decoded["requirements"], intent_json["requirements"])
+        self.assertEqual(intent_decoded["constraints"], intent_json["constraints"])
+        self.assertEqual(len(intent_decoded["states"]), len(intent_json["states"]))
+        
+    def test_vsmb_vm_execution(self):
+        """Test that LogosVM can execute a binary VSMB model directly."""
+        mesh = {"mass": 1000.0, "energy": 1000.0, "entropy": 1000.0, "cycle": 1000.0}
+        smir_json = compile_logos(GUARDED_INTENT, mesh)
+        
+        from logos.vsmb import encode_vsmb
+        binary_data = encode_vsmb(smir_json)
+        
+        # Initialize VM with binary bytes
+        vm = LogosVM(binary_data, dict(mesh), {"priority": 10})
+        self.assertEqual(vm.current_state("GuardedIntent"), "Idle")
+        
+        # Send event
+        res = vm.send_event("GuardedIntent", "activate")
+        self.assertEqual(res["status"], "transitioned")
+        self.assertEqual(res["to"], "Active")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
