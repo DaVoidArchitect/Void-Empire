@@ -1,7 +1,7 @@
 # ============================================================================
-# Sovereign Void OS — Hermetic Gateway and Cryptographic Isolation Diode
+# Sovereign Void OS — Hardened Hermetic Gateway and Cryptographic Diode
 # ============================================================================
-# Models the unidirectional data diode and secure packet verification protocol.
+# Models the unidirectional data diode and secure zero-copy verification engine.
 # ============================================================================
 
 intent HermeticGateway {
@@ -38,56 +38,65 @@ intent CryptographicHermeticProtocol {
     lifetime: 12 hours;
 
     require {
-        energy 200.0 Wh;
-        cycle 1000 cycles;
+        energy 300.0 Wh;
+        cycle 1500 cycles;
     }
 
     state Listening {
-        # Ingest legacy packets. Format is strictly constrained:
-        # $\text{Packet} = \text{Encrypt}_{K_{\text{Void}}}(\text{Payload}) \parallel \text{Sign}_{K_{\text{Legacy}}}(\text{Payload})$
-        # Packet length is fixed to exactly 192 bytes. HTTP and JSON parsing are rejected.
-        on receive_packet [packet_size_bytes == 192] -> Decrypting {
+        # Ingest legacy packets. Zero-copy binary parser checks frame structure.
+        # Format constraint: $\text{Packet} = \text{Encrypt}_{K_{\text{Void}}}(\text{Payload}) \parallel \text{Sign}_{K_{\text{Legacy}}}(\text{Payload})$
+        # Packet length is fixed to exactly 192 bytes (96-byte payload + 96-byte legacy signature).
+        on receive_packet [packet_size_bytes == 192] -> DecryptingZeroCopy {
             require energy 2.0 Wh;
             require cycle 50 cycles;
         }
-        on receive_packet [packet_size_bytes != 192] -> DropPacket;
+        on receive_packet [packet_size_bytes != 192] -> DropAndClearBuffer;
     }
 
-    state Decrypting {
-        # Decrypt payload using private key $K_{\text{Void}}$
-        on decrypt_success -> VerifyingSignature {
+    state DecryptingZeroCopy {
+        # Decrypt payload using private key $K_{\text{Void}}$ directly in place
+        on decrypt_success -> VerifyingLegacySignature {
             require energy 5.0 Wh;
             require cycle 100 cycles;
         }
-        on decrypt_fail -> DropPacket;
+        on decrypt_fail -> DropAndClearBuffer;
     }
 
-    state VerifyingSignature {
-        # Verify signature using legacy sender public key $K_{\text{Legacy}}$
-        on signature_valid -> Sanitizing {
-            require energy 5.0 Wh;
-            require cycle 100 cycles;
+    state VerifyingLegacySignature {
+        # Validate the 96-byte legacy signature block BEFORE executing internal data cast
+        on signature_valid [is_sig_verified == 1] -> SanitizingBounds {
+            require energy 10.0 Wh;
+            require cycle 150 cycles;
         }
-        on signature_invalid -> DropPacket;
+        on signature_valid [is_sig_verified == 0] -> DropAndClearBuffer;
     }
 
-    state Sanitizing {
-        # Sanitize variables to strictly within mapped state ranges.
-        # Enforces zero execution privileges to prevent arbitrary code injection.
-        on validation_success -> Forwarding {
+    state SanitizingBounds {
+        # Defensive sanitize: clear buffer to 0x00 and drop packet instantly if any payload
+        # integer falls even 1 unit outside configured bounds $[val_{\text{min}}, val_{\text{max}}]$.
+        on validation_success [val_out_of_bounds == 0] -> CastDataPayload {
             require energy 1.0 Wh;
             require cycle 20 cycles;
         }
-        on validation_fail -> DropPacket;
+        on validation_success [val_out_of_bounds == 1] -> DropAndClearBuffer;
     }
 
-    state Forwarding {
-        on forward_complete -> Listening;
+    state CastDataPayload {
+        # Execute the safe in-place memory cast to system structs
+        on cast_complete -> ProcessingPayload {
+            require energy 1.0 Wh;
+        }
     }
 
-    state DropPacket {
-        on reset_buffers -> Listening {
-            require energy 0.5 Wh;
+    state ProcessingPayload {
+        on processing_done -> Listening;
+    }
+
+    state DropAndClearBuffer {
+        # Hard wipe memory-buffer by zeroing out the entire 192 bytes to 0x00
+        on zero_fill_buffer -> Listening {
+            require energy 5.0 Wh;
+            require cycle 50 cycles;
         }
     }
 }
