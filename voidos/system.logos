@@ -9,3 +9,8 @@ import "scheduler.logos";
 import "treasury.logos";
 import "storage.logos";
 import "session.logos";
+import "bootloader.logos";
+import "memory_manager.logos";
+import "logos_hdl_spec.logos";
+import "hermetic_gateway.logos";
+import "voidmesh.logos";
