@@ -40,9 +40,10 @@ A zero-dependency secure bridge connecting legacy systems (Windows/Linux) to the
 * **Isolation Guarantee**: Malware compromise on legacy host automatically drops the reflection sync vector, entirely insulating the inner `/voidos/` domain.
 
 ## 3. Truth AI (`truth/`)
-**Truth** is a local sovereign AI model served via Ollama (built from `qwen2.5-coder:1.5b`).
-* Configured in `Modelfile` to directly output strict Logos v2.0 declarative code.
-* Prompt-aligned to convert natural language OS capabilities into state machine transitions, guards, and transition-level resource requirements.
+**Truth** is a 100% sovereign, self-contained AI model engine running natively (`truth/truth.py`). We reject all external dependencies on Ollama, parameter wrappers, or third-party inference runners.
+* Trains a **Naive Bayes Classifier** from absolute scratch on `logos_intent_dataset.jsonl` to categorize prompts into target intent classes.
+* Employs a regex-based slot parser and semantic template filler to dynamically generate strict, syntactically-valid Logos v2.0 declarative code.
+* Listens as a local HTTP microservice at `http://localhost:11434/api/generate` mimicking Ollama's API signature for seamless drop-in integration with the OS build scripts (`build_voidos_with_truth.py`).
 * Contains the training dataset generator (`generate_dataset.py`) and training set (`logos_intent_dataset.jsonl`) aligned with v2.0 specifications.
 
 ## 4. Void OS (`voidos/`)
