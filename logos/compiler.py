@@ -184,6 +184,12 @@ class Compiler:
             "intents": compiled_intents,
         }
 
+    def compile_to_binary(self, program: ProgramNode) -> bytes:
+        """Compile the program and return the dense binary VSMB bytecode."""
+        smir = self.compile(program)
+        from .vsmb import encode_vsmb
+        return encode_vsmb(smir)
+
     # ------------------------------------------------------------------
     # Intent compilation
     # ------------------------------------------------------------------
