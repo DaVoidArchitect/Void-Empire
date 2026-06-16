@@ -1,0 +1,95 @@
+# ============================================================================
+# Sovereign Truth AI Model — Declarative State Machine
+# ============================================================================
+# Models the cognitive translation process of natural language intents into
+# sovereign, thermodynamically-constrained Logos state machine definitions.
+# ============================================================================
+
+intent Truth {
+    steward: "genesis_truth";
+    target: "model_inference_engine";
+    license: "PRIVATE";
+    scope: "Global";
+    provenance: "truth_authority";
+    lifetime: 365 days;
+
+    require {
+        energy 1000.0 Wh;
+        mass 1.0 kg;
+    }
+
+    state Idle {
+        # Transition to generate Mailbox intent
+        on generate_mailbox -> OutputMailbox {
+            require energy 50.0 Wh;
+            require cycle 100 cycles;
+        }
+        # Transition to generate Scheduler intent
+        on generate_scheduler -> OutputScheduler {
+            require energy 100.0 Wh;
+            require cycle 200 cycles;
+        }
+        # Transition to generate Treasury intent
+        on generate_treasury -> OutputTreasury {
+            require energy 200.0 Wh;
+            require cycle 300 cycles;
+        }
+        # Transition to generate PowerAllocation intent
+        on generate_power_allocation -> OutputPowerAllocation {
+            require energy 5.0 Wh;
+            require cycle 50 cycles;
+        }
+        # Transition to generate MaterialSupply intent
+        on generate_material_supply -> OutputMaterialSupply {
+            require energy 10.0 Wh;
+            require cycle 50 cycles;
+        }
+        # Transition to generate SubnetRouting intent
+        on generate_subnet_routing -> OutputSubnetRouting {
+            require energy 15.0 Wh;
+            require cycle 50 cycles;
+        }
+        # Transition to generate RecyclingLoop intent
+        on generate_recycling_loop -> OutputRecyclingLoop {
+            require energy 20.0 Wh;
+            require cycle 50 cycles;
+        }
+        # Transition to generate NodeDeployment intent
+        on generate_node_deployment -> OutputNodeDeployment {
+            require energy 25.0 Wh;
+            require cycle 50 cycles;
+        }
+    }
+
+    state OutputMailbox {
+        on reset -> Idle;
+    }
+
+    state OutputScheduler {
+        on reset -> Idle;
+    }
+
+    state OutputTreasury {
+        on reset -> Idle;
+    }
+
+    state OutputPowerAllocation {
+        on reset -> Idle;
+    }
+
+    state OutputMaterialSupply {
+        on reset -> Idle;
+    }
+
+    state OutputSubnetRouting {
+        on reset -> Idle;
+    }
+
+    state OutputRecyclingLoop {
+        on reset -> Idle;
+    }
+
+    state OutputNodeDeployment {
+        on reset -> Idle;
+    }
+}
