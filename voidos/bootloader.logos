@@ -1,0 +1,153 @@
+# ============================================================================
+# Sovereign Void OS — Bare-Metal Bootstrap and Memory Allocator
+# ============================================================================
+# Models the bare-metal bootloader, page tables, and hardware interrupts.
+# ============================================================================
+
+intent Bootloader {
+    steward: "kernel_hal";
+    target: "processor_core";
+    license: "PRIVATE";
+    scope: "Subnet";
+    provenance: "boot_authority";
+    lifetime: 1 hours;
+
+    require {
+        energy 100.0 Wh;
+        cycle 500 cycles;
+    }
+
+    state Off {
+        # Initialize CPU state and transition to Real Mode (16-bit)
+        on power_on -> RealMode {
+            require energy 5.0 Wh;
+        }
+    }
+
+    state RealMode {
+        # Load Global Descriptor Table (GDT) and transition to Protected Mode (32-bit)
+        # GDT base register is loaded with physical address space mapping
+        on load_gdt -> ProtectedMode {
+            require energy 10.0 Wh;
+            require cycle 100 cycles;
+        }
+    }
+
+    state ProtectedMode {
+        # Initialize page table directory and load control register $CR3$ (paging anchor)
+        # Enable paging by setting PG bit in control register $CR0$ (bit 31)
+        on enable_paging -> PagingEnabled {
+            require energy 20.0 Wh;
+            require cycle 200 cycles;
+        }
+    }
+
+    state PagingEnabled {
+        # Perform long jump to the 64-bit kernel main execution entry point
+        on jump_to_kernel -> KernelExecuting {
+            require energy 10.0 Wh;
+            require cycle 100 cycles;
+        }
+    }
+
+    state KernelExecuting {
+        on reset -> Off;
+    }
+}
+
+intent PhysicalPageAllocator {
+    steward: "kernel_core";
+    target: "memory_plane";
+    license: "PRIVATE";
+    scope: "Subnet";
+    provenance: "memory_authority";
+    lifetime: 24 hours;
+
+    require {
+        energy 200.0 Wh;
+        cycle 1000 cycles;
+    }
+
+    state Uninitialized {
+        # Map physical address range directly without virtualization
+        # Memory boundaries: $[0x00100000, 0x07FFFFFF]$ for raw RAM pages (128MB)
+        on scan_memory [ram_size_mb >= 1024] -> MemoryMapped {
+            require energy 50.0 Wh;
+            require cycle 500 cycles;
+        }
+        on scan_memory [ram_size_mb < 1024] -> Panic;
+    }
+
+    state MemoryMapped {
+        # Allocate page from the free pool. Free pages count is updated:
+        # $N_{\text{pages}} \leftarrow N_{\text{pages}} - 1$
+        on allocate_page [free_pages > 0] -> PageAllocated {
+            require energy 0.1 Wh;
+            require cycle 10 cycles;
+        }
+        # Free page and restore back to mapped pool
+        on free_page -> MemoryMapped {
+            require energy 0.05 Wh;
+            require cycle 5 cycles;
+        }
+    }
+
+    state PageAllocated {
+        on complete -> MemoryMapped;
+    }
+
+    state Panic {
+        on halt -> Uninitialized;
+    }
+}
+
+intent InterruptVectorTable {
+    steward: "kernel_core";
+    target: "interrupt_controller";
+    license: "PRIVATE";
+    scope: "Subnet";
+    provenance: "interrupt_authority";
+    lifetime: 24 hours;
+
+    require {
+        energy 50.0 Wh;
+    }
+
+    state LoadIVT {
+        # Load Interrupt Descriptor Table register (IDTR) with physical vector address
+        on ivt_register -> Listening {
+            require energy 5.0 Wh;
+            require cycle 50 cycles;
+        }
+    }
+
+    state Listening {
+        # Handle Page Fault (Interrupt 14, $PF$). Triggers CR2 register read.
+        on page_fault -> HandlePageFault {
+            require energy 2.0 Wh;
+            require cycle 20 cycles;
+        }
+        # Handle Double Fault (Interrupt 8, $DF$). Non-recoverable hardware fault.
+        on double_fault -> HandleDoubleFault {
+            require energy 10.0 Wh;
+            require cycle 100 cycles;
+        }
+        # Service hardware timer interrupt (IRQ 0, System Tick)
+        on hardware_tick -> ServiceTick {
+            require energy 0.01 Wh;
+            require cycle 1 cycles;
+        }
+    }
+
+    state HandlePageFault {
+        on resolve -> Listening;
+    }
+
+    state HandleDoubleFault {
+        on panic_halt -> LoadIVT;
+    }
+
+    state ServiceTick {
+        on tick_done -> Listening;
+    }
+}
