@@ -410,8 +410,8 @@ class TestVM(unittest.TestCase):
         result = vm.send_event("TransReqIntent", "process")
         self.assertEqual(result["status"], "transitioned")
 
-        # Energy should be deducted by 50 J
-        self.assertAlmostEqual(vm.mesh["energy"], before_energy - 50.0)
+        # Energy should be deducted by 50 J (plus 6.18% platform fee = 53.09 J)
+        self.assertAlmostEqual(vm.mesh["energy"], before_energy - 53.09)
         # Mass should be deducted by 10 kg
         self.assertAlmostEqual(vm.mesh["mass"], before_mass - 10.0)
 
