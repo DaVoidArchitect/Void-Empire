@@ -27,7 +27,8 @@ def main():
         description="Logos Declarative State Machine Compiler",
     )
     parser.add_argument("source", help="Path to the .logos source file")
-    parser.add_argument("-o", "--output", default=None, help="Output SMIR JSON file (default: <source>.smir.json)")
+    parser.add_argument("-b", "--binary", action="store_true", help="Output dense binary VSMB bytecode instead of JSON SMIR")
+    parser.add_argument("-o", "--output", default=None, help="Output file (default: <source>.smir.json or <source>.vsmb)")
     parser.add_argument("-m", "--mesh", default=None, help="Path to a JSON mesh context file")
     parser.add_argument("--pretty", action="store_true", help="Pretty-print the SMIR JSON output")
 
@@ -67,11 +68,19 @@ def main():
         sys.exit(2)
 
     # Determine output path
-    output_path = args.output or source_path.replace(".logos", ".smir.json")
+    is_binary = args.binary or (args.output and args.output.endswith(".vsmb"))
+    default_ext = ".vsmb" if is_binary else ".smir.json"
+    output_path = args.output or source_path.replace(".logos", default_ext)
 
-    indent = 2 if args.pretty else None
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(smir, f, indent=indent)
+    if is_binary:
+        from logos.vsmb import encode_vsmb
+        binary_data = encode_vsmb(smir)
+        with open(output_path, "wb") as f:
+            f.write(binary_data)
+    else:
+        indent = 2 if args.pretty else None
+        with open(output_path, "w", encoding="utf-8") as f:
+            json.dump(smir, f, indent=indent)
 
     print(f"[LOGOS] Compiled successfully: {output_path}")
     intent_count = len(smir.get("intents", []))
