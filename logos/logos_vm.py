@@ -41,8 +41,13 @@ def main():
         print(f"[LOGOS VM ERROR] SMIR file not found: {smir_path}", file=sys.stderr)
         sys.exit(1)
 
-    with open(smir_path, "r", encoding="utf-8") as f:
-        smir = json.load(f)
+    with open(smir_path, "rb") as f:
+        magic_or_data = f.read()
+
+    if magic_or_data.startswith(b"VSMB"):
+        smir = magic_or_data
+    else:
+        smir = json.loads(magic_or_data.decode("utf-8"))
 
     # Load mesh context
     if args.mesh:
