@@ -1,7 +1,7 @@
 # ============================================================================
-# Sovereign Void OS — Bare-Metal Bootstrap and Memory Allocator
+# Sovereign Void OS — Hardened Bare-Metal Bootstrap and Memory Allocator
 # ============================================================================
-# Models the bare-metal bootloader, page tables, and hardware interrupts.
+# Models the production-grade bare-metal bootloader, page tables, and non-halting ISRs.
 # ============================================================================
 
 intent Bootloader {
@@ -18,15 +18,13 @@ intent Bootloader {
     }
 
     state Off {
-        # Initialize CPU state and transition to Real Mode (16-bit)
         on power_on -> RealMode {
             require energy 5.0 Wh;
         }
     }
 
     state RealMode {
-        # Load Global Descriptor Table (GDT) and transition to Protected Mode (32-bit)
-        # GDT base register is loaded with physical address space mapping
+        # Load GDT base register loaded with physical address space mapping
         on load_gdt -> ProtectedMode {
             require energy 10.0 Wh;
             require cycle 100 cycles;
@@ -34,7 +32,7 @@ intent Bootloader {
     }
 
     state ProtectedMode {
-        # Initialize page table directory and load control register $CR3$ (paging anchor)
+        # Initialize page table directory and load control register $CR3$
         # Enable paging by setting PG bit in control register $CR0$ (bit 31)
         on enable_paging -> PagingEnabled {
             require energy 20.0 Wh;
@@ -43,7 +41,6 @@ intent Bootloader {
     }
 
     state PagingEnabled {
-        # Perform long jump to the 64-bit kernel main execution entry point
         on jump_to_kernel -> KernelExecuting {
             require energy 10.0 Wh;
             require cycle 100 cycles;
@@ -64,40 +61,54 @@ intent PhysicalPageAllocator {
     lifetime: 24 hours;
 
     require {
-        energy 200.0 Wh;
-        cycle 1000 cycles;
+        energy 500.0 Wh;
+        cycle 5000 cycles;
     }
 
     state Uninitialized {
-        # Map physical address range directly without virtualization
-        # Memory boundaries: $[0x00100000, 0x07FFFFFF]$ for raw RAM pages (128MB)
-        on scan_memory [ram_size_mb >= 1024] -> MemoryMapped {
-            require energy 50.0 Wh;
-            require cycle 500 cycles;
+        # Establish two-tier memory layout:
+        # 1. Kernel Space $[0x00100000, 0x07FFFFFF]$ (128MB isolated pool)
+        # 2. High Tensors Space $[0x100000000, \infty[$ (Dynamic extended physical memory mapping above 4GB)
+        on configure_memory [ram_size_mb >= 8192] -> MemoryMapped {
+            require energy 100.0 Wh;
+            require cycle 1000 cycles;
         }
-        on scan_memory [ram_size_mb < 1024] -> Panic;
+        on configure_memory [ram_size_mb < 8192] -> Panic;
     }
 
     state MemoryMapped {
-        # Allocate page from the free pool. Free pages count is updated:
-        # $N_{\text{pages}} \leftarrow N_{\text{pages}} - 1$
-        on allocate_page [free_pages > 0] -> PageAllocated {
+        # Allocate page from Kernel Space pool
+        on allocate_kernel_page [kernel_free_pages > 0] -> KernelPageAllocated {
             require energy 0.1 Wh;
             require cycle 10 cycles;
         }
-        # Free page and restore back to mapped pool
-        on free_page -> MemoryMapped {
+        # Allocate page from High Tensors Space pool above 4GB
+        on allocate_tensor_page [tensor_free_pages > 0] -> TensorPageAllocated {
+            require energy 0.2 Wh;
+            require cycle 20 cycles;
+        }
+        on free_kernel_page -> MemoryMapped {
             require energy 0.05 Wh;
             require cycle 5 cycles;
         }
+        on free_tensor_page -> MemoryMapped {
+            require energy 0.1 Wh;
+            require cycle 10 cycles;
+        }
     }
 
-    state PageAllocated {
+    state KernelPageAllocated {
+        on complete -> MemoryMapped;
+    }
+
+    state TensorPageAllocated {
         on complete -> MemoryMapped;
     }
 
     state Panic {
-        on halt -> Uninitialized;
+        on restart_system -> Uninitialized {
+            require energy 200.0 Wh;
+        }
     }
 }
 
@@ -110,11 +121,10 @@ intent InterruptVectorTable {
     lifetime: 24 hours;
 
     require {
-        energy 50.0 Wh;
+        energy 100.0 Wh;
     }
 
     state LoadIVT {
-        # Load Interrupt Descriptor Table register (IDTR) with physical vector address
         on ivt_register -> Listening {
             require energy 5.0 Wh;
             require cycle 50 cycles;
@@ -122,29 +132,39 @@ intent InterruptVectorTable {
     }
 
     state Listening {
-        # Handle Page Fault (Interrupt 14, $PF$). Triggers CR2 register read.
-        on page_fault -> HandlePageFault {
-            require energy 2.0 Wh;
-            require cycle 20 cycles;
+        # Handle Page Fault (Interrupt 14, $PF$). Triggers CR2 read.
+        # Transition gracefully isolates and restarts the failing task loop rather than halting.
+        on page_fault [is_kernel_fault == 0] -> RestartUserTaskLoop {
+            require energy 5.0 Wh;
+            require cycle 50 cycles;
         }
-        # Handle Double Fault (Interrupt 8, $DF$). Non-recoverable hardware fault.
-        on double_fault -> HandleDoubleFault {
-            require energy 10.0 Wh;
-            require cycle 100 cycles;
+        on page_fault [is_kernel_fault == 1] -> RestartKernelTaskLoop {
+            require energy 15.0 Wh;
+            require cycle 150 cycles;
         }
-        # Service hardware timer interrupt (IRQ 0, System Tick)
+        # Handle Double Fault (Interrupt 8, $DF$). Gracefully resets task scheduler space.
+        on double_fault -> IsolateTaskGroup {
+            require energy 20.0 Wh;
+            require cycle 200 cycles;
+        }
         on hardware_tick -> ServiceTick {
             require energy 0.01 Wh;
             require cycle 1 cycles;
         }
     }
 
-    state HandlePageFault {
-        on resolve -> Listening;
+    state RestartUserTaskLoop {
+        on resume -> Listening;
     }
 
-    state HandleDoubleFault {
-        on panic_halt -> LoadIVT;
+    state RestartKernelTaskLoop {
+        on resume -> Listening;
+    }
+
+    state IsolateTaskGroup {
+        on cleanup_complete -> Listening {
+            require energy 10.0 Wh;
+        }
     }
 
     state ServiceTick {
