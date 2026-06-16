@@ -3,6 +3,68 @@
 # ============================================================================
 # Models the thermodynamic compilation process of Logos programs.
 # ============================================================================
+# Architectural Binary Mapping Specifications (Windows PE x86_64 format)
+# ============================================================================
+# Offset   | Field Name                    | Value / Description
+# ----------------------------------------------------------------------------
+# 0x00     | MS-DOS MZ Header Signature    | 0x5A4D ("MZ")
+# 0x3C     | PE Header Offset Pointer      | 0x00000080
+# 0x80     | PE Signature                  | 0x00004550 ("PE\0\0")
+# ----------------------------------------------------------------------------
+# COFF File Header:
+# 0x84     | Machine Type                  | 0x8664 (AMD64 / x86_64)
+# 0x86     | Number of Sections            | 0x0002 (.text, .data)
+# 0x94     | Size of Optional Header       | 0x00F0
+# 0x96     | Characteristics               | 0x0022 (Executable, 64-bit)
+# ----------------------------------------------------------------------------
+# PE32+ Optional Header:
+# 0x98     | Magic Signature               | 0x020B (PE32+)
+# 0xA8     | Address of Entry Point        | RVA of _main
+# 0xB0     | Preferred Image Base          | 0x0000000140000000
+# 0xB8     | Section Alignment             | 0x00001000 (4KB page boundary)
+# 0xBC     | File Alignment                | 0x00000200 (512B sector boundary)
+# 0xD8     | Size of Image / Headers       | Calculated sizes
+# 0xE0     | Subsystem Type                | 0x0003 (Windows CLI Subsystem)
+# ----------------------------------------------------------------------------
+# Section Table (2 Sections):
+# 1. .text (Executable Code Section):
+#          | Name                          | ".text\0\0"
+#          | Characteristics               | 0x60000020 (CNT_CODE | MEM_EXECUTE | MEM_READ)
+# 2. .data (Read/Write Data Section):
+#          | Name                          | ".data\0\0"
+#          | Characteristics               | 0xC0000040 (CNT_INITIALIZED_DATA | MEM_READ | MEM_WRITE)
+# ============================================================================
+# Opcode-Level Walled Garden Enforcements (x86_64 Instruction Mapping)
+# ============================================================================
+# 1. 2-Phase Atomic Rollover (Transactional Memory Pattern via Register Backup)
+#    ; Step 1: Backup transition state variables
+#    49 89 C6          ; mov r14, r12      ; Backup current energy register (r12)
+#    49 89 D7          ; mov r15, r13      ; Backup current cycle register (r13)
+#
+#    ; Step 2: Resource and guard evaluation checks
+#    ... (apply 6.18% platform fee to required resources) ...
+#    4C 39 F0          ; cmp r12, rax      ; Compare available energy against required cost + fee
+#    7C 0A             ; jl .rollback      ; If deficit, jump directly to rollback instruction
+#    4C 29 C4          ; sub r12, rax      ; Deduct required energy from current pool
+#    ... (check cycle limits similarly) ...
+#    EB 06             ; jmp .commit       ; If all checks succeed, commit state transition
+#
+#    .rollback:
+#    4C 89 F4          ; mov r12, r14      ; Deficit detected: restore original energy register
+#    4C 89 FD          ; mov r13, r15      ; Restore original cycle register
+#    C3                ; ret               ; Fail transition transaction execution
+#
+#    .commit:
+#    ... (finalize state transition update) ...
+#
+# 2. 6.18% System Platform Fee Opcode Compilation
+#    ; Cost calculation multiplied by 1.0618 (using fixed-point 10618 / 10000 scaling)
+#    48 69 C0 9A 29 00 ; imul rax, rax, 10618 ; Multiply base energy cost (rax) by 10618
+#    48 31 D2          ; xor rdx, rdx       ; Clear high division word
+#    48 B9 10 27 00 00 ; mov rcx, 10000     ; Set division scale factor to 10000
+#    48 F7 F1          ; div rcx            ; rax = rax * 1.0618 fee adjustment
+# ============================================================================
+
 
 intent LogosCompiler {
     steward: "logosc_core";
