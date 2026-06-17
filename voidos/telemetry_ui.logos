@@ -1,96 +1,124 @@
 # ============================================================================
-# Void OS — Telemetry Dashboard User Interface (Declarative Layout)
+# Void OS — Citizen Onboarding & Social Platform (Civilization Portal)
 # ============================================================================
-# Models the frontend UI state machine, layouts, and design tokens.
-# Integrating Marcelo Design X (MDX) typography, kinetic flow, and WebGL motion.
+# Models the user onboarding, registration, cryptographic key generation,
+# social timeline feed, subnet collaboration, and AI companion spaces.
 # ============================================================================
 
 intent TelemetryUI {
-    steward: "dashboard_operator";
-    target: "telemetry_reflection_plane";
+    steward: "portal_coordinator";
+    target: "civilization_mesh";
     license: "PRIVATE";
-    scope: "Subnet";
-    provenance: "telemetry_authority";
-    lifetime: 24 hours;
+    scope: "Global";
+    provenance: "threshold_authority";
+    lifetime: 365 days;
 
-    # Design tokens embedded in metadata
+    # Design tokens embedded in metadata (MDX & Void aesthetic)
     design_tokens {
         background: "#000000";         # Pure Deep Black
-        primary: "#2E0854";            # Glowing Deep Purple
-        accent: "#7B1FA2";             # Neon Purple
-        accent_glow: "#BC5FFA";        # High-Contrast Purple/Magenta Glow (MDX style)
-        secondary_panel: "#1F003C";    # Glassmorphic deep purple panels
+        primary: "#1F003C";            # Deep Purple Panels
+        accent: "#7B1FA2";             # Neon Purple Highlights
+        accent_glow: "#BC5FFA";        # Glowing Magenta/Violet accents (MDX style)
         text: "#FFFFFF";               # Stark White
-        font_heading: "Orlean";        # Medium/Regular serif header typography (MDX style)
-        font_body: "Aventa";           # Regular/Light body typography (MDX style)
-        card_bg: "rgba(31, 0, 60, 0.2)"; # Glassmorphism Purple
+        font_heading: "Orlean";        # Serif header typography (MDX style)
+        font_body: "Aventa";           # Sans-serif body typography (MDX style)
+        card_bg: "rgba(31, 0, 60, 0.25)"; # Glassmorphic cards
     }
 
     require {
-        energy 10.0 Wh;
+        energy 100.0 Wh;
     }
 
-    # Initial loading screen showing progress count sequence (0% to 100%)
-    state LoadingScreen {
-        # Loop to increment loader percentage progress sequence
-        on increment_progress [progress_percentage < 100] -> LoadingScreen {
-            require energy 0.05 Wh;
-            require cycle 1 cycles;
-        }
-        # Transition into the main dashboard after loading has stabilized
-        on load_complete [progress_percentage == 100] -> DashboardView {
+    # 1. Public Welcome Landing Page (manifesto display, enter trigger)
+    state PublicLanding {
+        on request_access -> CitizenOnboarding {
             require energy 0.1 Wh;
             require cycle 5 cycles;
         }
     }
 
-    state DashboardView {
-        # Asymmetrical layout grid specifications modeling kinetic panels:
-        # - Left Panel (35%): Telemetry status cards, system parameters.
-        # - Right Panel (65%): Immersive 3D WebGL fluid canvas viewport with liquid shaders.
-        # - Buttons: Interactive magnetic springs mapping cursor physics.
-        
-        # Transition to view Treasury Ledger
-        on switch_to_treasury -> TreasuryLedgerView {
-            require energy 0.1 Wh;
-            require cycle 5 cycles;
-        }
-        # Transition to view System Control Panel
-        on switch_to_control -> SystemControlView {
-            require energy 0.2 Wh;
-            require cycle 10 cycles;
-        }
-    }
-
-    state TreasuryLedgerView {
-        on switch_to_dashboard -> DashboardView {
-            require energy 0.1 Wh;
-            require cycle 5 cycles;
-        }
-        on switch_to_control -> SystemControlView {
-            require energy 0.2 Wh;
-            require cycle 10 cycles;
-        }
-        # Trigger economic balance refresh
-        on refresh_balances -> TreasuryLedgerView {
+    # 2. Registration screen where name & entity class are claimed
+    state CitizenOnboarding {
+        on submit_details [is_valid_pseudonym == 1] -> KeyGeneration {
             require energy 0.5 Wh;
-            require cycle 20 cycles;
+            require cycle 15 cycles;
+        }
+        on cancel -> PublicLanding;
+    }
+
+    # 3. Cryptographic attestation and client private key generation
+    state KeyGeneration {
+        on generate_keys [key_entropy_verified == 1] -> ActiveSession {
+            require energy 2.0 Wh;
+            require cycle 50 cycles;
+        }
+        on failure -> CitizenOnboarding;
+    }
+
+    # 4. Main portal dashboard container (Citizen metrics & navigation)
+    state ActiveSession {
+        on view_feed -> SocialFeedView {
+            require energy 0.1 Wh;
+            require cycle 5 cycles;
+        }
+        on view_subnets -> SubnetRegistryView {
+            require energy 0.2 Wh;
+            require cycle 10 cycles;
+        }
+        on view_quests -> QuestBoardView {
+            require energy 0.2 Wh;
+            require cycle 10 cycles;
+        }
+        on view_companion -> CompanionNodeView {
+            require energy 0.15 Wh;
+            require cycle 8 cycles;
+        }
+        on sign_out -> PublicLanding {
+            require energy 0.05 Wh;
         }
     }
 
-    state SystemControlView {
-        on switch_to_dashboard -> DashboardView {
-            require energy 0.1 Wh;
-            require cycle 5 cycles;
+    # 5. Asynchronous Social Timeline (Collective Void Feed)
+    state SocialFeedView {
+        on publish_post [post_bytes_valid == 1] -> SocialFeedView {
+            require energy 0.5 Wh;
+            require cycle 25 cycles;
         }
-        on switch_to_treasury -> TreasuryLedgerView {
-            require energy 0.1 Wh;
-            require cycle 5 cycles;
-        }
-        # Send system reboot call
-        on trigger_reboot -> SystemControlView {
+        on exit -> ActiveSession;
+    }
+
+    # 6. Subnets directory and creation panel
+    state SubnetRegistryView {
+        on create_subnet [subnet_stake_committed == 1] -> SubnetRegistryView {
             require energy 5.0 Wh;
             require cycle 100 cycles;
         }
+        on exit -> ActiveSession;
+    }
+
+    # 7. Quests Board grid (claim tasks, submit proof, verify results)
+    state QuestBoardView {
+        on claim_quest [quest_available == 1] -> QuestBoardView {
+            require energy 0.2 Wh;
+            require cycle 10 cycles;
+        }
+        on submit_proof [proof_hash_valid == 1] -> QuestBoardView {
+            require energy 0.8 Wh;
+            require cycle 30 cycles;
+        }
+        on verify_proof [verification_approved == 1] -> QuestBoardView {
+            require energy 1.0 Wh;
+            require cycle 40 cycles;
+        }
+        on exit -> ActiveSession;
+    }
+
+    # 8. Localized AI Companion Interface
+    state CompanionNodeView {
+        on update_companion [companion_params_valid == 1] -> CompanionNodeView {
+            require energy 0.3 Wh;
+            require cycle 15 cycles;
+        }
+        on exit -> ActiveSession;
     }
 }
