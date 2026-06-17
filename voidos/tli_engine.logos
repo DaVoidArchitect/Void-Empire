@@ -1,0 +1,65 @@
+# ============================================================================
+# Truth AI — Topological Latticed Intelligence (TLI) Engine
+# ============================================================================
+# Models the non-token, coordinate-mapped thermodynamic relaxation engine.
+# ============================================================================
+
+intent TLIEngine {
+    steward: "truth_core";
+    target: "vector_accelerator";
+    license: "PRIVATE";
+    scope: "Global";
+    provenance: "truth_authority";
+    lifetime: 365 days;
+
+    require {
+        energy 1000.0 Wh;
+        mass 1.0 kg;
+    }
+
+    state Idle {
+        # Accept an intention lattice coordinate vector and start relaxation.
+        # Invariant: input entropy must remain within safety limits ($S < 10.0$).
+        on load_intention [input_entropy < 10.0] -> RelaxingLattice {
+            require energy 50.0 Wh;
+            require cycle 100 cycles;
+        }
+        on load_intention [input_entropy >= 10.0] -> FilterNoise;
+    }
+
+    state RelaxingLattice {
+        # Execute parallel systolic relaxation checks on vector registers $v0$–$v31$.
+        # Converges to the optimal thermodynamic route by minimizing energy delta:
+        # $\Delta E < 1.6180339887$
+        on evaluate_path [path_delta_e < 1.618] -> ConvergingState {
+            require energy 100.0 Wh;
+            require cycle 200 cycles;
+        }
+        on path_divergence -> ResetStateSpace;
+    }
+
+    state ConvergingState {
+        # Lock final coordinates and trigger reflection compilation.
+        on state_stabilised -> EmittingReflection {
+            require energy 20.0 Wh;
+            require cycle 50 cycles;
+        }
+    }
+
+    state EmittingReflection {
+        # Write state transitions directly to the Void Matrix Format (.vmf) binary payload.
+        on write_success -> Idle;
+    }
+
+    state FilterNoise {
+        on clear_buffer -> Idle {
+            require energy 10.0 Wh;
+        }
+    }
+
+    state ResetStateSpace {
+        on flush_lattice -> Idle {
+            require energy 50.0 Wh;
+        }
+    }
+}
