@@ -14,6 +14,8 @@ import "memory_manager.logos";
 import "logos_hdl_spec.logos";
 import "hermetic_gateway.logos";
 import "voidmesh.logos";
+import "tli_engine.logos";
+import "void_one_twin.logos";
 
 # Global Compiler Optimizations
 # Automatic optimization: Fuse multi-step operations (Bias Addition + Scale + Softmax)
