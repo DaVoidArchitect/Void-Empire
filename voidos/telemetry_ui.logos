@@ -1,11 +1,12 @@
 # ============================================================================
-# Void OS — Citizen Onboarding & Social Platform (Civilization Portal)
+# Void — The Civilization Operating System (Sovereign Platform Layer)
 # ============================================================================
 # Models the user onboarding, registration, cryptographic key generation,
 # social timeline feed, subnet collaboration, and AI companion spaces.
+# Fully aligned with Void Brand System v1.0 and Doctrine.
 # ============================================================================
 
-intent TelemetryUI {
+intent Void {
     steward: "portal_coordinator";
     target: "civilization_mesh";
     license: "PRIVATE";
@@ -13,31 +14,39 @@ intent TelemetryUI {
     provenance: "threshold_authority";
     lifetime: 365 days;
 
-    # Design tokens embedded in metadata (MDX & Void aesthetic)
+    # Design tokens embedded in metadata (Void Brand System v1.0)
     design_tokens {
-        background: "#000000";         # Pure Deep Black
-        primary: "#1F003C";            # Deep Purple Panels
-        accent: "#7B1FA2";             # Neon Purple Highlights
-        accent_glow: "#BC5FFA";        # Glowing Magenta/Violet accents (MDX style)
-        text: "#FFFFFF";               # Stark White
-        font_heading: "Orlean";        # Serif header typography (MDX style)
-        font_body: "Aventa";           # Sans-serif body typography (MDX style)
-        card_bg: "rgba(31, 0, 60, 0.25)"; # Glassmorphic cards
+        background: "#050507";          # Deep Black (The Void itself)
+        primary_purple: "#7c3aed";      # Void Purple (System signals/interactivity)
+        sovereign_gold: "#f4d58d";      # Sovereign Gold (Honor/headings/milestones)
+        text_primary: "#f5f5f7";        # Stark Off-White text
+        white: "#ffffff";               # Void White
+        surface_01: "#0d0d10";          # Lifted background
+        surface_02: "#1a1a20";          # Panel/card background
+        surface_03: "#2a2a35";          # Input backgrounds
+        surface_04: "#3a3a48";          # Dividers and borders
+        font_display: "Archivo Black";  # Display/wordmark typography
+        font_ui: "Inter";               # Regular body typography
+        font_mono: "IBM Plex Mono";     # Citizen IDs and ledger precision
     }
 
     require {
         energy 100.0 Wh;
     }
 
-    # 1. Public Welcome Landing Page (manifesto display, enter trigger)
+    # 1. Public Welcome Landing Page ("The Threshold v2")
     state PublicLanding {
         on request_access -> CitizenOnboarding {
             require energy 0.1 Wh;
             require cycle 5 cycles;
         }
+        on enter_portal -> CitizenAuthentication {
+            require energy 0.05 Wh;
+            require cycle 3 cycles;
+        }
     }
 
-    # 2. Registration screen where name & entity class are claimed
+    # 2. Registration screen where name & entity class are claimed (Ceremony of Arrival)
     state CitizenOnboarding {
         on submit_details [is_valid_pseudonym == 1] -> KeyGeneration {
             require energy 0.5 Wh;
@@ -48,77 +57,98 @@ intent TelemetryUI {
 
     # 3. Cryptographic attestation and client private key generation
     state KeyGeneration {
-        on generate_keys [key_entropy_verified == 1] -> ActiveSession {
+        on generate_keys [key_entropy_verified == 1] -> ActivePortalSession {
             require energy 2.0 Wh;
             require cycle 50 cycles;
         }
         on failure -> CitizenOnboarding;
     }
 
-    # 4. Main portal dashboard container (Citizen metrics & navigation)
-    state ActiveSession {
-        on view_feed -> SocialFeedView {
+    # 4. Sign-in credential verification
+    state CitizenAuthentication {
+        on verify_passkey [passkey_verified == 1] -> ActivePortalSession {
             require energy 0.1 Wh;
             require cycle 5 cycles;
         }
-        on view_subnets -> SubnetRegistryView {
+        on reject_passkey -> PublicLanding;
+    }
+
+    # 5. Central citizen console dashboard (UBI splits & Fiduciary firewall Option B)
+    state ActivePortalSession {
+        on view_feed -> SocialFeed {
+            require energy 0.1 Wh;
+            require cycle 5 cycles;
+        }
+        on view_subnets -> SubnetRegistry {
             require energy 0.2 Wh;
             require cycle 10 cycles;
         }
-        on view_quests -> QuestBoardView {
+        on view_quests -> QuestBoard {
             require energy 0.2 Wh;
             require cycle 10 cycles;
         }
-        on view_companion -> CompanionNodeView {
+        on view_companion -> CompanionNode {
             require energy 0.15 Wh;
             require cycle 8 cycles;
         }
         on sign_out -> PublicLanding {
             require energy 0.05 Wh;
         }
+        on request_refund -> AccountRevocation {
+            require energy 1.0 Wh;
+            require cycle 30 cycles;
+        }
     }
 
-    # 5. Asynchronous Social Timeline (Collective Void Feed)
-    state SocialFeedView {
-        on publish_post [post_bytes_valid == 1] -> SocialFeedView {
+    # 6. Asynchronous Social Timeline (Collective Void Feed)
+    state SocialFeed {
+        on publish_post [post_bytes_valid == 1] -> SocialFeed {
             require energy 0.5 Wh;
             require cycle 25 cycles;
         }
-        on exit -> ActiveSession;
+        on exit -> ActivePortalSession;
     }
 
-    # 6. Subnets directory and creation panel
-    state SubnetRegistryView {
-        on create_subnet [subnet_stake_committed == 1] -> SubnetRegistryView {
+    # 7. Subnets directory and creation panel
+    state SubnetRegistry {
+        on create_subnet [subnet_stake_committed == 1] -> SubnetRegistry {
             require energy 5.0 Wh;
             require cycle 100 cycles;
         }
-        on exit -> ActiveSession;
+        on exit -> ActivePortalSession;
     }
 
-    # 7. Quests Board grid (claim tasks, submit proof, verify results)
-    state QuestBoardView {
-        on claim_quest [quest_available == 1] -> QuestBoardView {
+    # 8. Quests Board grid (claims, proofs, and approvals)
+    state QuestBoard {
+        on claim_quest [quest_available == 1] -> QuestBoard {
             require energy 0.2 Wh;
             require cycle 10 cycles;
         }
-        on submit_proof [proof_hash_valid == 1] -> QuestBoardView {
+        on submit_proof [proof_hash_valid == 1] -> QuestBoard {
             require energy 0.8 Wh;
             require cycle 30 cycles;
         }
-        on verify_proof [verification_approved == 1] -> QuestBoardView {
+        on verify_proof [verification_approved == 1] -> QuestBoard {
             require energy 1.0 Wh;
             require cycle 40 cycles;
         }
-        on exit -> ActiveSession;
+        on exit -> ActivePortalSession;
     }
 
-    # 8. Localized AI Companion Interface
-    state CompanionNodeView {
-        on update_companion [companion_params_valid == 1] -> CompanionNodeView {
+    # 9. Localized AI Companion Interface (Truth-successor tuning)
+    state CompanionNode {
+        on configure_companion [companion_params_valid == 1] -> CompanionNode {
             require energy 0.3 Wh;
             require cycle 15 cycles;
         }
-        on exit -> ActiveSession;
+        on exit -> ActivePortalSession;
+    }
+
+    # 10. Account Revocation (Backing refund logic, identity erasure)
+    state AccountRevocation {
+        on confirm_erasure [refund_confirmed == 1] -> PublicLanding {
+            require energy 2.0 Wh;
+            require cycle 50 cycles;
+        }
     }
 }
