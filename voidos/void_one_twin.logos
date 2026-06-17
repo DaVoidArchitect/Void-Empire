@@ -1,0 +1,101 @@
+# ============================================================================
+# Void OS — Void One V2 Hardware Digital Twin (Sovereign Substrate)
+# ============================================================================
+# Emulates clockless logic gates, material stacks, and Treasury hard laws.
+# ============================================================================
+
+intent VoidOneDigitalTwin {
+    steward: "hardware_telemetry";
+    target: "twin_verification_plane";
+    license: "PRIVATE";
+    scope: "Global";
+    provenance: "hardware_authority";
+    lifetime: 365 days;
+
+    require {
+        energy 100.0 Wh;
+    }
+
+    state Idle {
+        # Initialize physical layer stack and check constitutional constraints
+        # No Silicon, No Copper, Zero Clock, No Orthogonal Geometry.
+        on boot_twin [has_silicon == 0 and has_copper == 0 and is_clockless == 1] -> StackConfigured {
+            require energy 10.0 Wh;
+            require cycle 100 cycles;
+        }
+        on boot_twin [has_silicon == 1 or has_copper == 1 or is_clockless == 0] -> ConstraintViolation;
+    }
+
+    state StackConfigured {
+        # Configure the 6-layer material stack properties:
+        # L0: Aerogel barrier, L1: 12C Diamond, L2: Beryllium Aluminate,
+        # L3: Superatomic Logic, L4: Carbon/BiSb Dark Layer, L5: Graphene.
+        on verify_layers [l1_temp_k < 350 and l3_entropy_harvest_ok == 1] -> DefectMapping {
+            require energy 20.0 Wh;
+            require cycle 200 cycles;
+        }
+        on verify_layers [l1_temp_k >= 350 or l3_entropy_harvest_ok == 0] -> ThermalOverload;
+    }
+
+    state DefectMapping {
+        # Defect Sovereignty: Characterize post-fab defects and load routing map.
+        # Avoids unstable clusters while exploiting stable defect channels for entropy.
+        on load_defect_priors [stable_channels > 0 and unstable_clusters_flag == 0] -> ActiveSimulation {
+            require energy 15.0 Wh;
+            require cycle 150 cycles;
+        }
+        on load_defect_priors [unstable_clusters_flag == 1] -> ReRouteFabric;
+    }
+
+    state ActiveSimulation {
+        # Run active chip simulation. Models clockless pulse propagation delay:
+        # $\tau_{\text{delay}} \propto d_{\text{path}} \cdot \eta_{\text{material}}$
+        on propagate_pulse [pulse_delay_ns < 5.0] -> ActiveSimulation {
+            require energy 1.0 Wh;
+            require cycle 10 cycles;
+        }
+
+        # Treasury ALU Hard-Law: Inter-Subnet Transfers
+        # If $src \neq dst$, apply tariff: $T_{\text{tariff}} = 6.18\%$ (618 BPS) to Genesis Treasury.
+        on route_transaction [src_subnet_id != dst_subnet_id] -> ApplyInterTariff {
+            require energy 6.18 Wh;
+        }
+
+        # Treasury ALU Hard-Law: Intra-Subnet Lease
+        # If $src = dst$, apply lease fee: $T_{\text{lease}} = 0.16\%$ (16 BPS) to localized volume.
+        on route_transaction [src_subnet_id == dst_subnet_id] -> ApplyIntraLease {
+            require energy 1.618 Wh;
+        }
+
+        on thermal_alert [l1_temp_k >= 350] -> ThermalOverload;
+        on power_off -> Idle;
+    }
+
+    state ApplyInterTariff {
+        on commit_tariff -> ActiveSimulation;
+    }
+
+    state ApplyIntraLease {
+        on commit_lease -> ActiveSimulation;
+    }
+
+    state ReRouteFabric {
+        on bypass_complete -> DefectMapping {
+            require energy 5.0 Wh;
+            require cycle 50 cycles;
+        }
+    }
+
+    state ThermalOverload {
+        # Protection actions engage (Collapse Guard). Unstable pathways are de-rated.
+        on cool_down [l1_temp_k < 300] -> StackConfigured {
+            require energy 50.0 Wh;
+            require cycle 500 cycles;
+        }
+    }
+
+    state ConstraintViolation {
+        # Hard lock system on non-compliant configuration
+        on halt_system -> Idle;
+    }
+}
