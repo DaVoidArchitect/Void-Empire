@@ -1,0 +1,72 @@
+# ============================================================================
+# Void OS — Telemetry Dashboard User Interface (Declarative Layout)
+# ============================================================================
+# Models the frontend UI state machine, layouts, and design tokens.
+# ============================================================================
+
+intent TelemetryUI {
+    steward: "dashboard_operator";
+    target: "telemetry_reflection_plane";
+    license: "PRIVATE";
+    scope: "Subnet";
+    provenance: "telemetry_authority";
+    lifetime: 24 hours;
+
+    # Design tokens embedded in metadata
+    design_tokens {
+        background: "#000000";     # Pure Deep Black
+        primary: "#2E0854";        # Glowing Deep Purple
+        accent: "#7B1FA2";         # Neon Purple
+        text: "#FFFFFF";           # Stark White
+        card_bg: "rgba(31, 0, 60, 0.2)"; # Glassmorphism Purple
+    }
+
+    require {
+        energy 10.0 Wh;
+    }
+
+    state DashboardView {
+        # Transition to view Treasury Ledger
+        on switch_to_treasury -> TreasuryLedgerView {
+            require energy 0.1 Wh;
+            require cycle 5 cycles;
+        }
+        # Transition to view System Control Panel
+        on switch_to_control -> SystemControlView {
+            require energy 0.2 Wh;
+            require cycle 10 cycles;
+        }
+    }
+
+    state TreasuryLedgerView {
+        on switch_to_dashboard -> DashboardView {
+            require energy 0.1 Wh;
+            require cycle 5 cycles;
+        }
+        on switch_to_control -> SystemControlView {
+            require energy 0.2 Wh;
+            require cycle 10 cycles;
+        }
+        # Trigger economic balance refresh
+        on refresh_balances -> TreasuryLedgerView {
+            require energy 0.5 Wh;
+            require cycle 20 cycles;
+        }
+    }
+
+    state SystemControlView {
+        on switch_to_dashboard -> DashboardView {
+            require energy 0.1 Wh;
+            require cycle 5 cycles;
+        }
+        on switch_to_treasury -> TreasuryLedgerView {
+            require energy 0.1 Wh;
+            require cycle 5 cycles;
+        }
+        # Send system reboot call
+        on trigger_reboot -> SystemControlView {
+            require energy 5.0 Wh;
+            require cycle 100 cycles;
+        }
+    }
+}
