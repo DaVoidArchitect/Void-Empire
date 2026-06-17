@@ -52,6 +52,8 @@ The software layer of the Void Empire, written **entirely in Logos** (`.logos` f
 * `logos_hdl_spec.logos`: Hardware description specification (Logos-HDL) and target RISC-V Vector Accelerator blueprint ($VLEN = 512$ bits, 128 parallel ALU lanes).
 * `hermetic_gateway.logos`: Hardware-enforced unidirectional optical data diode gateway and raw cryptographic hermetic protocol parsing container verifying signed 192-byte payload packets.
 * `voidmesh.logos`: Bare-metal network controller interface bypassing socket layers, managing peer-to-peer weight slicing and consensus attention verification.
+* `tli_engine.logos`: The production-grade Topological Latticed Intelligence (TLI) model interface calculating matrix pathfinding and thermodynamic relaxation paths.
+* `void_one_twin.logos`: Software digital twin of the Void One V2 chip modeling the 6-layer material stack (L0-L5), clockless delay propagation, defect sovereignty runtime mapping, and Treasury ALU hard laws (6.18% inter-subnet tariff and 0.16% intra-subnet lease).
 * `mailbox.logos`: Secure counter mailbox implementing signature verification and anti-replay guards.
 * `scheduler.logos`: Task scheduler allocating execution slots based on priority.
 * `treasury.logos`: Economic resource settlement engine distributing UBI splits.
