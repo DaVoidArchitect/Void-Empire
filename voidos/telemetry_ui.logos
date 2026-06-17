@@ -2,6 +2,7 @@
 # Void OS — Telemetry Dashboard User Interface (Declarative Layout)
 # ============================================================================
 # Models the frontend UI state machine, layouts, and design tokens.
+# Integrating Marcelo Design X (MDX) typography, kinetic flow, and WebGL motion.
 # ============================================================================
 
 intent TelemetryUI {
@@ -14,10 +15,14 @@ intent TelemetryUI {
 
     # Design tokens embedded in metadata
     design_tokens {
-        background: "#000000";     # Pure Deep Black
-        primary: "#2E0854";        # Glowing Deep Purple
-        accent: "#7B1FA2";         # Neon Purple
-        text: "#FFFFFF";           # Stark White
+        background: "#000000";         # Pure Deep Black
+        primary: "#2E0854";            # Glowing Deep Purple
+        accent: "#7B1FA2";             # Neon Purple
+        accent_glow: "#BC5FFA";        # High-Contrast Purple/Magenta Glow (MDX style)
+        secondary_panel: "#1F003C";    # Glassmorphic deep purple panels
+        text: "#FFFFFF";               # Stark White
+        font_heading: "Orlean";        # Medium/Regular serif header typography (MDX style)
+        font_body: "Aventa";           # Regular/Light body typography (MDX style)
         card_bg: "rgba(31, 0, 60, 0.2)"; # Glassmorphism Purple
     }
 
@@ -25,7 +30,26 @@ intent TelemetryUI {
         energy 10.0 Wh;
     }
 
+    # Initial loading screen showing progress count sequence (0% to 100%)
+    state LoadingScreen {
+        # Loop to increment loader percentage progress sequence
+        on increment_progress [progress_percentage < 100] -> LoadingScreen {
+            require energy 0.05 Wh;
+            require cycle 1 cycles;
+        }
+        # Transition into the main dashboard after loading has stabilized
+        on load_complete [progress_percentage == 100] -> DashboardView {
+            require energy 0.1 Wh;
+            require cycle 5 cycles;
+        }
+    }
+
     state DashboardView {
+        # Asymmetrical layout grid specifications modeling kinetic panels:
+        # - Left Panel (35%): Telemetry status cards, system parameters.
+        # - Right Panel (65%): Immersive 3D WebGL fluid canvas viewport with liquid shaders.
+        # - Buttons: Interactive magnetic springs mapping cursor physics.
+        
         # Transition to view Treasury Ledger
         on switch_to_treasury -> TreasuryLedgerView {
             require energy 0.1 Wh;
