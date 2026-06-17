@@ -16,6 +16,7 @@ import "hermetic_gateway.logos";
 import "voidmesh.logos";
 import "tli_engine.logos";
 import "void_one_twin.logos";
+import "telemetry_ui.logos";
 
 # Global Compiler Optimizations
 # Automatic optimization: Fuse multi-step operations (Bias Addition + Scale + Softmax)
