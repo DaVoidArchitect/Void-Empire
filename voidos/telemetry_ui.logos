@@ -1,9 +1,18 @@
 # ============================================================================
 # Void — The Civilization Operating System (Sovereign Platform Layer)
 # ============================================================================
-# Models the user onboarding, registration, cryptographic key generation,
-# social timeline feed, subnet collaboration, and AI companion spaces.
-# Fully aligned with Void Brand System v1.0 and Doctrine.
+# The Threshold Landing: Pure void black. Sleek flat VOID wordmark where
+# a thin, faint purple edge-glow creates the illusion of 3D depth.
+# The O contains a visible galaxy with gold accents — a window into creation.
+#
+# Design Philosophy:
+#   - Letters are SLEEK and FLAT — no heavy 3D extrusion or thickness
+#   - A thin, subtle purple glow along edges gives the illusion of depth
+#   - The O is a portal containing a pronounced spiral galaxy with gold dust
+#   - Gold accents in the O mirror the sovereign gold tagline
+#   - Pure void black canvas — no stars, no background elements
+#
+# Truth compiled. Logos is the only language.
 # ============================================================================
 
 intent Void {
@@ -14,48 +23,112 @@ intent Void {
     provenance: "threshold_authority";
     lifetime: 365 days;
 
-    # Design tokens embedded in metadata (Void Brand System v1.0)
+    # ===== Design Token System (Void Brand System v1.0) ====================
     design_tokens {
-        background: "#050507";          # Deep Black (The Void itself)
-        primary_purple: "#7c3aed";      # Void Purple (System signals/interactivity)
-        sovereign_gold: "#f4d58d";      # Sovereign Gold (Honor/headings/milestones)
-        text_primary: "#f5f5f7";        # Stark Off-White text
-        white: "#ffffff";               # Void White
-        surface_01: "#0d0d10";          # Lifted background
-        surface_02: "#1a1a20";          # Panel/card background
-        surface_03: "#2a2a35";          # Input backgrounds
-        surface_04: "#3a3a48";          # Dividers and borders
-        font_display: "Archivo Black";  # Display/wordmark typography
-        font_ui: "Inter";               # Regular body typography
-        font_mono: "IBM Plex Mono";     # Citizen IDs and ledger precision
+        # Palette — Pure Darkness
+        background: "#020204";              # Absolute Void Black
+        background_deep: "#010102";          # Near-black canvas edge bleed
+        primary_purple: "#7c3aed";          # Void Purple (System signals)
+        sovereign_gold: "#f4d58d";          # Sovereign Gold (Honor/headings)
+        tagline_color: "#f4d58d";           # Sovereign Gold tagline fill
+        text_primary: "#f5f5f7";            # Stark Off-White text
+        white: "#ffffff";                   # Void White
+        surface_01: "#0a0a0c";              # Lifted background
+        surface_02: "#111115";              # Panel/card background
+        surface_03: "#1a1a22";              # Input backgrounds
+        surface_04: "#2a2a35";              # Dividers and borders
+
+        # Purple Aura — Soft and Subtle (reveals dark letters)
+        glow_color: "#7c3aed";              # Void Purple edge reveal
+        glow_opacity: 0.15;                # 15% opacity — faint breath of light
+        glow_blur_radius: 12;              # px — soft tight blur
+        glow_spread: 2;                    # px — minimal spread
+        glow_rim: "#a78bfa";                # Portal O inner rim glow
+
+        # O = Subtle Inner Aura (cosmic mist, not sharp galaxy)
+        o_inner_aura_purple: "#6d28d9";    # Soft purple mist swirl
+        o_inner_aura_gold: "#f4d58d20";    # Faint gold wisps (12% opacity)
+        o_aura_blur: 40;                   # px — dreamy out-of-focus diffusion
+        o_center: "#020204";               # Pure void at center
+        o_aura_method: "inner_rim_fade";   # Glow hugs inner rim, fades to void
+        o_outline: "none";                 # No separate stroke
+
+        # Typography
+        font_display: "Archivo Black";      # Display/wordmark typography
+        font_ui: "Inter";                   # Regular body typography
+        font_mono: "IBM Plex Mono";         # Citizen IDs and ledger precision
+        letter_spacing_wide: "0.35em";      # Sovereign gold tagline spacing
+        letter_spacing_cta: "0.25em";       # CTA button letter spacing
+
+        # 3D Illusion Properties (Flat + Purple Edge Depth)
+        letter_style: "flat";              # No extrusion — sleek flat faces
+        letter_weight: "ultra_hairline";   # Razor-thin hairline stroke weight (single-pixel style)
+        letter_fill: "#030303";            # Lighter near-black fill to feel thinner
+        depth_method: "purple_reveal";     # Soft purple makes dark letters visible
+        perspective_depth: 1200;            # px — CSS perspective for parallax
+        parallax_sensitivity: 0.03;        # Mouse-tracking parallax factor
+        entrance_duration: 2.4;            # seconds — GSAP entrance timeline
+        magnetic_radius: 150;              # px — CTA magnetic hover range
+        loader_duration: 3.0;              # seconds — "Becoming..." counter
     }
+
+    # ===== Visual Composition Layers =======================================
+    # Layer 0: Absolute void black canvas (#020204) — pure emptiness
+    # Layer 1: VOID wordmark — dark black letters against dark background
+    #          V, I, D: Opaque dark black (#080808) thin letterforms.
+    #          Almost invisible alone. A soft, subtle purple glow (15%
+    #          opacity) traces their contours — like a breath of light
+    #          revealing the shapes from the darkness. Purple doesn't
+    #          overpower, it whispers.
+    # Layer 2: O — thin letterform with SUBTLE INNER AURA.
+    #          Inside the O: a soft, dreamy, diffused cosmic mist of
+    #          purple and faint gold. NOT a sharp galaxy photo — more
+    #          like ethereal energy glowing from the O's inner rim,
+    #          fading into pure void black at the center.
+    #          The aura casts faint ambient light on nearby V and D.
+    # Layer 3: "FORERUNNER COMPANY" tagline in sovereign gold
+    # Layer 4: CTAs "BECOME A CITIZEN" / "ENTER VOID" at base
+    # Layer 5: Four-pointed Forerunner star glyph, bottom-right anchor
+    #
+    # Animation Sequence:
+    #   0.0s - 3.0s: Loader counter "Becoming..." (0% → 100%)
+    #   3.0s - 3.5s: Loader fades out, void black holds
+    #   3.5s - 4.5s: O portal ignites — galaxy swirls into view
+    #   4.5s - 5.5s: V, I, D fade in with subtle opacity ramp
+    #                thin purple edge glow traces on after letters land
+    #   5.5s - 6.0s: "FORERUNNER COMPANY" fades in (gold)
+    #   6.0s - 6.5s: CTAs slide up from below with opacity fade
+    #   6.5s+:       Idle — parallax mouse tracking, galaxy rotates slowly
 
     require {
         energy 100.0 Wh;
     }
 
-    # 1. Public Welcome Landing Page ("The Threshold v2")
-    state PublicLanding {
-        on request_access -> CitizenOnboarding {
+    # ===== 1. The Threshold — Landing Experience ===========================
+    state ThresholdLanding {
+        on become_citizen -> CitizenOnboarding {
             require energy 0.1 Wh;
             require cycle 5 cycles;
         }
-        on enter_portal -> CitizenAuthentication {
+        on enter_void -> CitizenAuthentication {
             require energy 0.05 Wh;
             require cycle 3 cycles;
         }
+        on parallax_tick -> ThresholdLanding {
+            require energy 0.001 Wh;
+        }
     }
 
-    # 2. Registration screen where name & entity class are claimed (Ceremony of Arrival)
+    # ===== 2. Ceremony of Arrival (Registration) ===========================
     state CitizenOnboarding {
         on submit_details [is_valid_pseudonym == 1] -> KeyGeneration {
             require energy 0.5 Wh;
             require cycle 15 cycles;
         }
-        on cancel -> PublicLanding;
+        on cancel -> ThresholdLanding;
     }
 
-    # 3. Cryptographic attestation and client private key generation
+    # ===== 3. Cryptographic Attestation ====================================
     state KeyGeneration {
         on generate_keys [key_entropy_verified == 1] -> ActivePortalSession {
             require energy 2.0 Wh;
@@ -64,16 +137,16 @@ intent Void {
         on failure -> CitizenOnboarding;
     }
 
-    # 4. Sign-in credential verification
+    # ===== 4. Citizen Authentication =======================================
     state CitizenAuthentication {
         on verify_passkey [passkey_verified == 1] -> ActivePortalSession {
             require energy 0.1 Wh;
             require cycle 5 cycles;
         }
-        on reject_passkey -> PublicLanding;
+        on reject_passkey -> ThresholdLanding;
     }
 
-    # 5. Central citizen console dashboard (UBI splits & Fiduciary firewall Option B)
+    # ===== 5. Active Portal Session (Central Console) ======================
     state ActivePortalSession {
         on view_feed -> SocialFeed {
             require energy 0.1 Wh;
@@ -91,7 +164,7 @@ intent Void {
             require energy 0.15 Wh;
             require cycle 8 cycles;
         }
-        on sign_out -> PublicLanding {
+        on sign_out -> ThresholdLanding {
             require energy 0.05 Wh;
         }
         on request_refund -> AccountRevocation {
@@ -100,7 +173,7 @@ intent Void {
         }
     }
 
-    # 6. Asynchronous Social Timeline (Collective Void Feed)
+    # ===== 6. Void Feed (Social Timeline) ==================================
     state SocialFeed {
         on publish_post [post_bytes_valid == 1] -> SocialFeed {
             require energy 0.5 Wh;
@@ -109,7 +182,7 @@ intent Void {
         on exit -> ActivePortalSession;
     }
 
-    # 7. Subnets directory and creation panel
+    # ===== 7. Subnet Registry ==============================================
     state SubnetRegistry {
         on create_subnet [subnet_stake_committed == 1] -> SubnetRegistry {
             require energy 5.0 Wh;
@@ -118,7 +191,7 @@ intent Void {
         on exit -> ActivePortalSession;
     }
 
-    # 8. Quests Board grid (claims, proofs, and approvals)
+    # ===== 8. Quest Board ==================================================
     state QuestBoard {
         on claim_quest [quest_available == 1] -> QuestBoard {
             require energy 0.2 Wh;
@@ -135,7 +208,7 @@ intent Void {
         on exit -> ActivePortalSession;
     }
 
-    # 9. Localized AI Companion Interface (Truth-successor tuning)
+    # ===== 9. Companion Node (Truth-successor) =============================
     state CompanionNode {
         on configure_companion [companion_params_valid == 1] -> CompanionNode {
             require energy 0.3 Wh;
@@ -144,9 +217,9 @@ intent Void {
         on exit -> ActivePortalSession;
     }
 
-    # 10. Account Revocation (Backing refund logic, identity erasure)
+    # ===== 10. Account Revocation ==========================================
     state AccountRevocation {
-        on confirm_erasure [refund_confirmed == 1] -> PublicLanding {
+        on confirm_erasure [refund_confirmed == 1] -> ThresholdLanding {
             require energy 2.0 Wh;
             require cycle 50 cycles;
         }
