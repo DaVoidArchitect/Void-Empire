@@ -58,9 +58,20 @@ The software layer of the Void Empire, written **entirely in Logos** (`.logos` f
 * `scheduler.logos`: Task scheduler allocating execution slots based on priority.
 * `treasury.logos`: Economic resource settlement engine distributing UBI splits.
 * `system.logos`: Master operating system topology importing and combining all subsystems into a unified execution graph.
-* `void-app/`: Telemetry UI dashboard run entirely from pre-compiled static and server-dist bundles (with all TS/JS source files deleted from the repository).
+* `telemetry_ui.logos`: Telemetry UI dashboard declaring sovereign design tokens (absolute void black canvas, purple edge-glow, sovereign gold tagline) as standard intent headers. All legacy HTML, CSS, JavaScript, and TypeScript assets (`void-app/`) have been permanently purged from the repository.
 
-## 5. Void One Chip (`void_one_chip/`)
+---
+
+## 5. Decentralized Local Walled Garden App (Mobile & Desktop)
+To distribute **Truth** and **Void OS** securely to edge devices (desktops, smartphones), we implement the **Local Walled Garden** deployment model:
+* **Host Isolation (Data Diode)**: The local application wrapper operates as a sandboxed container, hosting the compiled Logos VM runtime. Incoming host OS event interrupts are serialized into signed 192-byte payloads and passed through a unidirectional cryptographic data diode (`CryptographicHermeticProtocol` in [hermetic_gateway.logos](file:///c:/Users/voidi/OneDrive/Desktop/VOID%20Empire/voidos/hermetic_gateway.logos)). Any format or bounds violation triggers an instant memory zero-fill wipe.
+* **Direct Framebuffer Rendering**: The UI parses state reflection deltas (`telemetry_ui.smir.json`) and renders directly via Vulkan or Metal framebuffers, bypassing browser layout engines.
+* **Consensus-Based Mesh (`VoidMesh`)**: Peer nodes communicate directly via `voidmesh.logos` using Bluetooth LE, Wi-Fi Direct, or Kademlia DHT. Attention weight partitions are distributed across the mesh (`dispatch_weight_slice`) to solve TLI queries cooperatively, verifying outputs using majority-vote consensus (`verify_consensus_pass`).
+* **Offline Edge TLI**: Topological Latticed Intelligence relaxation runs fully offline, utilizing parallel vector register calculations optimized for smartphone NPUs/GPUs, eliminating dependency on central servers.
+
+---
+
+## 6. Void One Chip (`void_one_chip/`)
 The underlying post-silicon compute substrate. Built under the **VoidAlchemy** architecture v2 specification:
 * **Hard Law Constitutional Constraints**: No Silicon, No Copper, Zero Clock, and No Orthogonal Geometry.
 * **Stack Layers and Materials**:
