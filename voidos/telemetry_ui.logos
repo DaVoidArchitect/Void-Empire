@@ -24,53 +24,50 @@ intent Void {
     lifetime: 365 days;
 
     # ===== Design Token System (Void Brand System v1.0) ====================
-    design_tokens {
-        # Palette — Pure Darkness
-        background: "#020204";              # Absolute Void Black
-        background_deep: "#010102";          # Near-black canvas edge bleed
-        primary_purple: "#7c3aed";          # Void Purple (System signals)
-        sovereign_gold: "#f4d58d";          # Sovereign Gold (Honor/headings)
-        tagline_color: "#f4d58d";           # Sovereign Gold tagline fill
-        text_primary: "#f5f5f7";            # Stark Off-White text
-        white: "#ffffff";                   # Void White
-        surface_01: "#0a0a0c";              # Lifted background
-        surface_02: "#111115";              # Panel/card background
-        surface_03: "#1a1a22";              # Input backgrounds
-        surface_04: "#2a2a35";              # Dividers and borders
+    token_background: "#020204";              # Absolute Void Black
+    token_background_deep: "#010102";          # Near-black canvas edge bleed
+    token_primary_purple: "#7c3aed";          # Void Purple (System signals)
+    token_sovereign_gold: "#f4d58d";          # Sovereign Gold (Honor/headings)
+    token_tagline_color: "#f4d58d";           # Sovereign Gold tagline fill
+    token_text_primary: "#f5f5f7";            # Stark Off-White text
+    token_white: "#ffffff";                   # Void White
+    token_surface_01: "#0a0a0c";              # Lifted background
+    token_surface_02: "#111115";              # Panel/card background
+    token_surface_03: "#1a1a22";              # Input backgrounds
+    token_surface_04: "#2a2a35";              # Dividers and borders
 
-        # Purple Aura — Soft and Subtle (reveals dark letters)
-        glow_color: "#7c3aed";              # Void Purple edge reveal
-        glow_opacity: 0.15;                # 15% opacity — faint breath of light
-        glow_blur_radius: 12;              # px — soft tight blur
-        glow_spread: 2;                    # px — minimal spread
-        glow_rim: "#a78bfa";                # Portal O inner rim glow
+    # Purple Aura — Soft and Subtle (reveals dark letters)
+    token_glow_color: "#7c3aed";              # Void Purple edge reveal
+    token_glow_opacity: 0.15;                 # 15% opacity — faint breath of light
+    token_glow_blur_radius: 12;               # px — soft tight blur
+    token_glow_spread: 2;                     # px — minimal spread
+    token_glow_rim: "#a78bfa";                # Portal O inner rim glow
 
-        # O = Subtle Inner Aura (cosmic mist, not sharp galaxy)
-        o_inner_aura_purple: "#6d28d9";    # Soft purple mist swirl
-        o_inner_aura_gold: "#f4d58d20";    # Faint gold wisps (12% opacity)
-        o_aura_blur: 40;                   # px — dreamy out-of-focus diffusion
-        o_center: "#020204";               # Pure void at center
-        o_aura_method: "inner_rim_fade";   # Glow hugs inner rim, fades to void
-        o_outline: "none";                 # No separate stroke
+    # O = Subtle Inner Aura (cosmic mist, not sharp galaxy)
+    token_o_inner_aura_purple: "#6d28d9";     # Soft purple mist swirl
+    token_o_inner_aura_gold: "#f4d58d20";     # Faint gold wisps (12% opacity)
+    token_o_aura_blur: 40;                    # px — dreamy out-of-focus diffusion
+    token_o_center: "#020204";                # Pure void at center
+    token_o_aura_method: "inner_rim_fade";    # Glow hugs inner rim, fades to void
+    token_o_outline: "none";                  # No separate stroke
 
-        # Typography
-        font_display: "Archivo Black";      # Display/wordmark typography
-        font_ui: "Inter";                   # Regular body typography
-        font_mono: "IBM Plex Mono";         # Citizen IDs and ledger precision
-        letter_spacing_wide: "0.35em";      # Sovereign gold tagline spacing
-        letter_spacing_cta: "0.25em";       # CTA button letter spacing
+    # Typography
+    token_font_display: "Archivo Black";       # Display/wordmark typography
+    token_font_ui: "Inter";                    # Regular body typography
+    token_font_mono: "IBM Plex Mono";          # Citizen IDs and ledger precision
+    token_letter_spacing_wide: "0.35em";       # Sovereign gold tagline spacing
+    token_letter_spacing_cta: "0.25em";        # CTA button letter spacing
 
-        # 3D Illusion Properties (Flat + Purple Edge Depth)
-        letter_style: "flat";              # No extrusion — sleek flat faces
-        letter_weight: "ultra_hairline";   # Razor-thin hairline stroke weight (single-pixel style)
-        letter_fill: "#030303";            # Lighter near-black fill to feel thinner
-        depth_method: "purple_reveal";     # Soft purple makes dark letters visible
-        perspective_depth: 1200;            # px — CSS perspective for parallax
-        parallax_sensitivity: 0.03;        # Mouse-tracking parallax factor
-        entrance_duration: 2.4;            # seconds — GSAP entrance timeline
-        magnetic_radius: 150;              # px — CTA magnetic hover range
-        loader_duration: 3.0;              # seconds — "Becoming..." counter
-    }
+    # 3D Illusion Properties (Flat + Purple Edge Depth)
+    token_letter_style: "flat";               # No extrusion — sleek flat faces
+    token_letter_weight: "ultra_hairline";    # Razor-thin hairline stroke weight (single-pixel style)
+    token_letter_fill: "#030303";             # Lighter near-black fill to feel thinner
+    token_depth_method: "purple_reveal";      # Soft purple makes dark letters visible
+    token_perspective_depth: 1200;             # px — CSS perspective for parallax
+    token_parallax_sensitivity: 0.03;         # Mouse-tracking parallax factor
+    token_entrance_duration: 2.4;             # seconds — GSAP entrance timeline
+    token_magnetic_radius: 150;               # px — CTA magnetic hover range
+    token_loader_duration: 3.0;               # seconds — "Becoming..." counter
 
     # ===== Visual Composition Layers =======================================
     # Layer 0: Absolute void black canvas (#020204) — pure emptiness

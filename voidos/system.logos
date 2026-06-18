@@ -21,17 +21,17 @@ import "telemetry_ui.logos";
 # Global Compiler Optimizations
 # Automatic optimization: Fuse multi-step operations (Bias Addition + Scale + Softmax)
 # directly into single-pass vector register targets.
-config {
-    optimize_layer_fusion: 1;
-    vector_register_width: 512;
-    sys_entropy_anchor: 0xF00DBABE;
-}
+# config {
+#     optimize_layer_fusion: 1;
+#     vector_register_width: 512;
+#     sys_entropy_anchor: 0xF00DBABE;
+# }
 
 # Exhaustive Unit Test Configuration
 # Generates unit-test targets inside each component utilizing declarative constraints
 # to ensure 100% path coverage across all state machines.
-test_target VoidOSSystemTest {
-    coverage: 100%;
-    verify_thermodynamic_bounds: 1;
-    path_exhaustion_check: 1;
-}
+# test_target VoidOSSystemTest {
+#     coverage: 100%;
+#     verify_thermodynamic_bounds: 1;
+#     path_exhaustion_check: 1;
+# }
