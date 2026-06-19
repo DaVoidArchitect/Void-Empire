@@ -250,6 +250,133 @@
           ]
         }
       ]
+    },
+    {
+      "name": "CognitiveEngine",
+      "headers": {
+        "steward": "kernel_cognition",
+        "target": "local_llm_runner",
+        "license": "PRIVATE",
+        "scope": "Individual",
+        "provenance": "truth_authority",
+        "lifetime": {
+          "value": 24,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 360000.0,
+          "unit": "J"
+        },
+        {
+          "resource": "mass",
+          "value": 2.0,
+          "unit": "kg"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "ingest_prompt",
+              "target": "Processing",
+              "line": 111,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 1800.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Processing",
+          "transitions": [
+            {
+              "event": "generate_fast_response",
+              "target": "Idle",
+              "line": 118,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 4320.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 120.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "generate_reasoning_response",
+              "target": "Reasoning",
+              "line": 122,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 500.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "out_of_energy",
+              "target": "Blocked",
+              "line": 126
+            }
+          ]
+        },
+        {
+          "name": "Reasoning",
+          "transitions": [
+            {
+              "event": "reasoning_complete",
+              "target": "Idle",
+              "line": 130,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 7200.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "thermal_limit_reached",
+              "target": "Blocked",
+              "line": 133
+            }
+          ]
+        },
+        {
+          "name": "Blocked",
+          "transitions": [
+            {
+              "event": "replenish_energy",
+              "target": "Idle",
+              "line": 137
+            }
+          ]
+        }
+      ]
     }
   ]
 }
