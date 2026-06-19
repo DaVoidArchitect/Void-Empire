@@ -1,0 +1,100 @@
+{
+  "logos_version": "2.0-declarative",
+  "intents": [
+    {
+      "name": "Treasury",
+      "headers": {
+        "steward": "genesis_treasury",
+        "target": "settlement_ledger",
+        "license": "RESTRICTED_LICENSE",
+        "scope": "Global",
+        "provenance": "genesis_registry",
+        "lifetime": {
+          "value": 1,
+          "unit": "days"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 720000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "process_payment",
+              "target": "Settled",
+              "line": 14,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "is_inter_subnet"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 22248.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "process_payment",
+              "target": "Settled",
+              "line": 17,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "is_inter_subnet"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 0
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 5824.8,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Settled",
+          "transitions": [
+            {
+              "event": "reset",
+              "target": "Idle",
+              "line": 22
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
