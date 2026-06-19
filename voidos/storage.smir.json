@@ -1,0 +1,90 @@
+{
+  "logos_version": "2.0-declarative",
+  "intents": [
+    {
+      "name": "Storage",
+      "headers": {
+        "steward": "kernel_fs",
+        "target": "diamond_lattice_storage",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "kernel_registry",
+        "lifetime": {
+          "value": 1,
+          "unit": "days"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 540000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "write_block",
+              "target": "Writing",
+              "line": 14,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "read_block",
+              "target": "Reading",
+              "line": 17,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "transitions": [
+            {
+              "event": "commit",
+              "target": "Idle",
+              "line": 23,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 72.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "rollback",
+              "target": "Idle",
+              "line": 26
+            }
+          ]
+        },
+        {
+          "name": "Reading",
+          "transitions": [
+            {
+              "event": "close",
+              "target": "Idle",
+              "line": 30
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
