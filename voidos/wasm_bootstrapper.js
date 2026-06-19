@@ -308,16 +308,21 @@ function renderThresholdLanding(centerX, centerY) {
         drawV(ctx, centerX - 220 + dx, centerY + dy, vidOpacity);
     }
     
-    // O (Rotated Portal Icon inside circle clipping path to prevent square corners)
+    // O (Combined O outline & spinning Void portal scaled together in perfect breathing synchronicity)
     if (oOpacity > 0) {
         ctx.save();
         ctx.translate(centerX - 70 + dx, centerY + dy);
         
-        // Circular clipping boundary to keep galaxy round and hide square image edges
+        // Dynamic breathing scale synced exactly to the slow, deliberate purple glow pulse
+        const pulse = 0.75 + Math.sin(Date.now() * 0.0006) * 0.2;
+        const scale = 1.0 + Math.sin(Date.now() * 0.0006) * 0.04; // Varies 0.96 - 1.04
+        ctx.scale(scale, scale);
+        
+        // 1. Draw the spinning galaxy inside a circular clip
+        ctx.save();
         ctx.beginPath();
         ctx.arc(0, 0, 65, 0, Math.PI * 2);
         ctx.clip();
-        
         ctx.rotate(rotationAngle);
         ctx.globalAlpha = oOpacity;
         if (portalImg.complete) {
@@ -325,11 +330,11 @@ function renderThresholdLanding(centerX, centerY) {
         }
         ctx.restore();
         
-        // Draw O outer circular outline matching the V, I, D stroke style
-        ctx.save();
+        // 2. Draw the O outer circular outline matching the V, I, D stroke style
         ctx.beginPath();
-        ctx.arc(centerX - 70 + dx, centerY + dy, 65, 0, Math.PI * 2);
+        ctx.arc(0, 0, 65, 0, Math.PI * 2);
         strokeLetter(ctx, vidOpacity);
+        
         ctx.restore();
     }
     
@@ -338,15 +343,23 @@ function renderThresholdLanding(centerX, centerY) {
         drawD(ctx, centerX + 175 + dx, centerY + dy, vidOpacity);
     }
     
-    // 3. Draw Sovereign Gold Tagline
+    // 3. Draw Sovereign Gold Tagline (Stretched to span exactly between V and D centers)
     if (taglineOpacity > 0) {
         ctx.save();
         ctx.globalAlpha = taglineOpacity;
         ctx.fillStyle = DESIGN_TOKENS.sovereignGold;
-        ctx.font = "300 12px 'IBM Plex Mono'";
+        ctx.font = "300 14px 'IBM Plex Mono'";
         ctx.textAlign = "center";
-        ctx.letterSpacing = "0.35em";
-        ctx.fillText("FORERUNNER COMPANY", centerX, centerY + 120);
+        
+        const taglineText = "FORERUNNER COMPANY";
+        const xStart = centerX - 220 + dx;
+        const xEnd = centerX + 175 + dx;
+        const yPos = centerY + 120 + dy;
+        
+        const step = (xEnd - xStart) / (taglineText.length - 1);
+        for (let i = 0; i < taglineText.length; i++) {
+            ctx.fillText(taglineText[i], xStart + i * step, yPos);
+        }
         ctx.restore();
     }
     
