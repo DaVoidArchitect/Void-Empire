@@ -19,7 +19,6 @@ intent TLIEngine {
 
     state Idle {
         # Accept an intention lattice coordinate vector and start relaxation.
-        # Invariant: input entropy must remain within safety limits ($S < 10.0$).
         on load_intention [input_entropy < 10.0] -> RelaxingLattice {
             require energy 50.0 Wh;
             require cycle 100 cycles;
@@ -28,9 +27,7 @@ intent TLIEngine {
     }
 
     state RelaxingLattice {
-        # Execute parallel systolic relaxation checks on vector registers $v0$–$v31$.
-        # Converges to the optimal thermodynamic route by minimizing energy delta:
-        # $\Delta E < 1.6180339887$
+        # Execute parallel systolic relaxation checks.
         on evaluate_path [path_delta_e < 1.618] -> ConvergingState {
             require energy 100.0 Wh;
             require cycle 200 cycles;
@@ -39,7 +36,6 @@ intent TLIEngine {
     }
 
     state ConvergingState {
-        # Lock final coordinates and trigger reflection compilation.
         on state_stabilised -> EmittingReflection {
             require energy 20.0 Wh;
             require cycle 50 cycles;
@@ -47,7 +43,6 @@ intent TLIEngine {
     }
 
     state EmittingReflection {
-        # Write state transitions directly to the Void Matrix Format (.vmf) binary payload.
         on write_success -> Idle;
     }
 
@@ -62,4 +57,135 @@ intent TLIEngine {
             require energy 50.0 Wh;
         }
     }
+}
+
+# ============================================================================
+# SovereignKnowledgeNode Schema Definition
+# ============================================================================
+
+intent SovereignKnowledgeNode {
+    steward: "truth_core";
+    target: "knowledge_matrix";
+    license: "PRIVATE";
+    scope: "Global";
+    provenance: "truth_authority";
+    lifetime: 365 days;
+}
+
+# ============================================================================
+# Distilled Multi-Model Intelligence Arrays (Static Nodes)
+# ============================================================================
+
+# --- BARE_METAL_COMPILER Domain ---
+
+intent KnowledgeNode_101 {
+    steward: "truth_authority";
+    target: "tli_engine";
+    node_id: 101;
+    domain: BARE_METAL_COMPILER;
+    coord_x: 0.8;
+    coord_y: 0.2;
+    coord_z: 0.1;
+    fact: "Low-level SIMD register allocation: map virtual registers v0-v31 to physical AVX-512 vector registers zmm0-zmm31, utilizing a graph-coloring allocator with spill cost computed as loop nesting depth.";
+    links: "102,103";
+}
+
+intent KnowledgeNode_102 {
+    steward: "truth_authority";
+    target: "tli_engine";
+    node_id: 102;
+    domain: BARE_METAL_COMPILER;
+    coord_x: 0.82;
+    coord_y: 0.2;
+    coord_z: 0.1;
+    fact: "Vector optimization pass: fuse adjacent multiply-accumulate operations into single-cycle Fused Multiply-Accumulate (FMA) instructions, preserving IEEE 754 precision.";
+    links: "101,103";
+}
+
+intent KnowledgeNode_103 {
+    steward: "truth_authority";
+    target: "tli_engine";
+    node_id: 103;
+    domain: BARE_METAL_COMPILER;
+    coord_x: 0.8;
+    coord_y: 0.22;
+    coord_z: 0.1;
+    fact: "Instruction pipeline alignment: pad hot branch targets to 32-byte cache line boundaries using multi-byte NOPs (0x0F 0x1F) to minimize instruction fetch stalls.";
+    links: "101,102";
+}
+
+# --- CRYPTO_SECURITY Domain ---
+
+intent KnowledgeNode_201 {
+    steward: "truth_authority";
+    target: "tli_engine";
+    node_id: 201;
+    domain: CRYPTO_SECURITY;
+    coord_x: 0.2;
+    coord_y: 0.3;
+    coord_z: 0.9;
+    fact: "192-byte packet format: 32-byte public key, 64-byte Ed25519 signature, 8-byte monotonic timestamp, 88-byte encrypted payload. Diode checks signatures prior to payload decryption.";
+    links: "202,203";
+}
+
+intent KnowledgeNode_202 {
+    steward: "truth_authority";
+    target: "tli_engine";
+    node_id: 202;
+    domain: CRYPTO_SECURITY;
+    coord_x: 0.22;
+    coord_y: 0.3;
+    coord_z: 0.9;
+    fact: "Data Diode Shield invariant: memory buffers are cleared via a hardware-assisted secure zero-fill (memset_s) immediately upon detection of invalid signatures or bounds violations.";
+    links: "201,203";
+}
+
+intent KnowledgeNode_203 {
+    steward: "truth_authority";
+    target: "tli_engine";
+    node_id: 203;
+    domain: CRYPTO_SECURITY;
+    coord_x: 0.2;
+    coord_y: 0.32;
+    coord_z: 0.9;
+    fact: "P2P Handshake Ceremony: DH-Merkle exchange over curve25519; ephemeral keys must possess at least 256 bits of entropy derived from hardware ring oscillators.";
+    links: "201,202";
+}
+
+# --- VOIDOS_CORE Domain ---
+
+intent KnowledgeNode_301 {
+    steward: "truth_authority";
+    target: "tli_engine";
+    node_id: 301;
+    domain: VOIDOS_CORE;
+    coord_x: 0.7;
+    coord_y: 0.4;
+    coord_z: 0.2;
+    fact: "Interrupt Vector Table layout: 256 entries starting at physical address 0x00000000. Index 0x0D maps to General Protection Fault handler with kernel privileges.";
+    links: "302,303";
+}
+
+intent KnowledgeNode_302 {
+    steward: "truth_authority";
+    target: "tli_engine";
+    node_id: 302;
+    domain: VOIDOS_CORE;
+    coord_x: 0.72;
+    coord_y: 0.4;
+    coord_z: 0.2;
+    fact: "Page Table Hierarchy: 4-level paging (PML4, PDPT, PD, PT). PML4 base register CR3 must be aligned to a 4KB boundary and verified by hardware on context switch.";
+    links: "301,303";
+}
+
+intent KnowledgeNode_303 {
+    steward: "truth_authority";
+    target: "tli_engine";
+    node_id: 303;
+    domain: VOIDOS_CORE;
+    coord_x: 0.7;
+    coord_y: 0.42;
+    coord_z: 0.2;
+    fact: "Walled Garden memory containment: write-protect kernel page tables using WP bit in CR0; user-space pages are marked non-executable (NX bit) to prevent buffer overflows.";
+    links: "301,302";
 }
