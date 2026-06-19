@@ -366,20 +366,30 @@ function renderThresholdLanding(centerX, centerY) {
     ctx.letterSpacing = "0.2em";
     ctx.fillText("ENTER VOID", centerX, centerY + 150 + ctaOffset);
     
-    // Section label above downloads
+    // Title of the downloads section
     ctx.save();
-    ctx.fillStyle = DESIGN_TOKENS.sovereignGold;
-    ctx.globalAlpha = ctaOpacity * 0.65;
-    ctx.font = "300 11px 'IBM Plex Mono'";
+    ctx.fillStyle = DESIGN_TOKENS.textPrimary; // white
+    ctx.globalAlpha = ctaOpacity;
+    ctx.font = "bold 13px 'Inter'";
     ctx.textAlign = "center";
-    ctx.letterSpacing = "0.22em";
-    ctx.fillText("DOWNLOADS FOR TRUTH — THE VOID AI", centerX, canvas.height - 108);
+    ctx.letterSpacing = "0.15em";
+    ctx.fillText("TRUTH", centerX, canvas.height - 110);
+    ctx.restore();
+
+    // Tagline description of the downloads section
+    ctx.save();
+    ctx.fillStyle = DESIGN_TOKENS.sovereignGold; // Sovereign Gold matches the tagline style
+    ctx.globalAlpha = ctaOpacity * 0.65; // dimmed for subtle background feel
+    ctx.font = "300 10px 'IBM Plex Mono'";
+    ctx.textAlign = "center";
+    ctx.letterSpacing = "0.12em";
+    ctx.fillText("DECENTRALIZED VOID AI COMPANION", centerX, canvas.height - 92);
     ctx.restore();
     
     // Direct Download Buttons on same page side-by-side (Premium Glassmorphic Pills)
     const btnW = 185;
     const btnH = 38;
-    const btnY = canvas.height - 90;
+    const btnY = canvas.height - 75;
     
     // Desktop Button
     const xDesktop = centerX - btnW - 15;
@@ -1027,12 +1037,12 @@ function handleCanvasClick(e) {
             currentUIState = "ActivePortalSession";
         }
         // Direct Download Desktop (spans from centerX - 200 to centerX - 15)
-        if (x >= centerX - 200 && x <= centerX - 15 && y >= canvas.height - 90 && y <= canvas.height - 52) {
+        if (x >= centerX - 200 && x <= centerX - 15 && y >= canvas.height - 75 && y <= canvas.height - 37) {
             console.log("[VTP] Downloading Desktop Client...");
             window.location.href = "/downloads/truth.exe";
         }
         // Direct Download Mobile (spans from centerX + 15 to centerX + 200)
-        if (x >= centerX + 15 && x <= centerX + 200 && y >= canvas.height - 90 && y <= canvas.height - 52) {
+        if (x >= centerX + 15 && x <= centerX + 200 && y >= canvas.height - 75 && y <= canvas.height - 37) {
             console.log("[VTP] Downloading Mobile Client...");
             window.location.href = "/downloads/truth.apk";
         }
