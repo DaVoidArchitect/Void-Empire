@@ -1,0 +1,255 @@
+{
+  "logos_version": "2.0-declarative",
+  "intents": [
+    {
+      "name": "Truth",
+      "headers": {
+        "steward": "genesis_truth",
+        "target": "model_inference_engine",
+        "license": "PRIVATE",
+        "scope": "Global",
+        "provenance": "truth_authority",
+        "lifetime": {
+          "value": 365,
+          "unit": "days"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 3600000.0,
+          "unit": "J"
+        },
+        {
+          "resource": "mass",
+          "value": 1.0,
+          "unit": "kg"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "generate_mailbox",
+              "target": "OutputMailbox",
+              "line": 23,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 100.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "generate_scheduler",
+              "target": "OutputScheduler",
+              "line": 28,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 200.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "generate_treasury",
+              "target": "OutputTreasury",
+              "line": 33,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 720000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 300.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "generate_power_allocation",
+              "target": "OutputPowerAllocation",
+              "line": 38,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "generate_material_supply",
+              "target": "OutputMaterialSupply",
+              "line": 43,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "generate_subnet_routing",
+              "target": "OutputSubnetRouting",
+              "line": 48,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 54000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "generate_recycling_loop",
+              "target": "OutputRecyclingLoop",
+              "line": 53,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 72000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "generate_node_deployment",
+              "target": "OutputNodeDeployment",
+              "line": 58,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 90000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "OutputMailbox",
+          "transitions": [
+            {
+              "event": "reset",
+              "target": "Idle",
+              "line": 65
+            }
+          ]
+        },
+        {
+          "name": "OutputScheduler",
+          "transitions": [
+            {
+              "event": "reset",
+              "target": "Idle",
+              "line": 69
+            }
+          ]
+        },
+        {
+          "name": "OutputTreasury",
+          "transitions": [
+            {
+              "event": "reset",
+              "target": "Idle",
+              "line": 73
+            }
+          ]
+        },
+        {
+          "name": "OutputPowerAllocation",
+          "transitions": [
+            {
+              "event": "reset",
+              "target": "Idle",
+              "line": 77
+            }
+          ]
+        },
+        {
+          "name": "OutputMaterialSupply",
+          "transitions": [
+            {
+              "event": "reset",
+              "target": "Idle",
+              "line": 81
+            }
+          ]
+        },
+        {
+          "name": "OutputSubnetRouting",
+          "transitions": [
+            {
+              "event": "reset",
+              "target": "Idle",
+              "line": 85
+            }
+          ]
+        },
+        {
+          "name": "OutputRecyclingLoop",
+          "transitions": [
+            {
+              "event": "reset",
+              "target": "Idle",
+              "line": 89
+            }
+          ]
+        },
+        {
+          "name": "OutputNodeDeployment",
+          "transitions": [
+            {
+              "event": "reset",
+              "target": "Idle",
+              "line": 93
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
