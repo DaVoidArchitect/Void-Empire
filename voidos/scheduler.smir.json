@@ -1,0 +1,100 @@
+{
+  "logos_version": "2.0-declarative",
+  "intents": [
+    {
+      "name": "Scheduler",
+      "headers": {
+        "steward": "kernel_core",
+        "target": "scheduler_core",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "kernel_registry",
+        "lifetime": {
+          "value": 1,
+          "unit": "days"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 360000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "dispatch_task",
+              "target": "Running",
+              "line": 14,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": ">",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "priority"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 2
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 7200.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "dispatch_task",
+              "target": "Running",
+              "line": 17,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "<=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "priority"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 2
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 1800.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Running",
+          "transitions": [
+            {
+              "event": "complete",
+              "target": "Idle",
+              "line": 22
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
