@@ -1,0 +1,555 @@
+{
+  "logos_version": "2.0-declarative",
+  "intents": [
+    {
+      "name": "Bootloader",
+      "headers": {
+        "steward": "kernel_hal",
+        "target": "processor_core",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "boot_authority",
+        "lifetime": {
+          "value": 1,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 360000.0,
+          "unit": "J"
+        },
+        {
+          "resource": "cycle",
+          "value": 500.0,
+          "unit": "cycles"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Off",
+          "transitions": [
+            {
+              "event": "power_on",
+              "target": "RealMode",
+              "line": 21,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RealMode",
+          "transitions": [
+            {
+              "event": "load_gdt",
+              "target": "ProtectedMode",
+              "line": 28,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 100.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ProtectedMode",
+          "transitions": [
+            {
+              "event": "enable_paging",
+              "target": "PagingEnabled",
+              "line": 37,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 72000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 200.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "PagingEnabled",
+          "transitions": [
+            {
+              "event": "jump_to_kernel",
+              "target": "KernelExecuting",
+              "line": 44,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 100.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "KernelExecuting",
+          "transitions": [
+            {
+              "event": "reset",
+              "target": "Off",
+              "line": 51
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PhysicalPageAllocator",
+      "headers": {
+        "steward": "kernel_core",
+        "target": "memory_plane",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "memory_authority",
+        "lifetime": {
+          "value": 24,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 1800000.0,
+          "unit": "J"
+        },
+        {
+          "resource": "cycle",
+          "value": 5000.0,
+          "unit": "cycles"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Uninitialized",
+          "transitions": [
+            {
+              "event": "configure_memory",
+              "target": "MemoryMapped",
+              "line": 72,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": ">=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "ram_size_mb"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 8192
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 1000.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "configure_memory",
+              "target": "Panic",
+              "line": 76,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "<",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "ram_size_mb"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 8192
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "MemoryMapped",
+          "transitions": [
+            {
+              "event": "allocate_kernel_page",
+              "target": "KernelPageAllocated",
+              "line": 81,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": ">",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "kernel_free_pages"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 0
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 10.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "allocate_tensor_page",
+              "target": "TensorPageAllocated",
+              "line": 86,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": ">",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "tensor_free_pages"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 0
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 720.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 20.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "free_kernel_page",
+              "target": "MemoryMapped",
+              "line": 90,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 5.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "free_tensor_page",
+              "target": "MemoryMapped",
+              "line": 94,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 10.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "KernelPageAllocated",
+          "transitions": [
+            {
+              "event": "complete",
+              "target": "MemoryMapped",
+              "line": 101
+            }
+          ]
+        },
+        {
+          "name": "TensorPageAllocated",
+          "transitions": [
+            {
+              "event": "complete",
+              "target": "MemoryMapped",
+              "line": 105
+            }
+          ]
+        },
+        {
+          "name": "Panic",
+          "transitions": [
+            {
+              "event": "restart_system",
+              "target": "Uninitialized",
+              "line": 109,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 720000.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "InterruptVectorTable",
+      "headers": {
+        "steward": "kernel_core",
+        "target": "interrupt_controller",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "interrupt_authority",
+        "lifetime": {
+          "value": 24,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 360000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "LoadIVT",
+          "transitions": [
+            {
+              "event": "ivt_register",
+              "target": "Listening",
+              "line": 128,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Listening",
+          "transitions": [
+            {
+              "event": "page_fault",
+              "target": "RestartUserTaskLoop",
+              "line": 137,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "is_kernel_fault"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 0
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "page_fault",
+              "target": "RestartKernelTaskLoop",
+              "line": 141,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "is_kernel_fault"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 54000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 150.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "double_fault",
+              "target": "IsolateTaskGroup",
+              "line": 146,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 72000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 200.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "hardware_tick",
+              "target": "ServiceTick",
+              "line": 150,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 1.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RestartUserTaskLoop",
+          "transitions": [
+            {
+              "event": "resume",
+              "target": "Listening",
+              "line": 157
+            }
+          ]
+        },
+        {
+          "name": "RestartKernelTaskLoop",
+          "transitions": [
+            {
+              "event": "resume",
+              "target": "Listening",
+              "line": 161
+            }
+          ]
+        },
+        {
+          "name": "IsolateTaskGroup",
+          "transitions": [
+            {
+              "event": "cleanup_complete",
+              "target": "Listening",
+              "line": 165,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36000.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ServiceTick",
+          "transitions": [
+            {
+              "event": "tick_done",
+              "target": "Listening",
+              "line": 171
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
