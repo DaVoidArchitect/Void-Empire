@@ -1,0 +1,386 @@
+{
+  "logos_version": "2.0-declarative",
+  "intents": [
+    {
+      "name": "MemoryManager",
+      "headers": {
+        "steward": "model_inference_engine",
+        "target": "physical_allocator",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "truth_authority",
+        "lifetime": {
+          "value": 24,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 720000.0,
+          "unit": "J"
+        },
+        {
+          "resource": "cycle",
+          "value": 1000.0,
+          "unit": "cycles"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "allocate_tensor",
+              "target": "Allocating",
+              "line": 24,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "and",
+                  "left": {
+                    "type": "binary",
+                    "op": "<=",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "tensor_size_bytes"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 1073741824
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "offset_bound_ok"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 1
+                    }
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "allocate_tensor",
+              "target": "AllocationError",
+              "line": 28,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "or",
+                  "left": {
+                    "type": "binary",
+                    "op": ">",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "tensor_size_bytes"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 1073741824
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "offset_bound_ok"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 0
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Allocating",
+          "transitions": [
+            {
+              "event": "page_binding_success",
+              "target": "Allocated",
+              "line": 32,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 3600.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 10.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "page_binding_error",
+              "target": "OutOfMemory",
+              "line": 36
+            }
+          ]
+        },
+        {
+          "name": "Allocated",
+          "transitions": [
+            {
+              "event": "release_tensor",
+              "target": "Releasing",
+              "line": 40,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 7200.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 20.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Releasing",
+          "transitions": [
+            {
+              "event": "page_free_success",
+              "target": "Idle",
+              "line": 47
+            }
+          ]
+        },
+        {
+          "name": "AllocationError",
+          "transitions": [
+            {
+              "event": "clear_error",
+              "target": "Idle",
+              "line": 51
+            }
+          ]
+        },
+        {
+          "name": "OutOfMemory",
+          "transitions": [
+            {
+              "event": "purge_caches",
+              "target": "Idle",
+              "line": 55,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36000.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SovereignCompute",
+      "headers": {
+        "steward": "model_inference_engine",
+        "target": "vector_accelerator",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "truth_authority",
+        "lifetime": {
+          "value": 24,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 1800000.0,
+          "unit": "J"
+        },
+        {
+          "resource": "cycle",
+          "value": 5000.0,
+          "unit": "cycles"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "dispatch_gemm",
+              "target": "ComputingGEMM",
+              "line": 77,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "<=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "matrix_dim"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 4096
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 72000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 200.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "dispatch_fused_activation",
+              "target": "ComputingFusedActivation",
+              "line": 85,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "<=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "vector_dim"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 16384
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 28800.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 80.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ComputingGEMM",
+          "transitions": [
+            {
+              "event": "gemm_complete",
+              "target": "Idle",
+              "line": 92,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "computation_fault",
+              "target": "SystemPanic",
+              "line": 96
+            }
+          ]
+        },
+        {
+          "name": "ComputingFusedActivation",
+          "transitions": [
+            {
+              "event": "fusion_complete",
+              "target": "Idle",
+              "line": 100,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 7200.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 20.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "computation_fault",
+              "target": "SystemPanic",
+              "line": 104
+            }
+          ]
+        },
+        {
+          "name": "SystemPanic",
+          "transitions": [
+            {
+              "event": "reset_registers",
+              "target": "Idle",
+              "line": 108,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180000.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
