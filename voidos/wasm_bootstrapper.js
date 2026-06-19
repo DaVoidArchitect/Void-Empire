@@ -186,25 +186,25 @@ function drawFlowingWaves(ctx, width, height) {
 // Geometric Letter Drawing
 function drawV(ctx, x, y, opacity = 1.0) {
     ctx.beginPath();
-    ctx.moveTo(x - 45, y - 65);
-    ctx.lineTo(x, y + 65);
-    ctx.lineTo(x + 45, y - 65);
+    ctx.moveTo(x - 70, y - 100);
+    ctx.lineTo(x, y + 100);
+    ctx.lineTo(x + 70, y - 100);
     strokeLetter(ctx, opacity);
 }
 
 function drawI(ctx, x, y, opacity = 1.0) {
     ctx.beginPath();
-    ctx.moveTo(x, y - 65);
-    ctx.lineTo(x, y + 65);
+    ctx.moveTo(x, y - 100);
+    ctx.lineTo(x, y + 100);
     strokeLetter(ctx, opacity);
 }
 
 function drawD(ctx, x, y, opacity = 1.0) {
     ctx.beginPath();
-    ctx.moveTo(x - 35, y + 65);
-    ctx.lineTo(x - 35, y - 65);
-    ctx.arc(x - 35, y, 65, -Math.PI / 2, Math.PI / 2);
-    ctx.lineTo(x - 35, y + 65);
+    ctx.moveTo(x - 50, y + 100);
+    ctx.lineTo(x - 50, y - 100);
+    ctx.arc(x - 50, y, 100, -Math.PI / 2, Math.PI / 2);
+    ctx.lineTo(x - 50, y + 100);
     strokeLetter(ctx, opacity);
 }
 
@@ -306,7 +306,7 @@ function renderThresholdLanding(centerX, centerY) {
     // Render letters V, O, I, D scaled together in perfect breathing synchronicity (No image inside O)
     if (oOpacity > 0) {
         ctx.save();
-        ctx.translate(centerX - 30 + dx, centerY + dy); // Centered relative to the 420px total wordmark span
+        ctx.translate(centerX + dx, centerY - 90 + dy); // Centered relative to screen width, moved up by 90px
         
         // --- Scale block only for VOID letters ---
         ctx.save();
@@ -315,18 +315,18 @@ function renderThresholdLanding(centerX, centerY) {
         
         // Draw V (when vidOpacity > 0)
         if (vidOpacity > 0) {
-            drawV(ctx, -195, 0, vidOpacity);
+            drawV(ctx, -230, 0, vidOpacity);
         }
         
         // Draw O as a clean geometric letter matching V, I, D style (no Void image)
         ctx.beginPath();
-        ctx.arc(-40, 0, 65, 0, Math.PI * 2);
+        ctx.arc(-10, 0, 90, 0, Math.PI * 2);
         strokeLetter(ctx, oOpacity);
         
         // Draw I and D (when vidOpacity > 0)
         if (vidOpacity > 0) {
-            drawI(ctx, 70, 0, vidOpacity);
-            drawD(ctx, 150, 0, vidOpacity);
+            drawI(ctx, 140, 0, vidOpacity);
+            drawD(ctx, 250, 0, vidOpacity);
         }
         ctx.restore(); // end of scale block
         
@@ -338,7 +338,7 @@ function renderThresholdLanding(centerX, centerY) {
             ctx.font = "300 14px 'IBM Plex Mono'";
             ctx.textAlign = "center";
             ctx.letterSpacing = "0.22em"; // Closer together, readable, and elegant
-            ctx.fillText("FORERUNNER COMPANY", 0, 120);
+            ctx.fillText("FORERUNNER COMPANY", 0, 140);
             ctx.restore();
         }
         
@@ -351,25 +351,25 @@ function renderThresholdLanding(centerX, centerY) {
     ctx.globalAlpha = ctaOpacity;
     
     // Button 1: BECOME A CITIZEN
-    const hoverBtn1 = mouseX >= centerX - 120 && mouseX <= centerX + 120 && mouseY >= centerY + 160 + ctaOffset && mouseY <= centerY + 200 + ctaOffset;
+    const hoverBtn1 = mouseX >= centerX - 120 && mouseX <= centerX + 120 && mouseY >= centerY + 95 + ctaOffset && mouseY <= centerY + 125 + ctaOffset;
     ctx.fillStyle = hoverBtn1 ? "#ffffff" : DESIGN_TOKENS.textPrimary;
     ctx.font = "300 11px 'Inter'";
     ctx.textAlign = "center";
     ctx.letterSpacing = "0.2em";
-    ctx.fillText("BECOME A CITIZEN", centerX, centerY + 180 + ctaOffset);
+    ctx.fillText("BECOME A CITIZEN", centerX, centerY + 110 + ctaOffset);
     
     // Underline glow for BECOME A CITIZEN
     ctx.strokeStyle = hoverBtn1 ? DESIGN_TOKENS.sovereignGold : "rgba(244, 213, 141, 0.3)";
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(centerX - 80, centerY + 190 + ctaOffset);
-    ctx.lineTo(centerX + 80, centerY + 190 + ctaOffset);
+    ctx.moveTo(centerX - 80, centerY + 120 + ctaOffset);
+    ctx.lineTo(centerX + 80, centerY + 120 + ctaOffset);
     ctx.stroke();
     
     // Direct Download Buttons on same page side-by-side (Premium Glassmorphic Pills)
     const btnW = 185;
     const btnH = 38;
-    const btnY = centerY + 215 + ctaOffset;
+    const btnY = centerY + 150 + ctaOffset;
     
     // Desktop Button
     const xDesktop = centerX - btnW - 15;
@@ -1005,19 +1005,19 @@ function handleCanvasClick(e) {
     
     if (currentUIState === "ThresholdLanding") {
         // Option 1: BECOME A CITIZEN
-        if (x >= centerX - 120 && x <= centerX + 120 && y >= centerY + 160 && y <= centerY + 200) {
+        if (x >= centerX - 120 && x <= centerX + 120 && y >= centerY + 95 && y <= centerY + 125) {
             console.log("[VTP] Transitioning to CitizenOnboarding...");
             currentUIState = "CitizenOnboarding";
             isEditingPseudonym = false;
             isDropdownOpen = false;
         }
         // Direct Download Desktop (spans from centerX - 200 to centerX - 15)
-        if (x >= centerX - 200 && x <= centerX - 15 && y >= centerY + 215 && y <= centerY + 253) {
+        if (x >= centerX - 200 && x <= centerX - 15 && y >= centerY + 150 && y <= centerY + 188) {
             console.log("[VTP] Downloading Desktop Client...");
             window.location.href = "/downloads/truth.exe";
         }
         // Direct Download Mobile (spans from centerX + 15 to centerX + 200)
-        if (x >= centerX + 15 && x <= centerX + 200 && y >= centerY + 215 && y <= centerY + 253) {
+        if (x >= centerX + 15 && x <= centerX + 200 && y >= centerY + 150 && y <= centerY + 188) {
             console.log("[VTP] Downloading Mobile Client...");
             window.location.href = "/downloads/truth.apk";
         }
