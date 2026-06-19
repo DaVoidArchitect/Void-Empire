@@ -303,49 +303,32 @@ function renderThresholdLanding(centerX, centerY) {
     const dx = (mouseX - centerX) * 0.015;
     const dy = (mouseY - centerY) * 0.015;
     
-    // Render letters V, O, I, D with exact spacing and correct opacities
-    if (vidOpacity > 0) {
-        drawV(ctx, centerX - 220 + dx, centerY + dy, vidOpacity);
-    }
-    
-    // O (Merged O and Void black hole singularity scaled in perfect synchronicity)
+    // Render letters V, O, I, D scaled together in perfect breathing synchronicity (No image inside O)
     if (oOpacity > 0) {
         ctx.save();
-        ctx.translate(centerX - 70 + dx, centerY + dy);
+        ctx.translate(centerX - 22.5 + dx, centerY + dy);
         
         // Dynamic breathing scale synced exactly to the slow, deliberate purple glow pulse
-        const pulse = 0.75 + Math.sin(Date.now() * 0.0006) * 0.2;
         const scale = 1.0 + Math.sin(Date.now() * 0.0006) * 0.04; // Varies 0.96 - 1.04
         ctx.scale(scale, scale);
         
-        // Draw the spinning singularity inside a circular clip (No separate outline drawn on top)
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(0, 0, 65, 0, Math.PI * 2);
-        ctx.clip();
-        ctx.rotate(rotationAngle);
-        ctx.globalAlpha = oOpacity;
-        
-        // Apply pulsating glow directly to the image rendering so it breathes in sync
-        ctx.shadowColor = "rgba(124, 58, 237, 0.85)";
-        ctx.shadowBlur = 24 * pulse;
-        
-        if (portalImg.complete) {
-            ctx.drawImage(portalImg, -70, -70, 140, 140);
-        } else {
-            // Minimal fallback circle while image loads
-            ctx.beginPath();
-            ctx.arc(0, 0, 65, 0, Math.PI * 2);
-            strokeLetter(ctx, vidOpacity);
+        // Draw V (when vidOpacity > 0)
+        if (vidOpacity > 0) {
+            drawV(ctx, -197.5, 0, vidOpacity);
         }
-        ctx.restore();
+        
+        // Draw O as a clean geometric letter matching V, I, D style (no Void image)
+        ctx.beginPath();
+        ctx.arc(-47.5, 0, 65, 0, Math.PI * 2);
+        strokeLetter(ctx, oOpacity);
+        
+        // Draw I and D (when vidOpacity > 0)
+        if (vidOpacity > 0) {
+            drawI(ctx, 102.5, 0, vidOpacity);
+            drawD(ctx, 197.5, 0, vidOpacity);
+        }
         
         ctx.restore();
-    }
-    
-    if (vidOpacity > 0) {
-        drawI(ctx, centerX + 80 + dx, centerY + dy, vidOpacity);
-        drawD(ctx, centerX + 175 + dx, centerY + dy, vidOpacity);
     }
     
     // 3. Draw Sovereign Gold Tagline (Centered between V and D centers with closer letter spacing)
