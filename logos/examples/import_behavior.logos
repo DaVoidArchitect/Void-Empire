@@ -1,0 +1,12 @@
+# Intent importing another intent from separate file
+import "imported_lib.logos";
+
+intent MainIntent {
+    steward: "MainSteward";
+    require {
+        energy 20 J;
+    }
+    state MainState {
+        on main_event -> MainState;
+    }
+}
