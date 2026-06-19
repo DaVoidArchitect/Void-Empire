@@ -1,0 +1,148 @@
+{
+  "logos_version": "2.0-declarative",
+  "intents": [
+    {
+      "name": "LogosHDL",
+      "headers": {
+        "steward": "pdk_compiler",
+        "target": "rtl_generator",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "pdk_authority",
+        "lifetime": {
+          "value": 24,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 360000.0,
+          "unit": "J"
+        },
+        {
+          "resource": "cycle",
+          "value": 500.0,
+          "unit": "cycles"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "compile_rtl",
+              "target": "EmittingRTL",
+              "line": 22,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 100.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "EmittingRTL",
+          "transitions": [
+            {
+              "event": "rtl_success",
+              "target": "Idle",
+              "line": 29
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "VoidOneCoreSpec",
+      "headers": {
+        "steward": "silicon_architect",
+        "target": "fabrication_plane",
+        "license": "PRIVATE",
+        "scope": "Global",
+        "provenance": "void_hardware_foundation",
+        "lifetime": {
+          "value": 365,
+          "unit": "days"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 3600000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "SpecDraft",
+          "transitions": [
+            {
+              "event": "commit_spec",
+              "target": "SpecLocked",
+              "line": 48,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 500.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "SpecLocked",
+          "transitions": [
+            {
+              "event": "verify_layout",
+              "target": "VerifiedLayout",
+              "line": 57,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 1000.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "VerifiedLayout",
+          "transitions": [
+            {
+              "event": "export_gdsii",
+              "target": "ReadyForTapeout",
+              "line": 64
+            }
+          ]
+        },
+        {
+          "name": "ReadyForTapeout",
+          "transitions": []
+        }
+      ]
+    }
+  ]
+}
