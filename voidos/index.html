@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="iVoid — Sovereign Civilization Operating System Layer. Run exclusively under the Logos VM.">
+    <title>iVoid — Threshold Portal</title>
+    
+    <!-- Browser Icon & Favicon -->
+    <link rel="icon" type="image/png" href="void_portal_icon.png">
+    
+    <!-- Modern Typography: Inter & Archivo Black -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@100;300;400;700&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Zero CSS footprint / absolute void black layout */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #020204; /* Absolute Void Black */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            color: #f5f5f7;
+        }
+
+        #canvas-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* Loading fallback message if WebGL/Wasm isn't initialized yet */
+        #loader {
+            position: absolute;
+            color: #f4d58d; /* Sovereign Gold */
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 14px;
+            letter-spacing: 0.35em;
+            animation: breathe 3s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.8; }
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container">
+        <div id="loader">BECOMING...</div>
+        <canvas id="void-framebuffer"></canvas>
+    </div>
+
+    <!-- Binary VTP Socket Connector & WebAssembly runtime -->
+    <script src="wasm_bootstrapper.js"></script>
+</body>
+</html>

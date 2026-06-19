@@ -1,0 +1,16 @@
+{
+  "host": "ivoid.app",
+  "vtp_port": 9000,
+  "http_port": 80,
+  "https_port": 443,
+  "ssl_certificate": "/etc/ssl/certs/ivoid_app_combined.pem",
+  "ssl_key": "/etc/ssl/private/ivoid_app.key",
+  "state_machine": "voidos/system.smir.json",
+  "platform_fee": 0.0618,
+  "isolation_mode": "hermetic",
+  "diode_buffer_bytes": 192,
+  "static_downloads": {
+    "desktop": "truth/truth.exe",
+    "mobile": "truth/truth.apk"
+  }
+}
