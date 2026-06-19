@@ -306,7 +306,7 @@ function renderThresholdLanding(centerX, centerY) {
     // Render letters V, O, I, D scaled together in perfect breathing synchronicity (No image inside O)
     if (oOpacity > 0) {
         ctx.save();
-        ctx.translate(centerX + dx, centerY - 90 + dy); // Centered relative to screen width, moved up by 90px
+        ctx.translate(centerX + dx, centerY - 105 + dy); // Centered relative to screen width, moved up by 105px
         
         // --- Scale block only for VOID letters ---
         ctx.save();
@@ -351,25 +351,25 @@ function renderThresholdLanding(centerX, centerY) {
     ctx.globalAlpha = ctaOpacity;
     
     // Button 1: BECOME A CITIZEN
-    const hoverBtn1 = mouseX >= centerX - 120 && mouseX <= centerX + 120 && mouseY >= centerY + 95 + ctaOffset && mouseY <= centerY + 125 + ctaOffset;
+    const hoverBtn1 = mouseX >= centerX - 120 && mouseX <= centerX + 120 && mouseY >= centerY + 80 + ctaOffset && mouseY <= centerY + 110 + ctaOffset;
     ctx.fillStyle = hoverBtn1 ? "#ffffff" : DESIGN_TOKENS.textPrimary;
     ctx.font = "300 11px 'Inter'";
     ctx.textAlign = "center";
     ctx.letterSpacing = "0.2em";
-    ctx.fillText("BECOME A CITIZEN", centerX, centerY + 110 + ctaOffset);
+    ctx.fillText("BECOME A CITIZEN", centerX, centerY + 95 + ctaOffset);
     
-    // Underline glow for BECOME A CITIZEN
-    ctx.strokeStyle = hoverBtn1 ? DESIGN_TOKENS.sovereignGold : "rgba(244, 213, 141, 0.3)";
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(centerX - 80, centerY + 120 + ctaOffset);
-    ctx.lineTo(centerX + 80, centerY + 120 + ctaOffset);
-    ctx.stroke();
+    // Button 2: ENTER VOID
+    const hoverBtn2 = mouseX >= centerX - 120 && mouseX <= centerX + 120 && mouseY >= centerY + 110 + ctaOffset && mouseY <= centerY + 140 + ctaOffset;
+    ctx.fillStyle = hoverBtn2 ? "#ffffff" : DESIGN_TOKENS.textPrimary;
+    ctx.font = "300 11px 'Inter'";
+    ctx.textAlign = "center";
+    ctx.letterSpacing = "0.2em";
+    ctx.fillText("ENTER VOID", centerX, centerY + 125 + ctaOffset);
     
     // Direct Download Buttons on same page side-by-side (Premium Glassmorphic Pills)
     const btnW = 185;
     const btnH = 38;
-    const btnY = centerY + 150 + ctaOffset;
+    const btnY = centerY + 165 + ctaOffset;
     
     // Desktop Button
     const xDesktop = centerX - btnW - 15;
@@ -455,7 +455,7 @@ function renderThresholdLanding(centerX, centerY) {
     
     ctx.restore();
     
-    return (hoverBtn1 || hoverDesktop || hoverMobile) ? "pointer" : "default";
+    return (hoverBtn1 || hoverBtn2 || hoverDesktop || hoverMobile) ? "pointer" : "default";
 }
 
 // 3. Download Portal screen
@@ -1005,19 +1005,24 @@ function handleCanvasClick(e) {
     
     if (currentUIState === "ThresholdLanding") {
         // Option 1: BECOME A CITIZEN
-        if (x >= centerX - 120 && x <= centerX + 120 && y >= centerY + 95 && y <= centerY + 125) {
+        if (x >= centerX - 120 && x <= centerX + 120 && y >= centerY + 80 && y <= centerY + 110) {
             console.log("[VTP] Transitioning to CitizenOnboarding...");
             currentUIState = "CitizenOnboarding";
             isEditingPseudonym = false;
             isDropdownOpen = false;
         }
+        // Option 2: ENTER VOID
+        if (x >= centerX - 120 && x <= centerX + 120 && y >= centerY + 110 && y <= centerY + 140) {
+            console.log("[VTP] Entering Void (Citizen Session)...");
+            currentUIState = "ActivePortalSession";
+        }
         // Direct Download Desktop (spans from centerX - 200 to centerX - 15)
-        if (x >= centerX - 200 && x <= centerX - 15 && y >= centerY + 150 && y <= centerY + 188) {
+        if (x >= centerX - 200 && x <= centerX - 15 && y >= centerY + 165 && y <= centerY + 203) {
             console.log("[VTP] Downloading Desktop Client...");
             window.location.href = "/downloads/truth.exe";
         }
         // Direct Download Mobile (spans from centerX + 15 to centerX + 200)
-        if (x >= centerX + 15 && x <= centerX + 200 && y >= centerY + 150 && y <= centerY + 188) {
+        if (x >= centerX + 15 && x <= centerX + 200 && y >= centerY + 165 && y <= centerY + 203) {
             console.log("[VTP] Downloading Mobile Client...");
             window.location.href = "/downloads/truth.apk";
         }
