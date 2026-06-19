@@ -1,0 +1,60 @@
+{
+  "logos_version": "2.0-declarative",
+  "intents": [
+    {
+      "name": "TransitionResourcesIntent",
+      "headers": {
+        "steward": "ResourceSteward"
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 50.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Initial",
+          "transitions": [
+            {
+              "event": "activate",
+              "target": "Active",
+              "line": 8,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 20.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 5.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Active",
+          "transitions": [
+            {
+              "event": "deactivate",
+              "target": "Initial",
+              "line": 14,
+              "requires": [
+                {
+                  "resource": "cycle",
+                  "value": 2.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
