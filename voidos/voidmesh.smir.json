@@ -1,0 +1,358 @@
+{
+  "logos_version": "2.0-declarative",
+  "intents": [
+    {
+      "name": "VoidMesh",
+      "headers": {
+        "steward": "mesh_operator",
+        "target": "network_interface_card",
+        "license": "PRIVATE",
+        "scope": "Global",
+        "provenance": "mesh_authority",
+        "lifetime": {
+          "value": 24,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 1440000.0,
+          "unit": "J"
+        },
+        {
+          "resource": "cycle",
+          "value": 3000.0,
+          "unit": "cycles"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Disconnected",
+          "transitions": [
+            {
+              "event": "connect_nic",
+              "target": "NodeHandshake",
+              "line": 22,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 100.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "NodeHandshake",
+          "transitions": [
+            {
+              "event": "peer_challenge_verify",
+              "target": "SlidingWindowSyncing",
+              "line": 32,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "challenge_ok"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 54000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 150.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "peer_challenge_verify",
+              "target": "RejectNode",
+              "line": 36,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "challenge_ok"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 0
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "SlidingWindowSyncing",
+          "transitions": [
+            {
+              "event": "sliding_window_lock",
+              "target": "Connected",
+              "line": 42,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Connected",
+          "transitions": [
+            {
+              "event": "send_frame",
+              "target": "FrameSent",
+              "line": 50,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 3600.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 10.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "receive_ack",
+              "target": "Connected",
+              "line": 55,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "ack_seq_ok"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 1800.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 5.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "receive_ack",
+              "target": "ReTransmitFrame",
+              "line": 60,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "ack_seq_ok"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 0
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 7200.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 20.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "frame_timeout",
+              "target": "ReTransmitFrame",
+              "line": 64,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 10800.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 30.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "dispatch_weight_slice",
+              "target": "DistributingWeights",
+              "line": 70,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 54000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 150.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "verify_consensus_pass",
+              "target": "VerifyingConsensus",
+              "line": 76,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 72000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 200.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "disconnect",
+              "target": "Disconnected",
+              "line": 80
+            }
+          ]
+        },
+        {
+          "name": "FrameSent",
+          "transitions": [
+            {
+              "event": "wait_ack",
+              "target": "Connected",
+              "line": 84
+            }
+          ]
+        },
+        {
+          "name": "ReTransmitFrame",
+          "transitions": [
+            {
+              "event": "retransmit_complete",
+              "target": "Connected",
+              "line": 88
+            }
+          ]
+        },
+        {
+          "name": "DistributingWeights",
+          "transitions": [
+            {
+              "event": "distribution_success",
+              "target": "Connected",
+              "line": 92
+            },
+            {
+              "event": "distribution_timeout",
+              "target": "Connected",
+              "line": 93
+            }
+          ]
+        },
+        {
+          "name": "VerifyingConsensus",
+          "transitions": [
+            {
+              "event": "consensus_match",
+              "target": "Connected",
+              "line": 97
+            },
+            {
+              "event": "consensus_mismatch",
+              "target": "AuditTrigger",
+              "line": 98
+            }
+          ]
+        },
+        {
+          "name": "AuditTrigger",
+          "transitions": [
+            {
+              "event": "flag_malicious_node",
+              "target": "Connected",
+              "line": 102,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180000.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RejectNode",
+          "transitions": [
+            {
+              "event": "disconnect_peer",
+              "target": "Disconnected",
+              "line": 108
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
