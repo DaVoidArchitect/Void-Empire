@@ -1,0 +1,202 @@
+{
+  "logos_version": "2.0-declarative",
+  "intents": [
+    {
+      "name": "TLIEngine",
+      "headers": {
+        "steward": "truth_core",
+        "target": "vector_accelerator",
+        "license": "PRIVATE",
+        "scope": "Global",
+        "provenance": "truth_authority",
+        "lifetime": {
+          "value": 365,
+          "unit": "days"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 3600000.0,
+          "unit": "J"
+        },
+        {
+          "resource": "mass",
+          "value": 1.0,
+          "unit": "kg"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "load_intention",
+              "target": "RelaxingLattice",
+              "line": 23,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "<",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "input_entropy"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 10.0
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 100.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "load_intention",
+              "target": "FilterNoise",
+              "line": 27,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": ">=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "input_entropy"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 10.0
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "RelaxingLattice",
+          "transitions": [
+            {
+              "event": "evaluate_path",
+              "target": "ConvergingState",
+              "line": 34,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "<",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "path_delta_e"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1.618
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 200.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "path_divergence",
+              "target": "ResetStateSpace",
+              "line": 38
+            }
+          ]
+        },
+        {
+          "name": "ConvergingState",
+          "transitions": [
+            {
+              "event": "state_stabilised",
+              "target": "EmittingReflection",
+              "line": 43,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 72000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "EmittingReflection",
+          "transitions": [
+            {
+              "event": "write_success",
+              "target": "Idle",
+              "line": 51
+            }
+          ]
+        },
+        {
+          "name": "FilterNoise",
+          "transitions": [
+            {
+              "event": "clear_buffer",
+              "target": "Idle",
+              "line": 55,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36000.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ResetStateSpace",
+          "transitions": [
+            {
+              "event": "flush_lattice",
+              "target": "Idle",
+              "line": 61,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180000.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
