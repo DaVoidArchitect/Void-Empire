@@ -1,0 +1,542 @@
+{
+  "logos_version": "2.0-declarative",
+  "intents": [
+    {
+      "name": "VoidOneDigitalTwin",
+      "headers": {
+        "steward": "hardware_telemetry",
+        "target": "twin_verification_plane",
+        "license": "PRIVATE",
+        "scope": "Global",
+        "provenance": "hardware_authority",
+        "lifetime": {
+          "value": 365,
+          "unit": "days"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 360000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "boot_twin",
+              "target": "StackConfigured",
+              "line": 22,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "and",
+                  "left": {
+                    "type": "binary",
+                    "op": "and",
+                    "left": {
+                      "type": "binary",
+                      "op": "==",
+                      "left": {
+                        "type": "literal",
+                        "value_type": "IDENTIFIER",
+                        "value": "has_silicon"
+                      },
+                      "right": {
+                        "type": "literal",
+                        "value_type": "NUMBER",
+                        "value": 0
+                      }
+                    },
+                    "right": {
+                      "type": "binary",
+                      "op": "==",
+                      "left": {
+                        "type": "literal",
+                        "value_type": "IDENTIFIER",
+                        "value": "has_copper"
+                      },
+                      "right": {
+                        "type": "literal",
+                        "value_type": "NUMBER",
+                        "value": 0
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "is_clockless"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 1
+                    }
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 100.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "boot_twin",
+              "target": "ConstraintViolation",
+              "line": 26,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "or",
+                  "left": {
+                    "type": "binary",
+                    "op": "or",
+                    "left": {
+                      "type": "binary",
+                      "op": "==",
+                      "left": {
+                        "type": "literal",
+                        "value_type": "IDENTIFIER",
+                        "value": "has_silicon"
+                      },
+                      "right": {
+                        "type": "literal",
+                        "value_type": "NUMBER",
+                        "value": 1
+                      }
+                    },
+                    "right": {
+                      "type": "binary",
+                      "op": "==",
+                      "left": {
+                        "type": "literal",
+                        "value_type": "IDENTIFIER",
+                        "value": "has_copper"
+                      },
+                      "right": {
+                        "type": "literal",
+                        "value_type": "NUMBER",
+                        "value": 1
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "is_clockless"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 0
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "StackConfigured",
+          "transitions": [
+            {
+              "event": "verify_layers",
+              "target": "DefectMapping",
+              "line": 33,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "and",
+                  "left": {
+                    "type": "binary",
+                    "op": "<",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "l1_temp_k"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 350
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "l3_entropy_harvest_ok"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 1
+                    }
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 72000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 200.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "verify_layers",
+              "target": "ThermalOverload",
+              "line": 37,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "or",
+                  "left": {
+                    "type": "binary",
+                    "op": ">=",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "l1_temp_k"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 350
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "l3_entropy_harvest_ok"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 0
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "DefectMapping",
+          "transitions": [
+            {
+              "event": "load_defect_priors",
+              "target": "ActiveSimulation",
+              "line": 43,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "and",
+                  "left": {
+                    "type": "binary",
+                    "op": ">",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "stable_channels"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 0
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "unstable_clusters_flag"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 0
+                    }
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 54000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 150.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "load_defect_priors",
+              "target": "ReRouteFabric",
+              "line": 47,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "unstable_clusters_flag"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "ActiveSimulation",
+          "transitions": [
+            {
+              "event": "propagate_pulse",
+              "target": "ActiveSimulation",
+              "line": 53,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "<",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "pulse_delay_ns"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 5.0
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 3600.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 10.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "route_transaction",
+              "target": "ApplyInterTariff",
+              "line": 60,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "!=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "src_subnet_id"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "dst_subnet_id"
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 22248.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "route_transaction",
+              "target": "ApplyIntraLease",
+              "line": 66,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "src_subnet_id"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "dst_subnet_id"
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 5824.8,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "thermal_alert",
+              "target": "ThermalOverload",
+              "line": 70,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": ">=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "l1_temp_k"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 350
+                  }
+                }
+              }
+            },
+            {
+              "event": "power_off",
+              "target": "Idle",
+              "line": 71
+            }
+          ]
+        },
+        {
+          "name": "ApplyInterTariff",
+          "transitions": [
+            {
+              "event": "commit_tariff",
+              "target": "ActiveSimulation",
+              "line": 75
+            }
+          ]
+        },
+        {
+          "name": "ApplyIntraLease",
+          "transitions": [
+            {
+              "event": "commit_lease",
+              "target": "ActiveSimulation",
+              "line": 79
+            }
+          ]
+        },
+        {
+          "name": "ReRouteFabric",
+          "transitions": [
+            {
+              "event": "bypass_complete",
+              "target": "DefectMapping",
+              "line": 83,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ThermalOverload",
+          "transitions": [
+            {
+              "event": "cool_down",
+              "target": "StackConfigured",
+              "line": 91,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "<",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "l1_temp_k"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 300
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 500.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ConstraintViolation",
+          "transitions": [
+            {
+              "event": "halt_system",
+              "target": "Idle",
+              "line": 99
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
