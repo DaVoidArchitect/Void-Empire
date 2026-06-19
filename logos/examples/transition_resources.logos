@@ -1,0 +1,18 @@
+# Intent with transition-level resource requirements
+intent TransitionResourcesIntent {
+    steward: "ResourceSteward";
+    require {
+        energy 50 J;
+    }
+    state Initial {
+        on activate -> Active {
+            require energy 20 J;
+            require cycle 5 cycles;
+        }
+    }
+    state Active {
+        on deactivate -> Initial {
+            require cycle 2 cycles;
+        }
+    }
+}
