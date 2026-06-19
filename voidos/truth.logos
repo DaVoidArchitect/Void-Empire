@@ -93,3 +93,48 @@ intent Truth {
         on reset -> Idle;
     }
 }
+
+intent CognitiveEngine {
+    steward: "kernel_cognition";
+    target: "local_llm_runner";
+    license: "PRIVATE";
+    scope: "Individual";
+    provenance: "truth_authority";
+    lifetime: 24 hours;
+
+    require {
+        energy 100.0 Wh;
+        mass 2.0 kg;
+    }
+
+    state Idle {
+        on ingest_prompt -> Processing {
+            require energy 0.5 Wh;
+            require cycle 50 cycles;
+        }
+    }
+
+    state Processing {
+        on generate_fast_response -> Idle {
+            require energy 1.2 Wh;
+            require cycle 120 cycles;
+        }
+        on generate_reasoning_response -> Reasoning {
+            require energy 5.0 Wh;
+            require cycle 500 cycles;
+        }
+        on out_of_energy -> Blocked;
+    }
+
+    state Reasoning {
+        on reasoning_complete -> Idle {
+            require energy 2.0 Wh;
+        }
+        on thermal_limit_reached -> Blocked;
+    }
+
+    state Blocked {
+        on replenish_energy -> Idle;
+    }
+}
+
