@@ -299,48 +299,50 @@ function renderThresholdLanding(centerX, centerY) {
     const ctaOpacity = Math.max(0, Math.min(1, (t - 3.0)));
     const ctaOffset = Math.max(0, 15 * (1 - ctaOpacity));
     
-    // Subtle mouse tracking offset
-    const dx = (mouseX - centerX) * 0.015;
-    const dy = (mouseY - centerY) * 0.015;
+    // Subtle mouse tracking offset (Disabled parallax as requested)
+    const dx = 0;
+    const dy = 0;
     
     // Render letters V, O, I, D scaled together in perfect breathing synchronicity (No image inside O)
     if (oOpacity > 0) {
         ctx.save();
-        ctx.translate(centerX - 22.5 + dx, centerY + dy);
+        ctx.translate(centerX - 30 + dx, centerY + dy); // Centered relative to the 420px total wordmark span
         
-        // Dynamic breathing scale synced exactly to the slow, deliberate purple glow pulse
+        // --- Scale block only for VOID letters ---
+        ctx.save();
         const scale = 1.0 + Math.sin(Date.now() * 0.0006) * 0.04; // Varies 0.96 - 1.04
         ctx.scale(scale, scale);
         
         // Draw V (when vidOpacity > 0)
         if (vidOpacity > 0) {
-            drawV(ctx, -197.5, 0, vidOpacity);
+            drawV(ctx, -195, 0, vidOpacity);
         }
         
         // Draw O as a clean geometric letter matching V, I, D style (no Void image)
         ctx.beginPath();
-        ctx.arc(-47.5, 0, 65, 0, Math.PI * 2);
+        ctx.arc(-40, 0, 65, 0, Math.PI * 2);
         strokeLetter(ctx, oOpacity);
         
         // Draw I and D (when vidOpacity > 0)
         if (vidOpacity > 0) {
-            drawI(ctx, 102.5, 0, vidOpacity);
-            drawD(ctx, 197.5, 0, vidOpacity);
+            drawI(ctx, 70, 0, vidOpacity);
+            drawD(ctx, 150, 0, vidOpacity);
+        }
+        ctx.restore(); // end of scale block
+        
+        // --- Draw tagline (not scaled, but translated for perfect centering) ---
+        if (taglineOpacity > 0) {
+            ctx.save();
+            ctx.globalAlpha = taglineOpacity;
+            ctx.fillStyle = DESIGN_TOKENS.sovereignGold;
+            ctx.font = "300 14px 'IBM Plex Mono'";
+            ctx.textAlign = "center";
+            ctx.letterSpacing = "0.22em"; // Closer together, readable, and elegant
+            ctx.fillText("FORERUNNER COMPANY", 0, 120);
+            ctx.restore();
         }
         
-        ctx.restore();
-    }
-    
-    // 3. Draw Sovereign Gold Tagline (Centered between V and D centers with closer letter spacing)
-    if (taglineOpacity > 0) {
-        ctx.save();
-        ctx.globalAlpha = taglineOpacity;
-        ctx.fillStyle = DESIGN_TOKENS.sovereignGold;
-        ctx.font = "300 14px 'IBM Plex Mono'";
-        ctx.textAlign = "center";
-        ctx.letterSpacing = "0.22em"; // Closer together, readable, and elegant
-        ctx.fillText("FORERUNNER COMPANY", centerX - 22.5 + dx, centerY + 120 + dy);
-        ctx.restore();
+        ctx.restore(); // end of translation block
     }
     
     if (ctaOpacity <= 0) return "default";
@@ -364,23 +366,92 @@ function renderThresholdLanding(centerX, centerY) {
     ctx.lineTo(centerX + 80, centerY + 190 + ctaOffset);
     ctx.stroke();
     
-    // Direct Download Buttons on same page side-by-side
-    const hoverDesktop = mouseX >= centerX - 190 && mouseX <= centerX - 10 && mouseY >= centerY + 215 + ctaOffset && mouseY <= centerY + 245 + ctaOffset;
-    ctx.fillStyle = hoverDesktop ? "#ffffff" : "#666677";
-    ctx.font = "300 10px 'Inter'";
-    ctx.letterSpacing = "0.15em";
-    ctx.fillText("DOWNLOAD DESKTOP (TRUTH.EXE)", centerX - 100, centerY + 230 + ctaOffset);
+    // Direct Download Buttons on same page side-by-side (Premium Glassmorphic Pills)
+    const btnW = 185;
+    const btnH = 38;
+    const btnY = centerY + 215 + ctaOffset;
     
-    // Divider |
-    ctx.fillStyle = "#333344";
-    ctx.font = "300 10px 'Inter'";
-    ctx.fillText("|", centerX, centerY + 230 + ctaOffset);
+    // Desktop Button
+    const xDesktop = centerX - btnW - 15;
+    const hoverDesktop = mouseX >= xDesktop && mouseX <= xDesktop + btnW && mouseY >= btnY && mouseY <= btnY + btnH;
     
-    const hoverMobile = mouseX >= centerX + 10 && mouseX <= centerX + 190 && mouseY >= centerY + 215 + ctaOffset && mouseY <= centerY + 245 + ctaOffset;
-    ctx.fillStyle = hoverMobile ? "#ffffff" : "#666677";
+    ctx.save();
+    ctx.fillStyle = hoverDesktop ? "rgba(124, 58, 237, 0.12)" : "rgba(8, 8, 12, 0.6)";
+    ctx.strokeStyle = hoverDesktop ? "rgba(167, 139, 250, 0.8)" : "rgba(124, 58, 237, 0.3)";
+    ctx.lineWidth = 1.2;
+    if (hoverDesktop) {
+        ctx.shadowColor = "rgba(124, 58, 237, 0.4)";
+        ctx.shadowBlur = 10;
+    }
+    ctx.beginPath();
+    ctx.roundRect(xDesktop, btnY, btnW, btnH, 8);
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+    
+    // Draw Desktop Icon (Monitor)
+    ctx.save();
+    ctx.strokeStyle = hoverDesktop ? "#ffffff" : "#888899";
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.rect(xDesktop + 18, btnY + 13, 14, 10);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(xDesktop + 25, btnY + 23);
+    ctx.lineTo(xDesktop + 25, btnY + 27);
+    ctx.lineTo(xDesktop + 21, btnY + 27);
+    ctx.lineTo(xDesktop + 29, btnY + 27);
+    ctx.stroke();
+    ctx.restore();
+    
+    // Draw Desktop Text
+    ctx.save();
+    ctx.fillStyle = hoverDesktop ? "#ffffff" : "#a1a1aa";
     ctx.font = "300 10px 'Inter'";
-    ctx.letterSpacing = "0.15em";
-    ctx.fillText("DOWNLOAD MOBILE (TRUTH.APK)", centerX + 100, centerY + 230 + ctaOffset);
+    ctx.letterSpacing = "0.08em";
+    ctx.textAlign = "left";
+    ctx.fillText("DOWNLOAD DESKTOP", xDesktop + 42, btnY + 23);
+    ctx.restore();
+    
+    // Mobile Button
+    const xMobile = centerX + 15;
+    const hoverMobile = mouseX >= xMobile && mouseX <= xMobile + btnW && mouseY >= btnY && mouseY <= btnY + btnH;
+    
+    ctx.save();
+    ctx.fillStyle = hoverMobile ? "rgba(124, 58, 237, 0.12)" : "rgba(8, 8, 12, 0.6)";
+    ctx.strokeStyle = hoverMobile ? "rgba(167, 139, 250, 0.8)" : "rgba(124, 58, 237, 0.3)";
+    ctx.lineWidth = 1.2;
+    if (hoverMobile) {
+        ctx.shadowColor = "rgba(124, 58, 237, 0.4)";
+        ctx.shadowBlur = 10;
+    }
+    ctx.beginPath();
+    ctx.roundRect(xMobile, btnY, btnW, btnH, 8);
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+    
+    // Draw Mobile Icon (Phone)
+    ctx.save();
+    ctx.strokeStyle = hoverMobile ? "#ffffff" : "#888899";
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.roundRect(xMobile + 19, btnY + 11, 10, 16, 2);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(xMobile + 22, btnY + 13);
+    ctx.lineTo(xMobile + 26, btnY + 13);
+    ctx.stroke();
+    ctx.restore();
+    
+    // Draw Mobile Text
+    ctx.save();
+    ctx.fillStyle = hoverMobile ? "#ffffff" : "#a1a1aa";
+    ctx.font = "300 10px 'Inter'";
+    ctx.letterSpacing = "0.08em";
+    ctx.textAlign = "left";
+    ctx.fillText("DOWNLOAD MOBILE", xMobile + 42, btnY + 23);
+    ctx.restore();
     
     ctx.restore();
     
@@ -940,13 +1011,13 @@ function handleCanvasClick(e) {
             isEditingPseudonym = false;
             isDropdownOpen = false;
         }
-        // Direct Download Desktop
-        if (x >= centerX - 190 && x <= centerX - 10 && y >= centerY + 215 && y <= centerY + 245) {
+        // Direct Download Desktop (spans from centerX - 200 to centerX - 15)
+        if (x >= centerX - 200 && x <= centerX - 15 && y >= centerY + 215 && y <= centerY + 253) {
             console.log("[VTP] Downloading Desktop Client...");
             window.location.href = "/downloads/truth.exe";
         }
-        // Direct Download Mobile
-        if (x >= centerX + 10 && x <= centerX + 190 && y >= centerY + 215 && y <= centerY + 245) {
+        // Direct Download Mobile (spans from centerX + 15 to centerX + 200)
+        if (x >= centerX + 15 && x <= centerX + 200 && y >= centerY + 215 && y <= centerY + 253) {
             console.log("[VTP] Downloading Mobile Client...");
             window.location.href = "/downloads/truth.apk";
         }
