@@ -210,19 +210,22 @@ function drawD(ctx, x, y, opacity = 1.0) {
 
 function strokeLetter(ctx, opacity = 1.0) {
     ctx.save();
+    // Pulsating dark purple glow based on time (slow, deliberate rhythm)
+    const pulse = 0.75 + Math.sin(Date.now() * 0.0015) * 0.25;
+    
     // 1. Purple outer glow rim
-    ctx.shadowColor = `rgba(124, 58, 237, ${0.9 * opacity})`;
-    ctx.shadowBlur = 25;
-    ctx.strokeStyle = `rgba(124, 58, 237, ${0.4 * opacity})`;
-    ctx.lineWidth = 4;
+    ctx.shadowColor = "rgba(124, 58, 237, 0.85)";
+    ctx.shadowBlur = 24 * pulse;
+    ctx.strokeStyle = `rgba(124, 58, 237, ${0.35 * pulse * opacity})`;
+    ctx.lineWidth = 4.5;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
     ctx.stroke();
     
-    // 2. Crisp inner hairline stroke
+    // 2. Stark black hairline core (no white or light purple)
     ctx.shadowBlur = 0;
-    ctx.strokeStyle = `rgba(233, 213, 255, ${opacity})`;
-    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = `rgba(0, 0, 0, ${opacity})`;
+    ctx.lineWidth = 1.8;
     ctx.stroke();
     ctx.restore();
 }
@@ -234,6 +237,11 @@ function renderUI() {
     // 1. Clear with Absolute Black Canvas
     ctx.fillStyle = DESIGN_TOKENS.background;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // 2. Draw pulsing background stars (only if not on landing page to keep it clean)
+    if (currentUIState !== "ThresholdLanding") {
+        drawBackgroundStars(ctx, canvas.width, canvas.height);
+    }
     
     // Remove loading indicator once compiled Wasm takes over
     const loader = document.getElementById("loader");
@@ -300,23 +308,28 @@ function renderThresholdLanding(centerX, centerY) {
         drawV(ctx, centerX - 220 + dx, centerY + dy, vidOpacity);
     }
     
-    // O (Rotated Portal Icon)
+    // O (Rotated Portal Icon inside circle clipping path to prevent square corners)
     if (oOpacity > 0) {
         ctx.save();
         ctx.translate(centerX - 70 + dx, centerY + dy);
+        
+        // Circular clipping boundary to keep galaxy round and hide square image edges
+        ctx.beginPath();
+        ctx.arc(0, 0, 65, 0, Math.PI * 2);
+        ctx.clip();
+        
         ctx.rotate(rotationAngle);
         ctx.globalAlpha = oOpacity;
         if (portalImg.complete) {
-            ctx.shadowColor = "rgba(124, 58, 237, 0.6)";
-            ctx.shadowBlur = 30;
             ctx.drawImage(portalImg, -70, -70, 140, 140);
-        } else {
-            ctx.strokeStyle = DESIGN_TOKENS.purpleGlow;
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.arc(0, 0, 65, 0, Math.PI * 2);
-            ctx.stroke();
         }
+        ctx.restore();
+        
+        // Draw O outer circular outline matching the V, I, D stroke style
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(centerX - 70 + dx, centerY + dy, 65, 0, Math.PI * 2);
+        strokeLetter(ctx, vidOpacity);
         ctx.restore();
     }
     
