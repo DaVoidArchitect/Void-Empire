@@ -1,1 +1,3774 @@
-{"logos_version": "2.0-declarative", "intents": [{"name": "Mailbox", "headers": {"steward": "kernel_hal", "target": "capability_verifier", "license": "PRIVATE", "scope": "Subnet", "provenance": "kernel_registry", "lifetime": {"value": 24, "unit": "hours"}}, "requirements": [{"resource": "energy", "value": 180000.0, "unit": "J"}], "constraints": [], "states": [{"name": "Idle", "transitions": [{"event": "receive_envelope", "target": "Idle", "line": 14, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "replayed"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 3600.0, "unit": "J"}]}, {"event": "receive_envelope", "target": "Processing", "line": 17, "guard": {"expr": {"type": "binary", "op": "and", "left": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "replayed"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 0}}, "right": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "is_valid_sig"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}}, "requires": [{"resource": "energy", "value": 360.0, "unit": "J"}]}, {"event": "receive_envelope", "target": "Idle", "line": 20, "guard": {"expr": {"type": "binary", "op": "and", "left": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "replayed"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 0}}, "right": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "is_valid_sig"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 0}}}}, "requires": [{"resource": "energy", "value": 1800.0, "unit": "J"}]}]}, {"name": "Processing", "transitions": [{"event": "done", "target": "Idle", "line": 26}]}]}, {"name": "Scheduler", "headers": {"steward": "kernel_core", "target": "scheduler_core", "license": "PRIVATE", "scope": "Subnet", "provenance": "kernel_registry", "lifetime": {"value": 1, "unit": "days"}}, "requirements": [{"resource": "energy", "value": 360000.0, "unit": "J"}], "constraints": [], "states": [{"name": "Idle", "transitions": [{"event": "dispatch_task", "target": "Running", "line": 14, "guard": {"expr": {"type": "binary", "op": ">", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "priority"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 2}}}, "requires": [{"resource": "energy", "value": 7200.0, "unit": "J"}]}, {"event": "dispatch_task", "target": "Running", "line": 17, "guard": {"expr": {"type": "binary", "op": "<=", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "priority"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 2}}}, "requires": [{"resource": "energy", "value": 1800.0, "unit": "J"}]}]}, {"name": "Running", "transitions": [{"event": "complete", "target": "Idle", "line": 22}]}]}, {"name": "Treasury", "headers": {"steward": "genesis_treasury", "target": "settlement_ledger", "license": "RESTRICTED_LICENSE", "scope": "Global", "provenance": "genesis_registry", "lifetime": {"value": 1, "unit": "days"}}, "requirements": [{"resource": "energy", "value": 720000.0, "unit": "J"}], "constraints": [], "states": [{"name": "Idle", "transitions": [{"event": "process_payment", "target": "Settled", "line": 14, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "is_inter_subnet"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 22248.0, "unit": "J"}]}, {"event": "process_payment", "target": "Settled", "line": 17, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "is_inter_subnet"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 0}}}, "requires": [{"resource": "energy", "value": 5824.8, "unit": "J"}]}]}, {"name": "Settled", "transitions": [{"event": "reset", "target": "Idle", "line": 22}]}]}, {"name": "Storage", "headers": {"steward": "kernel_fs", "target": "diamond_lattice_storage", "license": "PRIVATE", "scope": "Subnet", "provenance": "kernel_registry", "lifetime": {"value": 1, "unit": "days"}}, "requirements": [{"resource": "energy", "value": 540000.0, "unit": "J"}], "constraints": [], "states": [{"name": "Idle", "transitions": [{"event": "write_block", "target": "Writing", "line": 14, "requires": [{"resource": "energy", "value": 180.0, "unit": "J"}]}, {"event": "read_block", "target": "Reading", "line": 17, "requires": [{"resource": "energy", "value": 36.0, "unit": "J"}]}]}, {"name": "Writing", "transitions": [{"event": "commit", "target": "Idle", "line": 23, "requires": [{"resource": "energy", "value": 72.0, "unit": "J"}]}, {"event": "rollback", "target": "Idle", "line": 26}]}, {"name": "Reading", "transitions": [{"event": "close", "target": "Idle", "line": 30}]}]}, {"name": "Session", "headers": {"steward": "kernel_auth", "target": "session_manager", "license": "PRIVATE", "scope": "Subnet", "provenance": "kernel_registry", "lifetime": {"value": 8, "unit": "hours"}}, "requirements": [{"resource": "energy", "value": 180000.0, "unit": "J"}], "constraints": [], "states": [{"name": "Closed", "transitions": [{"event": "request_auth", "target": "Authenticating", "line": 14, "requires": [{"resource": "energy", "value": 360.0, "unit": "J"}]}]}, {"name": "Authenticating", "transitions": [{"event": "verify_phrase", "target": "Active", "line": 20, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "is_valid_phrase"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 180.0, "unit": "J"}]}, {"event": "reject_phrase", "target": "Closed", "line": 23, "requires": [{"resource": "energy", "value": 720.0, "unit": "J"}]}]}, {"name": "Active", "transitions": [{"event": "tick_expiry", "target": "Expired", "line": 29, "guard": {"expr": {"type": "binary", "op": ">=", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "time_elapsed"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 8}}}, "requires": [{"resource": "energy", "value": 36.0, "unit": "J"}]}, {"event": "close", "target": "Closed", "line": 32}]}, {"name": "Expired", "transitions": [{"event": "renew", "target": "Active", "line": 36, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "is_valid_phrase"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 288.0, "unit": "J"}]}, {"event": "close", "target": "Closed", "line": 39}]}]}, {"name": "Bootloader", "headers": {"steward": "kernel_hal", "target": "processor_core", "license": "PRIVATE", "scope": "Subnet", "provenance": "boot_authority", "lifetime": {"value": 1, "unit": "hours"}}, "requirements": [{"resource": "energy", "value": 360000.0, "unit": "J"}, {"resource": "cycle", "value": 500.0, "unit": "cycles"}], "constraints": [], "states": [{"name": "Off", "transitions": [{"event": "power_on", "target": "RealMode", "line": 21, "requires": [{"resource": "energy", "value": 18000.0, "unit": "J"}]}]}, {"name": "RealMode", "transitions": [{"event": "load_gdt", "target": "ProtectedMode", "line": 28, "requires": [{"resource": "energy", "value": 36000.0, "unit": "J"}, {"resource": "cycle", "value": 100.0, "unit": "cycles"}]}]}, {"name": "ProtectedMode", "transitions": [{"event": "enable_paging", "target": "PagingEnabled", "line": 37, "requires": [{"resource": "energy", "value": 72000.0, "unit": "J"}, {"resource": "cycle", "value": 200.0, "unit": "cycles"}]}]}, {"name": "PagingEnabled", "transitions": [{"event": "jump_to_kernel", "target": "KernelExecuting", "line": 44, "requires": [{"resource": "energy", "value": 36000.0, "unit": "J"}, {"resource": "cycle", "value": 100.0, "unit": "cycles"}]}]}, {"name": "KernelExecuting", "transitions": [{"event": "reset", "target": "Off", "line": 51}]}]}, {"name": "PhysicalPageAllocator", "headers": {"steward": "kernel_core", "target": "memory_plane", "license": "PRIVATE", "scope": "Subnet", "provenance": "memory_authority", "lifetime": {"value": 24, "unit": "hours"}}, "requirements": [{"resource": "energy", "value": 1800000.0, "unit": "J"}, {"resource": "cycle", "value": 5000.0, "unit": "cycles"}], "constraints": [], "states": [{"name": "Uninitialized", "transitions": [{"event": "configure_memory", "target": "MemoryMapped", "line": 72, "guard": {"expr": {"type": "binary", "op": ">=", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "ram_size_mb"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 8192}}}, "requires": [{"resource": "energy", "value": 360000.0, "unit": "J"}, {"resource": "cycle", "value": 1000.0, "unit": "cycles"}]}, {"event": "configure_memory", "target": "Panic", "line": 76, "guard": {"expr": {"type": "binary", "op": "<", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "ram_size_mb"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 8192}}}}]}, {"name": "MemoryMapped", "transitions": [{"event": "allocate_kernel_page", "target": "KernelPageAllocated", "line": 81, "guard": {"expr": {"type": "binary", "op": ">", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "kernel_free_pages"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 0}}}, "requires": [{"resource": "energy", "value": 360.0, "unit": "J"}, {"resource": "cycle", "value": 10.0, "unit": "cycles"}]}, {"event": "allocate_tensor_page", "target": "TensorPageAllocated", "line": 86, "guard": {"expr": {"type": "binary", "op": ">", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "tensor_free_pages"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 0}}}, "requires": [{"resource": "energy", "value": 720.0, "unit": "J"}, {"resource": "cycle", "value": 20.0, "unit": "cycles"}]}, {"event": "free_kernel_page", "target": "MemoryMapped", "line": 90, "requires": [{"resource": "energy", "value": 180.0, "unit": "J"}, {"resource": "cycle", "value": 5.0, "unit": "cycles"}]}, {"event": "free_tensor_page", "target": "MemoryMapped", "line": 94, "requires": [{"resource": "energy", "value": 360.0, "unit": "J"}, {"resource": "cycle", "value": 10.0, "unit": "cycles"}]}]}, {"name": "KernelPageAllocated", "transitions": [{"event": "complete", "target": "MemoryMapped", "line": 101}]}, {"name": "TensorPageAllocated", "transitions": [{"event": "complete", "target": "MemoryMapped", "line": 105}]}, {"name": "Panic", "transitions": [{"event": "restart_system", "target": "Uninitialized", "line": 109, "requires": [{"resource": "energy", "value": 720000.0, "unit": "J"}]}]}]}, {"name": "InterruptVectorTable", "headers": {"steward": "kernel_core", "target": "interrupt_controller", "license": "PRIVATE", "scope": "Subnet", "provenance": "interrupt_authority", "lifetime": {"value": 24, "unit": "hours"}}, "requirements": [{"resource": "energy", "value": 360000.0, "unit": "J"}], "constraints": [], "states": [{"name": "LoadIVT", "transitions": [{"event": "ivt_register", "target": "Listening", "line": 128, "requires": [{"resource": "energy", "value": 18000.0, "unit": "J"}, {"resource": "cycle", "value": 50.0, "unit": "cycles"}]}]}, {"name": "Listening", "transitions": [{"event": "page_fault", "target": "RestartUserTaskLoop", "line": 137, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "is_kernel_fault"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 0}}}, "requires": [{"resource": "energy", "value": 18000.0, "unit": "J"}, {"resource": "cycle", "value": 50.0, "unit": "cycles"}]}, {"event": "page_fault", "target": "RestartKernelTaskLoop", "line": 141, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "is_kernel_fault"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 54000.0, "unit": "J"}, {"resource": "cycle", "value": 150.0, "unit": "cycles"}]}, {"event": "double_fault", "target": "IsolateTaskGroup", "line": 146, "requires": [{"resource": "energy", "value": 72000.0, "unit": "J"}, {"resource": "cycle", "value": 200.0, "unit": "cycles"}]}, {"event": "hardware_tick", "target": "ServiceTick", "line": 150, "requires": [{"resource": "energy", "value": 36.0, "unit": "J"}, {"resource": "cycle", "value": 1.0, "unit": "cycles"}]}]}, {"name": "RestartUserTaskLoop", "transitions": [{"event": "resume", "target": "Listening", "line": 157}]}, {"name": "RestartKernelTaskLoop", "transitions": [{"event": "resume", "target": "Listening", "line": 161}]}, {"name": "IsolateTaskGroup", "transitions": [{"event": "cleanup_complete", "target": "Listening", "line": 165, "requires": [{"resource": "energy", "value": 36000.0, "unit": "J"}]}]}, {"name": "ServiceTick", "transitions": [{"event": "tick_done", "target": "Listening", "line": 171}]}]}, {"name": "MemoryManager", "headers": {"steward": "model_inference_engine", "target": "physical_allocator", "license": "PRIVATE", "scope": "Subnet", "provenance": "truth_authority", "lifetime": {"value": 24, "unit": "hours"}}, "requirements": [{"resource": "energy", "value": 720000.0, "unit": "J"}, {"resource": "cycle", "value": 1000.0, "unit": "cycles"}], "constraints": [], "states": [{"name": "Idle", "transitions": [{"event": "allocate_tensor", "target": "Allocating", "line": 24, "guard": {"expr": {"type": "binary", "op": "and", "left": {"type": "binary", "op": "<=", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "tensor_size_bytes"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1073741824}}, "right": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "offset_bound_ok"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}}, "requires": [{"resource": "energy", "value": 18000.0, "unit": "J"}, {"resource": "cycle", "value": 50.0, "unit": "cycles"}]}, {"event": "allocate_tensor", "target": "AllocationError", "line": 28, "guard": {"expr": {"type": "binary", "op": "or", "left": {"type": "binary", "op": ">", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "tensor_size_bytes"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1073741824}}, "right": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "offset_bound_ok"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 0}}}}}]}, {"name": "Allocating", "transitions": [{"event": "page_binding_success", "target": "Allocated", "line": 32, "requires": [{"resource": "energy", "value": 3600.0, "unit": "J"}, {"resource": "cycle", "value": 10.0, "unit": "cycles"}]}, {"event": "page_binding_error", "target": "OutOfMemory", "line": 36}]}, {"name": "Allocated", "transitions": [{"event": "release_tensor", "target": "Releasing", "line": 40, "requires": [{"resource": "energy", "value": 7200.0, "unit": "J"}, {"resource": "cycle", "value": 20.0, "unit": "cycles"}]}]}, {"name": "Releasing", "transitions": [{"event": "page_free_success", "target": "Idle", "line": 47}]}, {"name": "AllocationError", "transitions": [{"event": "clear_error", "target": "Idle", "line": 51}]}, {"name": "OutOfMemory", "transitions": [{"event": "purge_caches", "target": "Idle", "line": 55, "requires": [{"resource": "energy", "value": 36000.0, "unit": "J"}]}]}]}, {"name": "SovereignCompute", "headers": {"steward": "model_inference_engine", "target": "vector_accelerator", "license": "PRIVATE", "scope": "Subnet", "provenance": "truth_authority", "lifetime": {"value": 24, "unit": "hours"}}, "requirements": [{"resource": "energy", "value": 1800000.0, "unit": "J"}, {"resource": "cycle", "value": 5000.0, "unit": "cycles"}], "constraints": [], "states": [{"name": "Idle", "transitions": [{"event": "dispatch_gemm", "target": "ComputingGEMM", "line": 77, "guard": {"expr": {"type": "binary", "op": "<=", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "matrix_dim"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 4096}}}, "requires": [{"resource": "energy", "value": 72000.0, "unit": "J"}, {"resource": "cycle", "value": 200.0, "unit": "cycles"}]}, {"event": "dispatch_fused_activation", "target": "ComputingFusedActivation", "line": 85, "guard": {"expr": {"type": "binary", "op": "<=", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "vector_dim"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 16384}}}, "requires": [{"resource": "energy", "value": 28800.0, "unit": "J"}, {"resource": "cycle", "value": 80.0, "unit": "cycles"}]}]}, {"name": "ComputingGEMM", "transitions": [{"event": "gemm_complete", "target": "Idle", "line": 92, "requires": [{"resource": "energy", "value": 18000.0, "unit": "J"}, {"resource": "cycle", "value": 50.0, "unit": "cycles"}]}, {"event": "computation_fault", "target": "SystemPanic", "line": 96}]}, {"name": "ComputingFusedActivation", "transitions": [{"event": "fusion_complete", "target": "Idle", "line": 100, "requires": [{"resource": "energy", "value": 7200.0, "unit": "J"}, {"resource": "cycle", "value": 20.0, "unit": "cycles"}]}, {"event": "computation_fault", "target": "SystemPanic", "line": 104}]}, {"name": "SystemPanic", "transitions": [{"event": "reset_registers", "target": "Idle", "line": 108, "requires": [{"resource": "energy", "value": 180000.0, "unit": "J"}]}]}]}, {"name": "LogosHDL", "headers": {"steward": "pdk_compiler", "target": "rtl_generator", "license": "PRIVATE", "scope": "Subnet", "provenance": "pdk_authority", "lifetime": {"value": 24, "unit": "hours"}}, "requirements": [{"resource": "energy", "value": 360000.0, "unit": "J"}, {"resource": "cycle", "value": 500.0, "unit": "cycles"}], "constraints": [], "states": [{"name": "Idle", "transitions": [{"event": "compile_rtl", "target": "EmittingRTL", "line": 22, "requires": [{"resource": "energy", "value": 36000.0, "unit": "J"}, {"resource": "cycle", "value": 100.0, "unit": "cycles"}]}]}, {"name": "EmittingRTL", "transitions": [{"event": "rtl_success", "target": "Idle", "line": 29}]}]}, {"name": "VoidOneCoreSpec", "headers": {"steward": "silicon_architect", "target": "fabrication_plane", "license": "PRIVATE", "scope": "Global", "provenance": "void_hardware_foundation", "lifetime": {"value": 365, "unit": "days"}}, "requirements": [{"resource": "energy", "value": 3600000.0, "unit": "J"}], "constraints": [], "states": [{"name": "SpecDraft", "transitions": [{"event": "commit_spec", "target": "SpecLocked", "line": 48, "requires": [{"resource": "energy", "value": 180000.0, "unit": "J"}, {"resource": "cycle", "value": 500.0, "unit": "cycles"}]}]}, {"name": "SpecLocked", "transitions": [{"event": "verify_layout", "target": "VerifiedLayout", "line": 57, "requires": [{"resource": "energy", "value": 360000.0, "unit": "J"}, {"resource": "cycle", "value": 1000.0, "unit": "cycles"}]}]}, {"name": "VerifiedLayout", "transitions": [{"event": "export_gdsii", "target": "ReadyForTapeout", "line": 64}]}, {"name": "ReadyForTapeout", "transitions": []}]}, {"name": "HermeticGateway", "headers": {"steward": "bridge_operator", "target": "optical_diode", "license": "PRIVATE", "scope": "Subnet", "provenance": "gateway_authority", "lifetime": {"value": 24, "unit": "hours"}}, "requirements": [{"resource": "energy", "value": 360000.0, "unit": "J"}], "constraints": [], "states": [{"name": "Closed", "transitions": [{"event": "enable_diode", "target": "OpenUnidirectional", "line": 20, "requires": [{"resource": "energy", "value": 18000.0, "unit": "J"}]}]}, {"name": "OpenUnidirectional", "transitions": [{"event": "disable_diode", "target": "Closed", "line": 28}]}]}, {"name": "CryptographicHermeticProtocol", "headers": {"steward": "bridge_security", "target": "isolation_container", "license": "PRIVATE", "scope": "Subnet", "provenance": "gateway_authority", "lifetime": {"value": 12, "unit": "hours"}}, "requirements": [{"resource": "energy", "value": 1080000.0, "unit": "J"}, {"resource": "cycle", "value": 1500.0, "unit": "cycles"}], "constraints": [], "states": [{"name": "Listening", "transitions": [{"event": "receive_packet", "target": "DecryptingZeroCopy", "line": 49, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "packet_size_bytes"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 192}}}, "requires": [{"resource": "energy", "value": 7200.0, "unit": "J"}, {"resource": "cycle", "value": 50.0, "unit": "cycles"}]}, {"event": "receive_packet", "target": "DropAndClearBuffer", "line": 53, "guard": {"expr": {"type": "binary", "op": "!=", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "packet_size_bytes"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 192}}}}]}, {"name": "DecryptingZeroCopy", "transitions": [{"event": "decrypt_success", "target": "VerifyingLegacySignature", "line": 58, "requires": [{"resource": "energy", "value": 18000.0, "unit": "J"}, {"resource": "cycle", "value": 100.0, "unit": "cycles"}]}, {"event": "decrypt_fail", "target": "DropAndClearBuffer", "line": 62}]}, {"name": "VerifyingLegacySignature", "transitions": [{"event": "signature_valid", "target": "SanitizingBounds", "line": 67, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "is_sig_verified"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 36000.0, "unit": "J"}, {"resource": "cycle", "value": 150.0, "unit": "cycles"}]}, {"event": "signature_valid", "target": "DropAndClearBuffer", "line": 71, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "is_sig_verified"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 0}}}}]}, {"name": "SanitizingBounds", "transitions": [{"event": "validation_success", "target": "CastDataPayload", "line": 77, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "val_out_of_bounds"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 0}}}, "requires": [{"resource": "energy", "value": 3600.0, "unit": "J"}, {"resource": "cycle", "value": 20.0, "unit": "cycles"}]}, {"event": "validation_success", "target": "DropAndClearBuffer", "line": 81, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "val_out_of_bounds"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}}]}, {"name": "CastDataPayload", "transitions": [{"event": "cast_complete", "target": "ProcessingPayload", "line": 86, "requires": [{"resource": "energy", "value": 3600.0, "unit": "J"}]}]}, {"name": "ProcessingPayload", "transitions": [{"event": "processing_done", "target": "Listening", "line": 92}]}, {"name": "DropAndClearBuffer", "transitions": [{"event": "zero_fill_buffer", "target": "Listening", "line": 97, "requires": [{"resource": "energy", "value": 18000.0, "unit": "J"}, {"resource": "cycle", "value": 50.0, "unit": "cycles"}]}]}]}, {"name": "VoidMesh", "headers": {"steward": "mesh_operator", "target": "network_interface_card", "license": "PRIVATE", "scope": "Global", "provenance": "mesh_authority", "lifetime": {"value": 24, "unit": "hours"}}, "requirements": [{"resource": "energy", "value": 1440000.0, "unit": "J"}, {"resource": "cycle", "value": 3000.0, "unit": "cycles"}], "constraints": [], "states": [{"name": "Disconnected", "transitions": [{"event": "connect_nic", "target": "NodeHandshake", "line": 22, "requires": [{"resource": "energy", "value": 36000.0, "unit": "J"}, {"resource": "cycle", "value": 100.0, "unit": "cycles"}]}]}, {"name": "NodeHandshake", "transitions": [{"event": "peer_challenge_verify", "target": "SlidingWindowSyncing", "line": 32, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "challenge_ok"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 54000.0, "unit": "J"}, {"resource": "cycle", "value": 150.0, "unit": "cycles"}]}, {"event": "peer_challenge_verify", "target": "RejectNode", "line": 36, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "challenge_ok"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 0}}}}]}, {"name": "SlidingWindowSyncing", "transitions": [{"event": "sliding_window_lock", "target": "Connected", "line": 42, "requires": [{"resource": "energy", "value": 18000.0, "unit": "J"}, {"resource": "cycle", "value": 50.0, "unit": "cycles"}]}]}, {"name": "Connected", "transitions": [{"event": "send_frame", "target": "FrameSent", "line": 50, "requires": [{"resource": "energy", "value": 3600.0, "unit": "J"}, {"resource": "cycle", "value": 10.0, "unit": "cycles"}]}, {"event": "receive_ack", "target": "Connected", "line": 55, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "ack_seq_ok"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 1800.0, "unit": "J"}, {"resource": "cycle", "value": 5.0, "unit": "cycles"}]}, {"event": "receive_ack", "target": "ReTransmitFrame", "line": 60, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "ack_seq_ok"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 0}}}, "requires": [{"resource": "energy", "value": 7200.0, "unit": "J"}, {"resource": "cycle", "value": 20.0, "unit": "cycles"}]}, {"event": "frame_timeout", "target": "ReTransmitFrame", "line": 64, "requires": [{"resource": "energy", "value": 10800.0, "unit": "J"}, {"resource": "cycle", "value": 30.0, "unit": "cycles"}]}, {"event": "dispatch_weight_slice", "target": "DistributingWeights", "line": 70, "requires": [{"resource": "energy", "value": 54000.0, "unit": "J"}, {"resource": "cycle", "value": 150.0, "unit": "cycles"}]}, {"event": "verify_consensus_pass", "target": "VerifyingConsensus", "line": 76, "requires": [{"resource": "energy", "value": 72000.0, "unit": "J"}, {"resource": "cycle", "value": 200.0, "unit": "cycles"}]}, {"event": "disconnect", "target": "Disconnected", "line": 80}]}, {"name": "FrameSent", "transitions": [{"event": "wait_ack", "target": "Connected", "line": 84}]}, {"name": "ReTransmitFrame", "transitions": [{"event": "retransmit_complete", "target": "Connected", "line": 88}]}, {"name": "DistributingWeights", "transitions": [{"event": "distribution_success", "target": "Connected", "line": 92}, {"event": "distribution_timeout", "target": "Connected", "line": 93}]}, {"name": "VerifyingConsensus", "transitions": [{"event": "consensus_match", "target": "Connected", "line": 97}, {"event": "consensus_mismatch", "target": "AuditTrigger", "line": 98}]}, {"name": "AuditTrigger", "transitions": [{"event": "flag_malicious_node", "target": "Connected", "line": 102, "requires": [{"resource": "energy", "value": 180000.0, "unit": "J"}]}]}, {"name": "RejectNode", "transitions": [{"event": "disconnect_peer", "target": "Disconnected", "line": 108}]}]}, {"name": "TLIEngine", "headers": {"steward": "truth_core", "target": "vector_accelerator", "license": "PRIVATE", "scope": "Global", "provenance": "truth_authority", "lifetime": {"value": 365, "unit": "days"}}, "requirements": [{"resource": "energy", "value": 3600000.0, "unit": "J"}, {"resource": "mass", "value": 1.0, "unit": "kg"}], "constraints": [], "states": [{"name": "Idle", "transitions": [{"event": "load_intention", "target": "RelaxingLattice", "line": 23, "guard": {"expr": {"type": "binary", "op": "<", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "input_entropy"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 10.0}}}, "requires": [{"resource": "energy", "value": 180000.0, "unit": "J"}, {"resource": "cycle", "value": 100.0, "unit": "cycles"}]}, {"event": "load_intention", "target": "FilterNoise", "line": 27, "guard": {"expr": {"type": "binary", "op": ">=", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "input_entropy"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 10.0}}}}]}, {"name": "RelaxingLattice", "transitions": [{"event": "evaluate_path", "target": "ConvergingState", "line": 34, "guard": {"expr": {"type": "binary", "op": "<", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "path_delta_e"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1.618}}}, "requires": [{"resource": "energy", "value": 360000.0, "unit": "J"}, {"resource": "cycle", "value": 200.0, "unit": "cycles"}]}, {"event": "path_divergence", "target": "ResetStateSpace", "line": 38}]}, {"name": "ConvergingState", "transitions": [{"event": "state_stabilised", "target": "EmittingReflection", "line": 43, "requires": [{"resource": "energy", "value": 72000.0, "unit": "J"}, {"resource": "cycle", "value": 50.0, "unit": "cycles"}]}]}, {"name": "EmittingReflection", "transitions": [{"event": "write_success", "target": "Idle", "line": 51}]}, {"name": "FilterNoise", "transitions": [{"event": "clear_buffer", "target": "Idle", "line": 55, "requires": [{"resource": "energy", "value": 36000.0, "unit": "J"}]}]}, {"name": "ResetStateSpace", "transitions": [{"event": "flush_lattice", "target": "Idle", "line": 61, "requires": [{"resource": "energy", "value": 180000.0, "unit": "J"}]}]}]}, {"name": "VoidOneDigitalTwin", "headers": {"steward": "hardware_telemetry", "target": "twin_verification_plane", "license": "PRIVATE", "scope": "Global", "provenance": "hardware_authority", "lifetime": {"value": 365, "unit": "days"}}, "requirements": [{"resource": "energy", "value": 360000.0, "unit": "J"}], "constraints": [], "states": [{"name": "Idle", "transitions": [{"event": "boot_twin", "target": "StackConfigured", "line": 22, "guard": {"expr": {"type": "binary", "op": "and", "left": {"type": "binary", "op": "and", "left": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "has_silicon"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 0}}, "right": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "has_copper"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 0}}}, "right": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "is_clockless"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}}, "requires": [{"resource": "energy", "value": 36000.0, "unit": "J"}, {"resource": "cycle", "value": 100.0, "unit": "cycles"}]}, {"event": "boot_twin", "target": "ConstraintViolation", "line": 26, "guard": {"expr": {"type": "binary", "op": "or", "left": {"type": "binary", "op": "or", "left": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "has_silicon"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}, "right": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "has_copper"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "right": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "is_clockless"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 0}}}}}]}, {"name": "StackConfigured", "transitions": [{"event": "verify_layers", "target": "DefectMapping", "line": 33, "guard": {"expr": {"type": "binary", "op": "and", "left": {"type": "binary", "op": "<", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "l1_temp_k"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 350}}, "right": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "l3_entropy_harvest_ok"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}}, "requires": [{"resource": "energy", "value": 72000.0, "unit": "J"}, {"resource": "cycle", "value": 200.0, "unit": "cycles"}]}, {"event": "verify_layers", "target": "ThermalOverload", "line": 37, "guard": {"expr": {"type": "binary", "op": "or", "left": {"type": "binary", "op": ">=", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "l1_temp_k"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 350}}, "right": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "l3_entropy_harvest_ok"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 0}}}}}]}, {"name": "DefectMapping", "transitions": [{"event": "load_defect_priors", "target": "ActiveSimulation", "line": 43, "guard": {"expr": {"type": "binary", "op": "and", "left": {"type": "binary", "op": ">", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "stable_channels"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 0}}, "right": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "unstable_clusters_flag"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 0}}}}, "requires": [{"resource": "energy", "value": 54000.0, "unit": "J"}, {"resource": "cycle", "value": 150.0, "unit": "cycles"}]}, {"event": "load_defect_priors", "target": "ReRouteFabric", "line": 47, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "unstable_clusters_flag"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}}]}, {"name": "ActiveSimulation", "transitions": [{"event": "propagate_pulse", "target": "ActiveSimulation", "line": 53, "guard": {"expr": {"type": "binary", "op": "<", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "pulse_delay_ns"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 5.0}}}, "requires": [{"resource": "energy", "value": 3600.0, "unit": "J"}, {"resource": "cycle", "value": 10.0, "unit": "cycles"}]}, {"event": "route_transaction", "target": "ApplyInterTariff", "line": 60, "guard": {"expr": {"type": "binary", "op": "!=", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "src_subnet_id"}, "right": {"type": "literal", "value_type": "IDENTIFIER", "value": "dst_subnet_id"}}}, "requires": [{"resource": "energy", "value": 22248.0, "unit": "J"}]}, {"event": "route_transaction", "target": "ApplyIntraLease", "line": 66, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "src_subnet_id"}, "right": {"type": "literal", "value_type": "IDENTIFIER", "value": "dst_subnet_id"}}}, "requires": [{"resource": "energy", "value": 5824.8, "unit": "J"}]}, {"event": "thermal_alert", "target": "ThermalOverload", "line": 70, "guard": {"expr": {"type": "binary", "op": ">=", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "l1_temp_k"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 350}}}}, {"event": "power_off", "target": "Idle", "line": 71}]}, {"name": "ApplyInterTariff", "transitions": [{"event": "commit_tariff", "target": "ActiveSimulation", "line": 75}]}, {"name": "ApplyIntraLease", "transitions": [{"event": "commit_lease", "target": "ActiveSimulation", "line": 79}]}, {"name": "ReRouteFabric", "transitions": [{"event": "bypass_complete", "target": "DefectMapping", "line": 83, "requires": [{"resource": "energy", "value": 18000.0, "unit": "J"}, {"resource": "cycle", "value": 50.0, "unit": "cycles"}]}]}, {"name": "ThermalOverload", "transitions": [{"event": "cool_down", "target": "StackConfigured", "line": 91, "guard": {"expr": {"type": "binary", "op": "<", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "l1_temp_k"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 300}}}, "requires": [{"resource": "energy", "value": 180000.0, "unit": "J"}, {"resource": "cycle", "value": 500.0, "unit": "cycles"}]}]}, {"name": "ConstraintViolation", "transitions": [{"event": "halt_system", "target": "Idle", "line": 99}]}]}, {"name": "Void", "headers": {"steward": "portal_coordinator", "target": "civilization_mesh", "license": "PRIVATE", "scope": "Global", "provenance": "threshold_authority", "lifetime": {"value": 365, "unit": "days"}, "token_background": "#020204", "token_background_deep": "#010102", "token_primary_purple": "#7c3aed", "token_sovereign_gold": "#f4d58d", "token_tagline_color": "#f4d58d", "token_text_primary": "#f5f5f7", "token_white": "#ffffff", "token_surface_01": "#0a0a0c", "token_surface_02": "#111115", "token_surface_03": "#1a1a22", "token_surface_04": "#2a2a35", "token_glow_color": "#7c3aed", "token_glow_opacity": 0.15, "token_glow_blur_radius": 12, "token_glow_spread": 2, "token_glow_rim": "#a78bfa", "token_o_inner_aura_purple": "#6d28d9", "token_o_inner_aura_gold": "#f4d58d20", "token_o_aura_blur": 40, "token_o_center": "#020204", "token_o_aura_method": "inner_rim_fade", "token_o_outline": "none", "token_font_display": "Archivo Black", "token_font_ui": "Inter", "token_font_mono": "IBM Plex Mono", "token_letter_spacing_wide": "0.35em", "token_letter_spacing_cta": "0.25em", "token_letter_style": "flat", "token_letter_weight": "ultra_hairline", "token_letter_fill": "#030303", "token_depth_method": "purple_reveal", "token_perspective_depth": 1200, "token_parallax_sensitivity": 0.03, "token_entrance_duration": 2.4, "token_magnetic_radius": 150, "token_loader_duration": 3.0}, "requirements": [{"resource": "energy", "value": 360000.0, "unit": "J"}], "constraints": [], "states": [{"name": "ThresholdLanding", "transitions": [{"event": "become_citizen", "target": "CitizenOnboarding", "line": 106, "requires": [{"resource": "energy", "value": 360.0, "unit": "J"}, {"resource": "cycle", "value": 5.0, "unit": "cycles"}]}, {"event": "enter_void", "target": "DownloadPortal", "line": 110, "requires": [{"resource": "energy", "value": 180.0, "unit": "J"}, {"resource": "cycle", "value": 3.0, "unit": "cycles"}]}, {"event": "parallax_tick", "target": "ThresholdLanding", "line": 114, "requires": [{"resource": "energy", "value": 3.6, "unit": "J"}]}]}, {"name": "DownloadPortal", "transitions": [{"event": "download_desktop", "target": "DownloadPortal", "line": 121, "requires": [{"resource": "energy", "value": 72.0, "unit": "J"}, {"resource": "cycle", "value": 5.0, "unit": "cycles"}]}, {"event": "download_mobile", "target": "DownloadPortal", "line": 125, "requires": [{"resource": "energy", "value": 72.0, "unit": "J"}, {"resource": "cycle", "value": 5.0, "unit": "cycles"}]}, {"event": "proceed_to_auth", "target": "CitizenAuthentication", "line": 129, "requires": [{"resource": "energy", "value": 180.0, "unit": "J"}, {"resource": "cycle", "value": 3.0, "unit": "cycles"}]}, {"event": "cancel", "target": "ThresholdLanding", "line": 133}]}, {"name": "CitizenOnboarding", "transitions": [{"event": "submit_details", "target": "KeyGeneration", "line": 138, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "is_valid_pseudonym"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 1800.0, "unit": "J"}, {"resource": "cycle", "value": 15.0, "unit": "cycles"}]}, {"event": "cancel", "target": "ThresholdLanding", "line": 142}]}, {"name": "KeyGeneration", "transitions": [{"event": "generate_keys", "target": "ActivePortalSession", "line": 147, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "key_entropy_verified"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 7200.0, "unit": "J"}, {"resource": "cycle", "value": 50.0, "unit": "cycles"}]}, {"event": "failure", "target": "CitizenOnboarding", "line": 151}]}, {"name": "CitizenAuthentication", "transitions": [{"event": "verify_passkey", "target": "ActivePortalSession", "line": 156, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "passkey_verified"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 360.0, "unit": "J"}, {"resource": "cycle", "value": 5.0, "unit": "cycles"}]}, {"event": "reject_passkey", "target": "ThresholdLanding", "line": 160}]}, {"name": "ActivePortalSession", "transitions": [{"event": "view_feed", "target": "SocialFeed", "line": 165, "requires": [{"resource": "energy", "value": 360.0, "unit": "J"}, {"resource": "cycle", "value": 5.0, "unit": "cycles"}]}, {"event": "view_subnets", "target": "SubnetRegistry", "line": 169, "requires": [{"resource": "energy", "value": 720.0, "unit": "J"}, {"resource": "cycle", "value": 10.0, "unit": "cycles"}]}, {"event": "view_quests", "target": "QuestBoard", "line": 173, "requires": [{"resource": "energy", "value": 720.0, "unit": "J"}, {"resource": "cycle", "value": 10.0, "unit": "cycles"}]}, {"event": "view_companion", "target": "CompanionNode", "line": 177, "requires": [{"resource": "energy", "value": 540.0, "unit": "J"}, {"resource": "cycle", "value": 8.0, "unit": "cycles"}]}, {"event": "sign_out", "target": "ThresholdLanding", "line": 181, "requires": [{"resource": "energy", "value": 180.0, "unit": "J"}]}, {"event": "request_refund", "target": "AccountRevocation", "line": 184, "requires": [{"resource": "energy", "value": 3600.0, "unit": "J"}, {"resource": "cycle", "value": 30.0, "unit": "cycles"}]}]}, {"name": "SocialFeed", "transitions": [{"event": "publish_post", "target": "SocialFeed", "line": 192, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "post_bytes_valid"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 1800.0, "unit": "J"}, {"resource": "cycle", "value": 25.0, "unit": "cycles"}]}, {"event": "exit", "target": "ActivePortalSession", "line": 196}]}, {"name": "SubnetRegistry", "transitions": [{"event": "create_subnet", "target": "SubnetRegistry", "line": 201, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "subnet_stake_committed"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 18000.0, "unit": "J"}, {"resource": "cycle", "value": 100.0, "unit": "cycles"}]}, {"event": "exit", "target": "ActivePortalSession", "line": 205}]}, {"name": "QuestBoard", "transitions": [{"event": "claim_quest", "target": "QuestBoard", "line": 210, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "quest_available"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 720.0, "unit": "J"}, {"resource": "cycle", "value": 10.0, "unit": "cycles"}]}, {"event": "submit_proof", "target": "QuestBoard", "line": 214, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "proof_hash_valid"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 2880.0, "unit": "J"}, {"resource": "cycle", "value": 30.0, "unit": "cycles"}]}, {"event": "verify_proof", "target": "QuestBoard", "line": 218, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "verification_approved"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 3600.0, "unit": "J"}, {"resource": "cycle", "value": 40.0, "unit": "cycles"}]}, {"event": "exit", "target": "ActivePortalSession", "line": 222}]}, {"name": "CompanionNode", "transitions": [{"event": "configure_companion", "target": "CompanionNode", "line": 227, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "companion_params_valid"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 1080.0, "unit": "J"}, {"resource": "cycle", "value": 15.0, "unit": "cycles"}]}, {"event": "exit", "target": "ActivePortalSession", "line": 231}]}, {"name": "AccountRevocation", "transitions": [{"event": "confirm_erasure", "target": "ThresholdLanding", "line": 236, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "refund_confirmed"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 7200.0, "unit": "J"}, {"resource": "cycle", "value": 50.0, "unit": "cycles"}]}]}]}]}
+{
+  "logos_version": "2.0-declarative",
+  "intents": [
+    {
+      "name": "Mailbox",
+      "headers": {
+        "steward": "kernel_hal",
+        "target": "capability_verifier",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "kernel_registry",
+        "lifetime": {
+          "value": 24,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 180000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "receive_envelope",
+              "target": "Idle",
+              "line": 14,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "replayed"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 3600.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "receive_envelope",
+              "target": "Processing",
+              "line": 17,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "and",
+                  "left": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "replayed"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 0
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "is_valid_sig"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 1
+                    }
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "receive_envelope",
+              "target": "Idle",
+              "line": 20,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "and",
+                  "left": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "replayed"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 0
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "is_valid_sig"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 0
+                    }
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 1800.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Processing",
+          "transitions": [
+            {
+              "event": "done",
+              "target": "Idle",
+              "line": 26
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Scheduler",
+      "headers": {
+        "steward": "kernel_core",
+        "target": "scheduler_core",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "kernel_registry",
+        "lifetime": {
+          "value": 1,
+          "unit": "days"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 360000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "dispatch_task",
+              "target": "Running",
+              "line": 14,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": ">",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "priority"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 2
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 7200.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "dispatch_task",
+              "target": "Running",
+              "line": 17,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "<=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "priority"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 2
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 1800.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Running",
+          "transitions": [
+            {
+              "event": "complete",
+              "target": "Idle",
+              "line": 22
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Treasury",
+      "headers": {
+        "steward": "genesis_treasury",
+        "target": "settlement_ledger",
+        "license": "RESTRICTED_LICENSE",
+        "scope": "Global",
+        "provenance": "genesis_registry",
+        "lifetime": {
+          "value": 1,
+          "unit": "days"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 720000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "process_payment",
+              "target": "Settled",
+              "line": 14,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "is_inter_subnet"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 22248.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "process_payment",
+              "target": "Settled",
+              "line": 17,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "is_inter_subnet"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 0
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 5824.8,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Settled",
+          "transitions": [
+            {
+              "event": "reset",
+              "target": "Idle",
+              "line": 22
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Storage",
+      "headers": {
+        "steward": "kernel_fs",
+        "target": "diamond_lattice_storage",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "kernel_registry",
+        "lifetime": {
+          "value": 1,
+          "unit": "days"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 540000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "write_block",
+              "target": "Writing",
+              "line": 14,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "read_block",
+              "target": "Reading",
+              "line": 17,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Writing",
+          "transitions": [
+            {
+              "event": "commit",
+              "target": "Idle",
+              "line": 23,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 72.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "rollback",
+              "target": "Idle",
+              "line": 26
+            }
+          ]
+        },
+        {
+          "name": "Reading",
+          "transitions": [
+            {
+              "event": "close",
+              "target": "Idle",
+              "line": 30
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Session",
+      "headers": {
+        "steward": "kernel_auth",
+        "target": "session_manager",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "kernel_registry",
+        "lifetime": {
+          "value": 8,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 180000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Closed",
+          "transitions": [
+            {
+              "event": "request_auth",
+              "target": "Authenticating",
+              "line": 14,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Authenticating",
+          "transitions": [
+            {
+              "event": "verify_phrase",
+              "target": "Active",
+              "line": 20,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "is_valid_phrase"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "reject_phrase",
+              "target": "Closed",
+              "line": 23,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 720.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Active",
+          "transitions": [
+            {
+              "event": "tick_expiry",
+              "target": "Expired",
+              "line": 29,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": ">=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "time_elapsed"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 8
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "close",
+              "target": "Closed",
+              "line": 32
+            }
+          ]
+        },
+        {
+          "name": "Expired",
+          "transitions": [
+            {
+              "event": "renew",
+              "target": "Active",
+              "line": 36,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "is_valid_phrase"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 288.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "close",
+              "target": "Closed",
+              "line": 39
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bootloader",
+      "headers": {
+        "steward": "kernel_hal",
+        "target": "processor_core",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "boot_authority",
+        "lifetime": {
+          "value": 1,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 360000.0,
+          "unit": "J"
+        },
+        {
+          "resource": "cycle",
+          "value": 500.0,
+          "unit": "cycles"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Off",
+          "transitions": [
+            {
+              "event": "power_on",
+              "target": "RealMode",
+              "line": 21,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RealMode",
+          "transitions": [
+            {
+              "event": "load_gdt",
+              "target": "ProtectedMode",
+              "line": 28,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 100.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ProtectedMode",
+          "transitions": [
+            {
+              "event": "enable_paging",
+              "target": "PagingEnabled",
+              "line": 37,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 72000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 200.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "PagingEnabled",
+          "transitions": [
+            {
+              "event": "jump_to_kernel",
+              "target": "KernelExecuting",
+              "line": 44,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 100.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "KernelExecuting",
+          "transitions": [
+            {
+              "event": "reset",
+              "target": "Off",
+              "line": 51
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PhysicalPageAllocator",
+      "headers": {
+        "steward": "kernel_core",
+        "target": "memory_plane",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "memory_authority",
+        "lifetime": {
+          "value": 24,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 1800000.0,
+          "unit": "J"
+        },
+        {
+          "resource": "cycle",
+          "value": 5000.0,
+          "unit": "cycles"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Uninitialized",
+          "transitions": [
+            {
+              "event": "configure_memory",
+              "target": "MemoryMapped",
+              "line": 72,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": ">=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "ram_size_mb"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 8192
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 1000.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "configure_memory",
+              "target": "Panic",
+              "line": 76,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "<",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "ram_size_mb"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 8192
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "MemoryMapped",
+          "transitions": [
+            {
+              "event": "allocate_kernel_page",
+              "target": "KernelPageAllocated",
+              "line": 81,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": ">",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "kernel_free_pages"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 0
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 10.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "allocate_tensor_page",
+              "target": "TensorPageAllocated",
+              "line": 86,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": ">",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "tensor_free_pages"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 0
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 720.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 20.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "free_kernel_page",
+              "target": "MemoryMapped",
+              "line": 90,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 5.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "free_tensor_page",
+              "target": "MemoryMapped",
+              "line": 94,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 10.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "KernelPageAllocated",
+          "transitions": [
+            {
+              "event": "complete",
+              "target": "MemoryMapped",
+              "line": 101
+            }
+          ]
+        },
+        {
+          "name": "TensorPageAllocated",
+          "transitions": [
+            {
+              "event": "complete",
+              "target": "MemoryMapped",
+              "line": 105
+            }
+          ]
+        },
+        {
+          "name": "Panic",
+          "transitions": [
+            {
+              "event": "restart_system",
+              "target": "Uninitialized",
+              "line": 109,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 720000.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "InterruptVectorTable",
+      "headers": {
+        "steward": "kernel_core",
+        "target": "interrupt_controller",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "interrupt_authority",
+        "lifetime": {
+          "value": 24,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 360000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "LoadIVT",
+          "transitions": [
+            {
+              "event": "ivt_register",
+              "target": "Listening",
+              "line": 128,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Listening",
+          "transitions": [
+            {
+              "event": "page_fault",
+              "target": "RestartUserTaskLoop",
+              "line": 137,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "is_kernel_fault"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 0
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "page_fault",
+              "target": "RestartKernelTaskLoop",
+              "line": 141,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "is_kernel_fault"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 54000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 150.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "double_fault",
+              "target": "IsolateTaskGroup",
+              "line": 146,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 72000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 200.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "hardware_tick",
+              "target": "ServiceTick",
+              "line": 150,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 1.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RestartUserTaskLoop",
+          "transitions": [
+            {
+              "event": "resume",
+              "target": "Listening",
+              "line": 157
+            }
+          ]
+        },
+        {
+          "name": "RestartKernelTaskLoop",
+          "transitions": [
+            {
+              "event": "resume",
+              "target": "Listening",
+              "line": 161
+            }
+          ]
+        },
+        {
+          "name": "IsolateTaskGroup",
+          "transitions": [
+            {
+              "event": "cleanup_complete",
+              "target": "Listening",
+              "line": 165,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36000.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ServiceTick",
+          "transitions": [
+            {
+              "event": "tick_done",
+              "target": "Listening",
+              "line": 171
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "MemoryManager",
+      "headers": {
+        "steward": "model_inference_engine",
+        "target": "physical_allocator",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "truth_authority",
+        "lifetime": {
+          "value": 24,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 720000.0,
+          "unit": "J"
+        },
+        {
+          "resource": "cycle",
+          "value": 1000.0,
+          "unit": "cycles"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "allocate_tensor",
+              "target": "Allocating",
+              "line": 24,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "and",
+                  "left": {
+                    "type": "binary",
+                    "op": "<=",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "tensor_size_bytes"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 1073741824
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "offset_bound_ok"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 1
+                    }
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "allocate_tensor",
+              "target": "AllocationError",
+              "line": 28,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "or",
+                  "left": {
+                    "type": "binary",
+                    "op": ">",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "tensor_size_bytes"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 1073741824
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "offset_bound_ok"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 0
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Allocating",
+          "transitions": [
+            {
+              "event": "page_binding_success",
+              "target": "Allocated",
+              "line": 32,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 3600.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 10.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "page_binding_error",
+              "target": "OutOfMemory",
+              "line": 36
+            }
+          ]
+        },
+        {
+          "name": "Allocated",
+          "transitions": [
+            {
+              "event": "release_tensor",
+              "target": "Releasing",
+              "line": 40,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 7200.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 20.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Releasing",
+          "transitions": [
+            {
+              "event": "page_free_success",
+              "target": "Idle",
+              "line": 47
+            }
+          ]
+        },
+        {
+          "name": "AllocationError",
+          "transitions": [
+            {
+              "event": "clear_error",
+              "target": "Idle",
+              "line": 51
+            }
+          ]
+        },
+        {
+          "name": "OutOfMemory",
+          "transitions": [
+            {
+              "event": "purge_caches",
+              "target": "Idle",
+              "line": 55,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36000.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SovereignCompute",
+      "headers": {
+        "steward": "model_inference_engine",
+        "target": "vector_accelerator",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "truth_authority",
+        "lifetime": {
+          "value": 24,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 1800000.0,
+          "unit": "J"
+        },
+        {
+          "resource": "cycle",
+          "value": 5000.0,
+          "unit": "cycles"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "dispatch_gemm",
+              "target": "ComputingGEMM",
+              "line": 77,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "<=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "matrix_dim"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 4096
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 72000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 200.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "dispatch_fused_activation",
+              "target": "ComputingFusedActivation",
+              "line": 85,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "<=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "vector_dim"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 16384
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 28800.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 80.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ComputingGEMM",
+          "transitions": [
+            {
+              "event": "gemm_complete",
+              "target": "Idle",
+              "line": 92,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "computation_fault",
+              "target": "SystemPanic",
+              "line": 96
+            }
+          ]
+        },
+        {
+          "name": "ComputingFusedActivation",
+          "transitions": [
+            {
+              "event": "fusion_complete",
+              "target": "Idle",
+              "line": 100,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 7200.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 20.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "computation_fault",
+              "target": "SystemPanic",
+              "line": 104
+            }
+          ]
+        },
+        {
+          "name": "SystemPanic",
+          "transitions": [
+            {
+              "event": "reset_registers",
+              "target": "Idle",
+              "line": 108,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180000.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "LogosHDL",
+      "headers": {
+        "steward": "pdk_compiler",
+        "target": "rtl_generator",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "pdk_authority",
+        "lifetime": {
+          "value": 24,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 360000.0,
+          "unit": "J"
+        },
+        {
+          "resource": "cycle",
+          "value": 500.0,
+          "unit": "cycles"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "compile_rtl",
+              "target": "EmittingRTL",
+              "line": 22,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 100.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "EmittingRTL",
+          "transitions": [
+            {
+              "event": "rtl_success",
+              "target": "Idle",
+              "line": 29
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "VoidOneCoreSpec",
+      "headers": {
+        "steward": "silicon_architect",
+        "target": "fabrication_plane",
+        "license": "PRIVATE",
+        "scope": "Global",
+        "provenance": "void_hardware_foundation",
+        "lifetime": {
+          "value": 365,
+          "unit": "days"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 3600000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "SpecDraft",
+          "transitions": [
+            {
+              "event": "commit_spec",
+              "target": "SpecLocked",
+              "line": 48,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 500.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "SpecLocked",
+          "transitions": [
+            {
+              "event": "verify_layout",
+              "target": "VerifiedLayout",
+              "line": 57,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 1000.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "VerifiedLayout",
+          "transitions": [
+            {
+              "event": "export_gdsii",
+              "target": "ReadyForTapeout",
+              "line": 64
+            }
+          ]
+        },
+        {
+          "name": "ReadyForTapeout",
+          "transitions": []
+        }
+      ]
+    },
+    {
+      "name": "HermeticGateway",
+      "headers": {
+        "steward": "bridge_operator",
+        "target": "optical_diode",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "gateway_authority",
+        "lifetime": {
+          "value": 24,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 360000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Closed",
+          "transitions": [
+            {
+              "event": "enable_diode",
+              "target": "OpenUnidirectional",
+              "line": 20,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "OpenUnidirectional",
+          "transitions": [
+            {
+              "event": "disable_diode",
+              "target": "Closed",
+              "line": 28
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CryptographicHermeticProtocol",
+      "headers": {
+        "steward": "bridge_security",
+        "target": "isolation_container",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "gateway_authority",
+        "lifetime": {
+          "value": 12,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 1080000.0,
+          "unit": "J"
+        },
+        {
+          "resource": "cycle",
+          "value": 1500.0,
+          "unit": "cycles"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Listening",
+          "transitions": [
+            {
+              "event": "receive_packet",
+              "target": "DecryptingZeroCopy",
+              "line": 49,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "packet_size_bytes"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 192
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 7200.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "receive_packet",
+              "target": "DropAndClearBuffer",
+              "line": 53,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "!=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "packet_size_bytes"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 192
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "DecryptingZeroCopy",
+          "transitions": [
+            {
+              "event": "decrypt_success",
+              "target": "VerifyingLegacySignature",
+              "line": 58,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 100.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "decrypt_fail",
+              "target": "DropAndClearBuffer",
+              "line": 62
+            }
+          ]
+        },
+        {
+          "name": "VerifyingLegacySignature",
+          "transitions": [
+            {
+              "event": "signature_valid",
+              "target": "SanitizingBounds",
+              "line": 67,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "is_sig_verified"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 150.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "signature_valid",
+              "target": "DropAndClearBuffer",
+              "line": 71,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "is_sig_verified"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 0
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "SanitizingBounds",
+          "transitions": [
+            {
+              "event": "validation_success",
+              "target": "CastDataPayload",
+              "line": 77,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "val_out_of_bounds"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 0
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 3600.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 20.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "validation_success",
+              "target": "DropAndClearBuffer",
+              "line": 81,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "val_out_of_bounds"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "CastDataPayload",
+          "transitions": [
+            {
+              "event": "cast_complete",
+              "target": "ProcessingPayload",
+              "line": 86,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 3600.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ProcessingPayload",
+          "transitions": [
+            {
+              "event": "processing_done",
+              "target": "Listening",
+              "line": 92
+            }
+          ]
+        },
+        {
+          "name": "DropAndClearBuffer",
+          "transitions": [
+            {
+              "event": "zero_fill_buffer",
+              "target": "Listening",
+              "line": 97,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "VoidMesh",
+      "headers": {
+        "steward": "mesh_operator",
+        "target": "network_interface_card",
+        "license": "PRIVATE",
+        "scope": "Global",
+        "provenance": "mesh_authority",
+        "lifetime": {
+          "value": 24,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 1440000.0,
+          "unit": "J"
+        },
+        {
+          "resource": "cycle",
+          "value": 3000.0,
+          "unit": "cycles"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Disconnected",
+          "transitions": [
+            {
+              "event": "connect_nic",
+              "target": "NodeHandshake",
+              "line": 22,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 100.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "NodeHandshake",
+          "transitions": [
+            {
+              "event": "peer_challenge_verify",
+              "target": "SlidingWindowSyncing",
+              "line": 32,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "challenge_ok"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 54000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 150.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "peer_challenge_verify",
+              "target": "RejectNode",
+              "line": 36,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "challenge_ok"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 0
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "SlidingWindowSyncing",
+          "transitions": [
+            {
+              "event": "sliding_window_lock",
+              "target": "Connected",
+              "line": 42,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Connected",
+          "transitions": [
+            {
+              "event": "send_frame",
+              "target": "FrameSent",
+              "line": 50,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 3600.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 10.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "receive_ack",
+              "target": "Connected",
+              "line": 55,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "ack_seq_ok"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 1800.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 5.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "receive_ack",
+              "target": "ReTransmitFrame",
+              "line": 60,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "ack_seq_ok"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 0
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 7200.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 20.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "frame_timeout",
+              "target": "ReTransmitFrame",
+              "line": 64,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 10800.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 30.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "dispatch_weight_slice",
+              "target": "DistributingWeights",
+              "line": 70,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 54000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 150.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "verify_consensus_pass",
+              "target": "VerifyingConsensus",
+              "line": 76,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 72000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 200.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "disconnect",
+              "target": "Disconnected",
+              "line": 80
+            }
+          ]
+        },
+        {
+          "name": "FrameSent",
+          "transitions": [
+            {
+              "event": "wait_ack",
+              "target": "Connected",
+              "line": 84
+            }
+          ]
+        },
+        {
+          "name": "ReTransmitFrame",
+          "transitions": [
+            {
+              "event": "retransmit_complete",
+              "target": "Connected",
+              "line": 88
+            }
+          ]
+        },
+        {
+          "name": "DistributingWeights",
+          "transitions": [
+            {
+              "event": "distribution_success",
+              "target": "Connected",
+              "line": 92
+            },
+            {
+              "event": "distribution_timeout",
+              "target": "Connected",
+              "line": 93
+            }
+          ]
+        },
+        {
+          "name": "VerifyingConsensus",
+          "transitions": [
+            {
+              "event": "consensus_match",
+              "target": "Connected",
+              "line": 97
+            },
+            {
+              "event": "consensus_mismatch",
+              "target": "AuditTrigger",
+              "line": 98
+            }
+          ]
+        },
+        {
+          "name": "AuditTrigger",
+          "transitions": [
+            {
+              "event": "flag_malicious_node",
+              "target": "Connected",
+              "line": 102,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180000.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RejectNode",
+          "transitions": [
+            {
+              "event": "disconnect_peer",
+              "target": "Disconnected",
+              "line": 108
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TLIEngine",
+      "headers": {
+        "steward": "truth_core",
+        "target": "vector_accelerator",
+        "license": "PRIVATE",
+        "scope": "Global",
+        "provenance": "truth_authority",
+        "lifetime": {
+          "value": 365,
+          "unit": "days"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 3600000.0,
+          "unit": "J"
+        },
+        {
+          "resource": "mass",
+          "value": 1.0,
+          "unit": "kg"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "load_intention",
+              "target": "RelaxingLattice",
+              "line": 23,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "<",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "input_entropy"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 10.0
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 100.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "load_intention",
+              "target": "FilterNoise",
+              "line": 27,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": ">=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "input_entropy"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 10.0
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "RelaxingLattice",
+          "transitions": [
+            {
+              "event": "evaluate_path",
+              "target": "ConvergingState",
+              "line": 34,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "<",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "path_delta_e"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1.618
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 200.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "path_divergence",
+              "target": "ResetStateSpace",
+              "line": 38
+            }
+          ]
+        },
+        {
+          "name": "ConvergingState",
+          "transitions": [
+            {
+              "event": "state_stabilised",
+              "target": "EmittingReflection",
+              "line": 43,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 72000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "EmittingReflection",
+          "transitions": [
+            {
+              "event": "write_success",
+              "target": "Idle",
+              "line": 51
+            }
+          ]
+        },
+        {
+          "name": "FilterNoise",
+          "transitions": [
+            {
+              "event": "clear_buffer",
+              "target": "Idle",
+              "line": 55,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36000.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ResetStateSpace",
+          "transitions": [
+            {
+              "event": "flush_lattice",
+              "target": "Idle",
+              "line": 61,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180000.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "VoidOneDigitalTwin",
+      "headers": {
+        "steward": "hardware_telemetry",
+        "target": "twin_verification_plane",
+        "license": "PRIVATE",
+        "scope": "Global",
+        "provenance": "hardware_authority",
+        "lifetime": {
+          "value": 365,
+          "unit": "days"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 360000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "boot_twin",
+              "target": "StackConfigured",
+              "line": 22,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "and",
+                  "left": {
+                    "type": "binary",
+                    "op": "and",
+                    "left": {
+                      "type": "binary",
+                      "op": "==",
+                      "left": {
+                        "type": "literal",
+                        "value_type": "IDENTIFIER",
+                        "value": "has_silicon"
+                      },
+                      "right": {
+                        "type": "literal",
+                        "value_type": "NUMBER",
+                        "value": 0
+                      }
+                    },
+                    "right": {
+                      "type": "binary",
+                      "op": "==",
+                      "left": {
+                        "type": "literal",
+                        "value_type": "IDENTIFIER",
+                        "value": "has_copper"
+                      },
+                      "right": {
+                        "type": "literal",
+                        "value_type": "NUMBER",
+                        "value": 0
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "is_clockless"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 1
+                    }
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 100.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "boot_twin",
+              "target": "ConstraintViolation",
+              "line": 26,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "or",
+                  "left": {
+                    "type": "binary",
+                    "op": "or",
+                    "left": {
+                      "type": "binary",
+                      "op": "==",
+                      "left": {
+                        "type": "literal",
+                        "value_type": "IDENTIFIER",
+                        "value": "has_silicon"
+                      },
+                      "right": {
+                        "type": "literal",
+                        "value_type": "NUMBER",
+                        "value": 1
+                      }
+                    },
+                    "right": {
+                      "type": "binary",
+                      "op": "==",
+                      "left": {
+                        "type": "literal",
+                        "value_type": "IDENTIFIER",
+                        "value": "has_copper"
+                      },
+                      "right": {
+                        "type": "literal",
+                        "value_type": "NUMBER",
+                        "value": 1
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "is_clockless"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 0
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "StackConfigured",
+          "transitions": [
+            {
+              "event": "verify_layers",
+              "target": "DefectMapping",
+              "line": 33,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "and",
+                  "left": {
+                    "type": "binary",
+                    "op": "<",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "l1_temp_k"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 350
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "l3_entropy_harvest_ok"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 1
+                    }
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 72000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 200.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "verify_layers",
+              "target": "ThermalOverload",
+              "line": 37,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "or",
+                  "left": {
+                    "type": "binary",
+                    "op": ">=",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "l1_temp_k"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 350
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "l3_entropy_harvest_ok"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 0
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "DefectMapping",
+          "transitions": [
+            {
+              "event": "load_defect_priors",
+              "target": "ActiveSimulation",
+              "line": 43,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "and",
+                  "left": {
+                    "type": "binary",
+                    "op": ">",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "stable_channels"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 0
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "unstable_clusters_flag"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 0
+                    }
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 54000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 150.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "load_defect_priors",
+              "target": "ReRouteFabric",
+              "line": 47,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "unstable_clusters_flag"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "ActiveSimulation",
+          "transitions": [
+            {
+              "event": "propagate_pulse",
+              "target": "ActiveSimulation",
+              "line": 53,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "<",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "pulse_delay_ns"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 5.0
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 3600.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 10.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "route_transaction",
+              "target": "ApplyInterTariff",
+              "line": 60,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "!=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "src_subnet_id"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "dst_subnet_id"
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 22248.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "route_transaction",
+              "target": "ApplyIntraLease",
+              "line": 66,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "src_subnet_id"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "dst_subnet_id"
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 5824.8,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "thermal_alert",
+              "target": "ThermalOverload",
+              "line": 70,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": ">=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "l1_temp_k"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 350
+                  }
+                }
+              }
+            },
+            {
+              "event": "power_off",
+              "target": "Idle",
+              "line": 71
+            }
+          ]
+        },
+        {
+          "name": "ApplyInterTariff",
+          "transitions": [
+            {
+              "event": "commit_tariff",
+              "target": "ActiveSimulation",
+              "line": 75
+            }
+          ]
+        },
+        {
+          "name": "ApplyIntraLease",
+          "transitions": [
+            {
+              "event": "commit_lease",
+              "target": "ActiveSimulation",
+              "line": 79
+            }
+          ]
+        },
+        {
+          "name": "ReRouteFabric",
+          "transitions": [
+            {
+              "event": "bypass_complete",
+              "target": "DefectMapping",
+              "line": 83,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ThermalOverload",
+          "transitions": [
+            {
+              "event": "cool_down",
+              "target": "StackConfigured",
+              "line": 91,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "<",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "l1_temp_k"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 300
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 500.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ConstraintViolation",
+          "transitions": [
+            {
+              "event": "halt_system",
+              "target": "Idle",
+              "line": 99
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Void",
+      "headers": {
+        "steward": "portal_coordinator",
+        "target": "civilization_mesh",
+        "license": "PRIVATE",
+        "scope": "Global",
+        "provenance": "threshold_authority",
+        "lifetime": {
+          "value": 365,
+          "unit": "days"
+        },
+        "token_background": "#020204",
+        "token_background_deep": "#010102",
+        "token_primary_purple": "#7c3aed",
+        "token_sovereign_gold": "#f4d58d",
+        "token_tagline_color": "#f4d58d",
+        "token_text_primary": "#f5f5f7",
+        "token_white": "#ffffff",
+        "token_surface_01": "#0a0a0c",
+        "token_surface_02": "#111115",
+        "token_surface_03": "#1a1a22",
+        "token_surface_04": "#2a2a35",
+        "token_glow_color": "#7c3aed",
+        "token_glow_opacity": 0.15,
+        "token_glow_blur_radius": 12,
+        "token_glow_spread": 2,
+        "token_glow_rim": "#a78bfa",
+        "token_o_inner_aura_purple": "#6d28d9",
+        "token_o_inner_aura_gold": "#f4d58d20",
+        "token_o_aura_blur": 40,
+        "token_o_center": "#020204",
+        "token_o_aura_method": "inner_rim_fade",
+        "token_o_outline": "none",
+        "token_font_display": "Archivo Black",
+        "token_font_ui": "Inter",
+        "token_font_mono": "IBM Plex Mono",
+        "token_letter_spacing_wide": "0.35em",
+        "token_letter_spacing_cta": "0.25em",
+        "token_letter_style": "flat",
+        "token_letter_weight": "ultra_hairline",
+        "token_letter_fill": "#030303",
+        "token_depth_method": "purple_reveal",
+        "token_perspective_depth": 1200,
+        "token_parallax_sensitivity": 0.03,
+        "token_entrance_duration": 2.4,
+        "token_magnetic_radius": 150,
+        "token_loader_duration": 3.0
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 360000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "ThresholdLanding",
+          "transitions": [
+            {
+              "event": "become_citizen",
+              "target": "CitizenOnboarding",
+              "line": 106,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 5.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "enter_void",
+              "target": "DownloadPortal",
+              "line": 110,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 3.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "parallax_tick",
+              "target": "ThresholdLanding",
+              "line": 114,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 3.6,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "DownloadPortal",
+          "transitions": [
+            {
+              "event": "download_desktop",
+              "target": "DownloadPortal",
+              "line": 121,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 72.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 5.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "download_mobile",
+              "target": "DownloadPortal",
+              "line": 125,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 72.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 5.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "proceed_to_auth",
+              "target": "CitizenAuthentication",
+              "line": 129,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 3.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "cancel",
+              "target": "ThresholdLanding",
+              "line": 133
+            }
+          ]
+        },
+        {
+          "name": "CitizenOnboarding",
+          "transitions": [
+            {
+              "event": "submit_details",
+              "target": "KeyGeneration",
+              "line": 138,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "is_valid_pseudonym"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 1800.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 15.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "cancel",
+              "target": "ThresholdLanding",
+              "line": 142
+            }
+          ]
+        },
+        {
+          "name": "KeyGeneration",
+          "transitions": [
+            {
+              "event": "generate_keys",
+              "target": "ActivePortalSession",
+              "line": 147,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "key_entropy_verified"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 7200.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "failure",
+              "target": "CitizenOnboarding",
+              "line": 151
+            }
+          ]
+        },
+        {
+          "name": "CitizenAuthentication",
+          "transitions": [
+            {
+              "event": "verify_passkey",
+              "target": "ActivePortalSession",
+              "line": 156,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "passkey_verified"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 5.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "reject_passkey",
+              "target": "ThresholdLanding",
+              "line": 160
+            }
+          ]
+        },
+        {
+          "name": "ActivePortalSession",
+          "transitions": [
+            {
+              "event": "view_feed",
+              "target": "SocialFeed",
+              "line": 165,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 5.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "view_subnets",
+              "target": "SubnetRegistry",
+              "line": 169,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 720.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 10.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "view_quests",
+              "target": "QuestBoard",
+              "line": 173,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 720.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 10.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "view_companion",
+              "target": "CompanionNode",
+              "line": 177,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 540.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 8.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "sign_out",
+              "target": "ThresholdLanding",
+              "line": 181,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "request_refund",
+              "target": "AccountRevocation",
+              "line": 184,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 3600.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 30.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "SocialFeed",
+          "transitions": [
+            {
+              "event": "publish_post",
+              "target": "SocialFeed",
+              "line": 192,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "post_bytes_valid"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 1800.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 25.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "exit",
+              "target": "ActivePortalSession",
+              "line": 196
+            }
+          ]
+        },
+        {
+          "name": "SubnetRegistry",
+          "transitions": [
+            {
+              "event": "create_subnet",
+              "target": "SubnetRegistry",
+              "line": 201,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "subnet_stake_committed"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 100.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "exit",
+              "target": "ActivePortalSession",
+              "line": 205
+            }
+          ]
+        },
+        {
+          "name": "QuestBoard",
+          "transitions": [
+            {
+              "event": "claim_quest",
+              "target": "QuestBoard",
+              "line": 210,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "quest_available"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 720.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 10.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "submit_proof",
+              "target": "QuestBoard",
+              "line": 214,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "proof_hash_valid"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 2880.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 30.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "verify_proof",
+              "target": "QuestBoard",
+              "line": 218,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "verification_approved"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 3600.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 40.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "exit",
+              "target": "ActivePortalSession",
+              "line": 222
+            }
+          ]
+        },
+        {
+          "name": "CompanionNode",
+          "transitions": [
+            {
+              "event": "configure_companion",
+              "target": "CompanionNode",
+              "line": 227,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "companion_params_valid"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 1080.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 15.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "exit",
+              "target": "ActivePortalSession",
+              "line": 231
+            }
+          ]
+        },
+        {
+          "name": "AccountRevocation",
+          "transitions": [
+            {
+              "event": "confirm_erasure",
+              "target": "ThresholdLanding",
+              "line": 236,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "refund_confirmed"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 7200.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
