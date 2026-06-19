@@ -1,0 +1,57 @@
+{
+  "logos_version": "2.0-declarative",
+  "intents": [
+    {
+      "name": "LibIntent",
+      "headers": {
+        "steward": "LibSteward"
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 10.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "LibState",
+          "transitions": [
+            {
+              "event": "lib_event",
+              "target": "LibState",
+              "line": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "MainIntent",
+      "headers": {
+        "steward": "MainSteward"
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 20.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "MainState",
+          "transitions": [
+            {
+              "event": "main_event",
+              "target": "MainState",
+              "line": 10
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
