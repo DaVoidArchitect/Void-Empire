@@ -211,21 +211,21 @@ function drawD(ctx, x, y, opacity = 1.0) {
 function strokeLetter(ctx, opacity = 1.0) {
     ctx.save();
     // Pulsating dark purple glow based on time (slow, deliberate rhythm)
-    const pulse = 0.75 + Math.sin(Date.now() * 0.0015) * 0.25;
+    const pulse = 0.75 + Math.sin(Date.now() * 0.0006) * 0.2; // slower frequency (0.0006) for deep rhythm
     
     // 1. Purple outer glow rim
     ctx.shadowColor = "rgba(124, 58, 237, 0.85)";
     ctx.shadowBlur = 24 * pulse;
     ctx.strokeStyle = `rgba(124, 58, 237, ${0.35 * pulse * opacity})`;
-    ctx.lineWidth = 4.5;
+    ctx.lineWidth = 5.0; // slightly wider glow
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
     ctx.stroke();
     
-    // 2. Stark black hairline core (no white or light purple)
+    // 2. Stark black hairline core (slightly thicker, but still skinny)
     ctx.shadowBlur = 0;
     ctx.strokeStyle = `rgba(0, 0, 0, ${opacity})`;
-    ctx.lineWidth = 1.8;
+    ctx.lineWidth = 3.0; // increased from 1.8 to 3.0 for better legibility
     ctx.stroke();
     ctx.restore();
 }
