@@ -1,0 +1,338 @@
+{
+  "logos_version": "2.0-declarative",
+  "intents": [
+    {
+      "name": "HermeticGateway",
+      "headers": {
+        "steward": "bridge_operator",
+        "target": "optical_diode",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "gateway_authority",
+        "lifetime": {
+          "value": 24,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 360000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Closed",
+          "transitions": [
+            {
+              "event": "enable_diode",
+              "target": "OpenUnidirectional",
+              "line": 20,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "OpenUnidirectional",
+          "transitions": [
+            {
+              "event": "disable_diode",
+              "target": "Closed",
+              "line": 28
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CryptographicHermeticProtocol",
+      "headers": {
+        "steward": "bridge_security",
+        "target": "isolation_container",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "gateway_authority",
+        "lifetime": {
+          "value": 12,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 1080000.0,
+          "unit": "J"
+        },
+        {
+          "resource": "cycle",
+          "value": 1500.0,
+          "unit": "cycles"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Listening",
+          "transitions": [
+            {
+              "event": "receive_packet",
+              "target": "DecryptingZeroCopy",
+              "line": 49,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "packet_size_bytes"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 192
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 7200.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "receive_packet",
+              "target": "DropAndClearBuffer",
+              "line": 53,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "!=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "packet_size_bytes"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 192
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "DecryptingZeroCopy",
+          "transitions": [
+            {
+              "event": "decrypt_success",
+              "target": "VerifyingLegacySignature",
+              "line": 58,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 100.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "decrypt_fail",
+              "target": "DropAndClearBuffer",
+              "line": 62
+            }
+          ]
+        },
+        {
+          "name": "VerifyingLegacySignature",
+          "transitions": [
+            {
+              "event": "signature_valid",
+              "target": "SanitizingBounds",
+              "line": 67,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "is_sig_verified"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 150.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "signature_valid",
+              "target": "DropAndClearBuffer",
+              "line": 71,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "is_sig_verified"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 0
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "SanitizingBounds",
+          "transitions": [
+            {
+              "event": "validation_success",
+              "target": "CastDataPayload",
+              "line": 77,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "val_out_of_bounds"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 0
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 3600.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 20.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "validation_success",
+              "target": "DropAndClearBuffer",
+              "line": 81,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "val_out_of_bounds"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "CastDataPayload",
+          "transitions": [
+            {
+              "event": "cast_complete",
+              "target": "ProcessingPayload",
+              "line": 86,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 3600.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ProcessingPayload",
+          "transitions": [
+            {
+              "event": "processing_done",
+              "target": "Listening",
+              "line": 92
+            }
+          ]
+        },
+        {
+          "name": "DropAndClearBuffer",
+          "transitions": [
+            {
+              "event": "zero_fill_buffer",
+              "target": "Listening",
+              "line": 97,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
