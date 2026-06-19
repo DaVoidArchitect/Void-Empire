@@ -308,7 +308,7 @@ function renderThresholdLanding(centerX, centerY) {
         drawV(ctx, centerX - 220 + dx, centerY + dy, vidOpacity);
     }
     
-    // O (Combined O outline & spinning Void portal scaled together in perfect breathing synchronicity)
+    // O (Merged O and Void black hole singularity scaled in perfect synchronicity)
     if (oOpacity > 0) {
         ctx.save();
         ctx.translate(centerX - 70 + dx, centerY + dy);
@@ -318,22 +318,27 @@ function renderThresholdLanding(centerX, centerY) {
         const scale = 1.0 + Math.sin(Date.now() * 0.0006) * 0.04; // Varies 0.96 - 1.04
         ctx.scale(scale, scale);
         
-        // 1. Draw the spinning galaxy inside a circular clip
+        // Draw the spinning singularity inside a circular clip (No separate outline drawn on top)
         ctx.save();
         ctx.beginPath();
         ctx.arc(0, 0, 65, 0, Math.PI * 2);
         ctx.clip();
         ctx.rotate(rotationAngle);
         ctx.globalAlpha = oOpacity;
+        
+        // Apply pulsating glow directly to the image rendering so it breathes in sync
+        ctx.shadowColor = "rgba(124, 58, 237, 0.85)";
+        ctx.shadowBlur = 24 * pulse;
+        
         if (portalImg.complete) {
             ctx.drawImage(portalImg, -70, -70, 140, 140);
+        } else {
+            // Minimal fallback circle while image loads
+            ctx.beginPath();
+            ctx.arc(0, 0, 65, 0, Math.PI * 2);
+            strokeLetter(ctx, vidOpacity);
         }
         ctx.restore();
-        
-        // 2. Draw the O outer circular outline matching the V, I, D stroke style
-        ctx.beginPath();
-        ctx.arc(0, 0, 65, 0, Math.PI * 2);
-        strokeLetter(ctx, vidOpacity);
         
         ctx.restore();
     }
@@ -343,23 +348,15 @@ function renderThresholdLanding(centerX, centerY) {
         drawD(ctx, centerX + 175 + dx, centerY + dy, vidOpacity);
     }
     
-    // 3. Draw Sovereign Gold Tagline (Stretched to span exactly between V and D centers)
+    // 3. Draw Sovereign Gold Tagline (Centered between V and D centers with closer letter spacing)
     if (taglineOpacity > 0) {
         ctx.save();
         ctx.globalAlpha = taglineOpacity;
         ctx.fillStyle = DESIGN_TOKENS.sovereignGold;
         ctx.font = "300 14px 'IBM Plex Mono'";
         ctx.textAlign = "center";
-        
-        const taglineText = "FORERUNNER COMPANY";
-        const xStart = centerX - 220 + dx;
-        const xEnd = centerX + 175 + dx;
-        const yPos = centerY + 120 + dy;
-        
-        const step = (xEnd - xStart) / (taglineText.length - 1);
-        for (let i = 0; i < taglineText.length; i++) {
-            ctx.fillText(taglineText[i], xStart + i * step, yPos);
-        }
+        ctx.letterSpacing = "0.22em"; // Closer together, readable, and elegant
+        ctx.fillText("FORERUNNER COMPANY", centerX - 22.5 + dx, centerY + 120 + dy);
         ctx.restore();
     }
     
@@ -374,28 +371,37 @@ function renderThresholdLanding(centerX, centerY) {
     ctx.font = "300 11px 'Inter'";
     ctx.textAlign = "center";
     ctx.letterSpacing = "0.2em";
-    ctx.fillText("BECOME A CITIZEN", centerX, centerY + 182 + ctaOffset);
+    ctx.fillText("BECOME A CITIZEN", centerX, centerY + 180 + ctaOffset);
     
     // Underline glow for BECOME A CITIZEN
     ctx.strokeStyle = hoverBtn1 ? DESIGN_TOKENS.sovereignGold : "rgba(244, 213, 141, 0.3)";
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(centerX - 80, centerY + 192 + ctaOffset);
-    ctx.lineTo(centerX + 80, centerY + 192 + ctaOffset);
+    ctx.moveTo(centerX - 80, centerY + 190 + ctaOffset);
+    ctx.lineTo(centerX + 80, centerY + 190 + ctaOffset);
     ctx.stroke();
     
-    // Button 2: ENTER VOID
-    const hoverBtn2 = mouseX >= centerX - 100 && mouseX <= centerX + 100 && mouseY >= centerY + 215 + ctaOffset && mouseY <= centerY + 250 + ctaOffset;
-    ctx.fillStyle = hoverBtn2 ? "#a78bfa" : "#666677";
+    // Direct Download Buttons on same page side-by-side
+    const hoverDesktop = mouseX >= centerX - 190 && mouseX <= centerX - 10 && mouseY >= centerY + 215 + ctaOffset && mouseY <= centerY + 245 + ctaOffset;
+    ctx.fillStyle = hoverDesktop ? "#ffffff" : "#666677";
     ctx.font = "300 10px 'Inter'";
-    ctx.fillText("ENTER VOID", centerX, centerY + 235 + ctaOffset);
+    ctx.letterSpacing = "0.15em";
+    ctx.fillText("DOWNLOAD DESKTOP (TRUTH.EXE)", centerX - 100, centerY + 230 + ctaOffset);
+    
+    // Divider |
+    ctx.fillStyle = "#333344";
+    ctx.font = "300 10px 'Inter'";
+    ctx.fillText("|", centerX, centerY + 230 + ctaOffset);
+    
+    const hoverMobile = mouseX >= centerX + 10 && mouseX <= centerX + 190 && mouseY >= centerY + 215 + ctaOffset && mouseY <= centerY + 245 + ctaOffset;
+    ctx.fillStyle = hoverMobile ? "#ffffff" : "#666677";
+    ctx.font = "300 10px 'Inter'";
+    ctx.letterSpacing = "0.15em";
+    ctx.fillText("DOWNLOAD MOBILE (TRUTH.APK)", centerX + 100, centerY + 230 + ctaOffset);
     
     ctx.restore();
     
-    // 5. Draw decorative 4-point star in bottom right
-    drawFourPointStar(ctx, canvas.width - 120, canvas.height - 120, 20, 5, "#ffffff");
-    
-    return (hoverBtn1 || hoverBtn2) ? "pointer" : "default";
+    return (hoverBtn1 || hoverDesktop || hoverMobile) ? "pointer" : "default";
 }
 
 // 3. Download Portal screen
@@ -457,8 +463,6 @@ function renderDownloadPortal(centerX, centerY) {
     ctx.fillText("[ CANCEL AND RETURN ]", centerX, centerY + 168);
     ctx.restore();
     if (hoverCancel) isHover = true;
-    
-    drawFourPointStar(ctx, canvas.width - 120, canvas.height - 120, 20, 5, "#ffffff");
     
     return isHover ? "pointer" : "default";
 }
@@ -663,8 +667,6 @@ function renderCitizenOnboarding(centerX, centerY) {
     }
     
     ctx.restore();
-    
-    drawFourPointStar(ctx, canvas.width - 120, canvas.height - 120, 20, 5, "#ffffff");
     
     const isPointer = inputHover || dropdownHover || btnHover || (isDropdownOpen && mouseX >= panelX + 24 && mouseX <= panelX + panelW - 24 && mouseY >= panelY + 230 && mouseY <= panelY + 230 + entityClasses.length * 30 + 8);
     return isPointer ? "pointer" : "default";
@@ -949,16 +951,21 @@ function handleCanvasClick(e) {
     
     if (currentUIState === "ThresholdLanding") {
         // Option 1: BECOME A CITIZEN
-        if (x >= centerX - 120 && x <= centerX + 120 && y >= centerY + 160 && y <= centerY + 205) {
+        if (x >= centerX - 120 && x <= centerX + 120 && y >= centerY + 160 && y <= centerY + 200) {
             console.log("[VTP] Transitioning to CitizenOnboarding...");
             currentUIState = "CitizenOnboarding";
             isEditingPseudonym = false;
             isDropdownOpen = false;
         }
-        // Option 2: ENTER VOID
-        if (x >= centerX - 100 && x <= centerX + 100 && y >= centerY + 215 && y <= centerY + 250) {
-            console.log("[VTP] Transitioning to DownloadPortal...");
-            currentUIState = "DownloadPortal";
+        // Direct Download Desktop
+        if (x >= centerX - 190 && x <= centerX - 10 && y >= centerY + 215 && y <= centerY + 245) {
+            console.log("[VTP] Downloading Desktop Client...");
+            window.location.href = "/downloads/truth.exe";
+        }
+        // Direct Download Mobile
+        if (x >= centerX + 10 && x <= centerX + 190 && y >= centerY + 215 && y <= centerY + 245) {
+            console.log("[VTP] Downloading Mobile Client...");
+            window.location.href = "/downloads/truth.apk";
         }
     } else if (currentUIState === "DownloadPortal") {
         if (x >= centerX - 160 && x <= centerX + 160 && y >= centerY - 10 && y <= centerY + 35) {
