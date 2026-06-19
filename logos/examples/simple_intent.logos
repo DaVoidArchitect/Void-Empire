@@ -1,0 +1,10 @@
+# Simple single-state, single-transition intent
+intent SimpleIntent {
+    steward: "TestSteward";
+    require {
+        energy 10 J;
+    }
+    state Start {
+        on self_loop -> Start;
+    }
+}
