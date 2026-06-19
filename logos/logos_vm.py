@@ -55,7 +55,7 @@ def main():
         runtime_ctx = {}
         
     try:
-        vm = LogosVM(smir_content, mesh, runtime_ctx)
+        vm = LogosVM(json.loads(smir_content), mesh, runtime_ctx)
     except Exception as e:
         print(f"[LOGOS VM ERROR] Initialization failed: {e}", file=sys.stderr)
         sys.exit(2)
