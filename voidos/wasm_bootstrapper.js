@@ -12,6 +12,13 @@ const DESIGN_TOKENS = {
 };
 
 let ws = null;
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    console.log('[PWA] beforeinstallprompt event captured');
+});
 let currentUIState = "Loader"; // Starts in Loader state
 let canvas = null;
 let ctx = null;
@@ -1043,8 +1050,20 @@ function handleCanvasClick(e) {
         }
         // Direct Download Mobile (spans from centerX + 15 to centerX + 200)
         if (x >= centerX + 15 && x <= centerX + 200 && y >= canvas.height - 75 && y <= canvas.height - 37) {
-            console.log("[VTP] Downloading Mobile Client...");
-            window.location.href = "/downloads/truth.apk";
+            console.log("[VTP] Triggering Mobile PWA Installation...");
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('[PWA] User accepted the install prompt');
+                    } else {
+                        console.log('[PWA] User dismissed the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                alert("Truth is a Progressive Web App (PWA) for mobile.\n\nTo install:\n1. Open this website in Safari (iOS) or Chrome (Android).\n2. Tap the 'Share' or 'Menu' button.\n3. Choose 'Add to Home Screen'.");
+            }
         }
     } else if (currentUIState === "DownloadPortal") {
         if (x >= centerX - 160 && x <= centerX + 160 && y >= centerY - 10 && y <= centerY + 35) {
@@ -1052,8 +1071,20 @@ function handleCanvasClick(e) {
             window.location.href = "/downloads/truth.exe";
         }
         if (x >= centerX - 160 && x <= centerX + 160 && y >= centerY + 60 && y <= centerY + 105) {
-            console.log("[VTP] Downloading Mobile Client...");
-            window.location.href = "/downloads/truth.apk";
+            console.log("[VTP] Triggering Mobile PWA Installation...");
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('[PWA] User accepted the install prompt');
+                    } else {
+                        console.log('[PWA] User dismissed the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                alert("Truth is a Progressive Web App (PWA) for mobile.\n\nTo install:\n1. Open this website in Safari (iOS) or Chrome (Android).\n2. Tap the 'Share' or 'Menu' button.\n3. Choose 'Add to Home Screen'.");
+            }
         }
         if (x >= centerX - 100 && x <= centerX + 100 && y >= centerY + 150 && y <= centerY + 180) {
             console.log("[VTP] Returning to Landing...");
