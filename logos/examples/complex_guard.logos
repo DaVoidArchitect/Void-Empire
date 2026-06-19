@@ -1,0 +1,17 @@
+# Intent with multiple states and complex guard expressions
+intent ComplexGuardIntent {
+    steward: "GuardSteward";
+    require {
+        energy 100 J;
+    }
+    state Start {
+        on check_data [val > 10 and status == 1 or not active == 0] -> High;
+        on check_data [val <= 10 or status == 0] -> Low;
+    }
+    state High {
+        on reset -> Start;
+    }
+    state Low {
+        on reset -> Start;
+    }
+}
