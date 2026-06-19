@@ -107,13 +107,30 @@ intent Void {
             require energy 0.1 Wh;
             require cycle 5 cycles;
         }
-        on enter_void -> CitizenAuthentication {
+        on enter_void -> DownloadPortal {
             require energy 0.05 Wh;
             require cycle 3 cycles;
         }
         on parallax_tick -> ThresholdLanding {
             require energy 0.001 Wh;
         }
+    }
+
+    # ===== Download Portal — Sideloading Client Distribution ===============
+    state DownloadPortal {
+        on download_desktop -> DownloadPortal {
+            require energy 0.02 Wh;
+            require cycle 5 cycles;
+        }
+        on download_mobile -> DownloadPortal {
+            require energy 0.02 Wh;
+            require cycle 5 cycles;
+        }
+        on proceed_to_auth -> CitizenAuthentication {
+            require energy 0.05 Wh;
+            require cycle 3 cycles;
+        }
+        on cancel -> ThresholdLanding;
     }
 
     # ===== 2. Ceremony of Arrival (Registration) ===========================
