@@ -1,0 +1,10 @@
+# Library intent to be imported
+intent LibIntent {
+    steward: "LibSteward";
+    require {
+        energy 10 J;
+    }
+    state LibState {
+        on lib_event -> LibState;
+    }
+}
