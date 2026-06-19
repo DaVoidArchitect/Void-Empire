@@ -1,1 +1,684 @@
-{"logos_version": "2.0-declarative", "intents": [{"name": "Void", "headers": {"steward": "portal_coordinator", "target": "civilization_mesh", "license": "PRIVATE", "scope": "Global", "provenance": "threshold_authority", "lifetime": {"value": 365, "unit": "days"}, "token_background": "#020204", "token_background_deep": "#010102", "token_primary_purple": "#7c3aed", "token_sovereign_gold": "#f4d58d", "token_tagline_color": "#f4d58d", "token_text_primary": "#f5f5f7", "token_white": "#ffffff", "token_surface_01": "#0a0a0c", "token_surface_02": "#111115", "token_surface_03": "#1a1a22", "token_surface_04": "#2a2a35", "token_glow_color": "#7c3aed", "token_glow_opacity": 0.15, "token_glow_blur_radius": 12, "token_glow_spread": 2, "token_glow_rim": "#a78bfa", "token_o_inner_aura_purple": "#6d28d9", "token_o_inner_aura_gold": "#f4d58d20", "token_o_aura_blur": 40, "token_o_center": "#020204", "token_o_aura_method": "inner_rim_fade", "token_o_outline": "none", "token_font_display": "Archivo Black", "token_font_ui": "Inter", "token_font_mono": "IBM Plex Mono", "token_letter_spacing_wide": "0.35em", "token_letter_spacing_cta": "0.25em", "token_letter_style": "flat", "token_letter_weight": "ultra_hairline", "token_letter_fill": "#030303", "token_depth_method": "purple_reveal", "token_perspective_depth": 1200, "token_parallax_sensitivity": 0.03, "token_entrance_duration": 2.4, "token_magnetic_radius": 150, "token_loader_duration": 3.0}, "requirements": [{"resource": "energy", "value": 360000.0, "unit": "J"}], "constraints": [], "states": [{"name": "ThresholdLanding", "transitions": [{"event": "become_citizen", "target": "CitizenOnboarding", "line": 106, "requires": [{"resource": "energy", "value": 360.0, "unit": "J"}, {"resource": "cycle", "value": 5.0, "unit": "cycles"}]}, {"event": "enter_void", "target": "DownloadPortal", "line": 110, "requires": [{"resource": "energy", "value": 180.0, "unit": "J"}, {"resource": "cycle", "value": 3.0, "unit": "cycles"}]}, {"event": "parallax_tick", "target": "ThresholdLanding", "line": 114, "requires": [{"resource": "energy", "value": 3.6, "unit": "J"}]}]}, {"name": "DownloadPortal", "transitions": [{"event": "download_desktop", "target": "DownloadPortal", "line": 121, "requires": [{"resource": "energy", "value": 72.0, "unit": "J"}, {"resource": "cycle", "value": 5.0, "unit": "cycles"}]}, {"event": "download_mobile", "target": "DownloadPortal", "line": 125, "requires": [{"resource": "energy", "value": 72.0, "unit": "J"}, {"resource": "cycle", "value": 5.0, "unit": "cycles"}]}, {"event": "proceed_to_auth", "target": "CitizenAuthentication", "line": 129, "requires": [{"resource": "energy", "value": 180.0, "unit": "J"}, {"resource": "cycle", "value": 3.0, "unit": "cycles"}]}, {"event": "cancel", "target": "ThresholdLanding", "line": 133}]}, {"name": "CitizenOnboarding", "transitions": [{"event": "submit_details", "target": "KeyGeneration", "line": 138, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "is_valid_pseudonym"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 1800.0, "unit": "J"}, {"resource": "cycle", "value": 15.0, "unit": "cycles"}]}, {"event": "cancel", "target": "ThresholdLanding", "line": 142}]}, {"name": "KeyGeneration", "transitions": [{"event": "generate_keys", "target": "ActivePortalSession", "line": 147, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "key_entropy_verified"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 7200.0, "unit": "J"}, {"resource": "cycle", "value": 50.0, "unit": "cycles"}]}, {"event": "failure", "target": "CitizenOnboarding", "line": 151}]}, {"name": "CitizenAuthentication", "transitions": [{"event": "verify_passkey", "target": "ActivePortalSession", "line": 156, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "passkey_verified"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 360.0, "unit": "J"}, {"resource": "cycle", "value": 5.0, "unit": "cycles"}]}, {"event": "reject_passkey", "target": "ThresholdLanding", "line": 160}]}, {"name": "ActivePortalSession", "transitions": [{"event": "view_feed", "target": "SocialFeed", "line": 165, "requires": [{"resource": "energy", "value": 360.0, "unit": "J"}, {"resource": "cycle", "value": 5.0, "unit": "cycles"}]}, {"event": "view_subnets", "target": "SubnetRegistry", "line": 169, "requires": [{"resource": "energy", "value": 720.0, "unit": "J"}, {"resource": "cycle", "value": 10.0, "unit": "cycles"}]}, {"event": "view_quests", "target": "QuestBoard", "line": 173, "requires": [{"resource": "energy", "value": 720.0, "unit": "J"}, {"resource": "cycle", "value": 10.0, "unit": "cycles"}]}, {"event": "view_companion", "target": "CompanionNode", "line": 177, "requires": [{"resource": "energy", "value": 540.0, "unit": "J"}, {"resource": "cycle", "value": 8.0, "unit": "cycles"}]}, {"event": "sign_out", "target": "ThresholdLanding", "line": 181, "requires": [{"resource": "energy", "value": 180.0, "unit": "J"}]}, {"event": "request_refund", "target": "AccountRevocation", "line": 184, "requires": [{"resource": "energy", "value": 3600.0, "unit": "J"}, {"resource": "cycle", "value": 30.0, "unit": "cycles"}]}]}, {"name": "SocialFeed", "transitions": [{"event": "publish_post", "target": "SocialFeed", "line": 192, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "post_bytes_valid"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 1800.0, "unit": "J"}, {"resource": "cycle", "value": 25.0, "unit": "cycles"}]}, {"event": "exit", "target": "ActivePortalSession", "line": 196}]}, {"name": "SubnetRegistry", "transitions": [{"event": "create_subnet", "target": "SubnetRegistry", "line": 201, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "subnet_stake_committed"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 18000.0, "unit": "J"}, {"resource": "cycle", "value": 100.0, "unit": "cycles"}]}, {"event": "exit", "target": "ActivePortalSession", "line": 205}]}, {"name": "QuestBoard", "transitions": [{"event": "claim_quest", "target": "QuestBoard", "line": 210, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "quest_available"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 720.0, "unit": "J"}, {"resource": "cycle", "value": 10.0, "unit": "cycles"}]}, {"event": "submit_proof", "target": "QuestBoard", "line": 214, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "proof_hash_valid"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 2880.0, "unit": "J"}, {"resource": "cycle", "value": 30.0, "unit": "cycles"}]}, {"event": "verify_proof", "target": "QuestBoard", "line": 218, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "verification_approved"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 3600.0, "unit": "J"}, {"resource": "cycle", "value": 40.0, "unit": "cycles"}]}, {"event": "exit", "target": "ActivePortalSession", "line": 222}]}, {"name": "CompanionNode", "transitions": [{"event": "configure_companion", "target": "CompanionNode", "line": 227, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "companion_params_valid"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 1080.0, "unit": "J"}, {"resource": "cycle", "value": 15.0, "unit": "cycles"}]}, {"event": "exit", "target": "ActivePortalSession", "line": 231}]}, {"name": "AccountRevocation", "transitions": [{"event": "confirm_erasure", "target": "ThresholdLanding", "line": 236, "guard": {"expr": {"type": "binary", "op": "==", "left": {"type": "literal", "value_type": "IDENTIFIER", "value": "refund_confirmed"}, "right": {"type": "literal", "value_type": "NUMBER", "value": 1}}}, "requires": [{"resource": "energy", "value": 7200.0, "unit": "J"}, {"resource": "cycle", "value": 50.0, "unit": "cycles"}]}]}]}]}
+{
+  "logos_version": "2.0-declarative",
+  "intents": [
+    {
+      "name": "Void",
+      "headers": {
+        "steward": "portal_coordinator",
+        "target": "civilization_mesh",
+        "license": "PRIVATE",
+        "scope": "Global",
+        "provenance": "threshold_authority",
+        "lifetime": {
+          "value": 365,
+          "unit": "days"
+        },
+        "token_background": "#020204",
+        "token_background_deep": "#010102",
+        "token_primary_purple": "#7c3aed",
+        "token_sovereign_gold": "#f4d58d",
+        "token_tagline_color": "#f4d58d",
+        "token_text_primary": "#f5f5f7",
+        "token_white": "#ffffff",
+        "token_surface_01": "#0a0a0c",
+        "token_surface_02": "#111115",
+        "token_surface_03": "#1a1a22",
+        "token_surface_04": "#2a2a35",
+        "token_glow_color": "#7c3aed",
+        "token_glow_opacity": 0.15,
+        "token_glow_blur_radius": 12,
+        "token_glow_spread": 2,
+        "token_glow_rim": "#a78bfa",
+        "token_o_inner_aura_purple": "#6d28d9",
+        "token_o_inner_aura_gold": "#f4d58d20",
+        "token_o_aura_blur": 40,
+        "token_o_center": "#020204",
+        "token_o_aura_method": "inner_rim_fade",
+        "token_o_outline": "none",
+        "token_font_display": "Archivo Black",
+        "token_font_ui": "Inter",
+        "token_font_mono": "IBM Plex Mono",
+        "token_letter_spacing_wide": "0.35em",
+        "token_letter_spacing_cta": "0.25em",
+        "token_letter_style": "flat",
+        "token_letter_weight": "ultra_hairline",
+        "token_letter_fill": "#030303",
+        "token_depth_method": "purple_reveal",
+        "token_perspective_depth": 1200,
+        "token_parallax_sensitivity": 0.03,
+        "token_entrance_duration": 2.4,
+        "token_magnetic_radius": 150,
+        "token_loader_duration": 3.0
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 360000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "ThresholdLanding",
+          "transitions": [
+            {
+              "event": "become_citizen",
+              "target": "CitizenOnboarding",
+              "line": 106,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 5.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "enter_void",
+              "target": "DownloadPortal",
+              "line": 110,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 3.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "parallax_tick",
+              "target": "ThresholdLanding",
+              "line": 114,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 3.6,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "DownloadPortal",
+          "transitions": [
+            {
+              "event": "download_desktop",
+              "target": "DownloadPortal",
+              "line": 121,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 72.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 5.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "download_mobile",
+              "target": "DownloadPortal",
+              "line": 125,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 72.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 5.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "proceed_to_auth",
+              "target": "CitizenAuthentication",
+              "line": 129,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 3.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "cancel",
+              "target": "ThresholdLanding",
+              "line": 133
+            }
+          ]
+        },
+        {
+          "name": "CitizenOnboarding",
+          "transitions": [
+            {
+              "event": "submit_details",
+              "target": "KeyGeneration",
+              "line": 138,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "is_valid_pseudonym"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 1800.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 15.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "cancel",
+              "target": "ThresholdLanding",
+              "line": 142
+            }
+          ]
+        },
+        {
+          "name": "KeyGeneration",
+          "transitions": [
+            {
+              "event": "generate_keys",
+              "target": "ActivePortalSession",
+              "line": 147,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "key_entropy_verified"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 7200.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "failure",
+              "target": "CitizenOnboarding",
+              "line": 151
+            }
+          ]
+        },
+        {
+          "name": "CitizenAuthentication",
+          "transitions": [
+            {
+              "event": "verify_passkey",
+              "target": "ActivePortalSession",
+              "line": 156,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "passkey_verified"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 5.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "reject_passkey",
+              "target": "ThresholdLanding",
+              "line": 160
+            }
+          ]
+        },
+        {
+          "name": "ActivePortalSession",
+          "transitions": [
+            {
+              "event": "view_feed",
+              "target": "SocialFeed",
+              "line": 165,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 5.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "view_subnets",
+              "target": "SubnetRegistry",
+              "line": 169,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 720.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 10.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "view_quests",
+              "target": "QuestBoard",
+              "line": 173,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 720.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 10.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "view_companion",
+              "target": "CompanionNode",
+              "line": 177,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 540.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 8.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "sign_out",
+              "target": "ThresholdLanding",
+              "line": 181,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180.0,
+                  "unit": "J"
+                }
+              ]
+            },
+            {
+              "event": "request_refund",
+              "target": "AccountRevocation",
+              "line": 184,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 3600.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 30.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "SocialFeed",
+          "transitions": [
+            {
+              "event": "publish_post",
+              "target": "SocialFeed",
+              "line": 192,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "post_bytes_valid"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 1800.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 25.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "exit",
+              "target": "ActivePortalSession",
+              "line": 196
+            }
+          ]
+        },
+        {
+          "name": "SubnetRegistry",
+          "transitions": [
+            {
+              "event": "create_subnet",
+              "target": "SubnetRegistry",
+              "line": 201,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "subnet_stake_committed"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 100.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "exit",
+              "target": "ActivePortalSession",
+              "line": 205
+            }
+          ]
+        },
+        {
+          "name": "QuestBoard",
+          "transitions": [
+            {
+              "event": "claim_quest",
+              "target": "QuestBoard",
+              "line": 210,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "quest_available"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 720.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 10.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "submit_proof",
+              "target": "QuestBoard",
+              "line": 214,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "proof_hash_valid"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 2880.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 30.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "verify_proof",
+              "target": "QuestBoard",
+              "line": 218,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "verification_approved"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 3600.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 40.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "exit",
+              "target": "ActivePortalSession",
+              "line": 222
+            }
+          ]
+        },
+        {
+          "name": "CompanionNode",
+          "transitions": [
+            {
+              "event": "configure_companion",
+              "target": "CompanionNode",
+              "line": 227,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "companion_params_valid"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 1080.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 15.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "exit",
+              "target": "ActivePortalSession",
+              "line": 231
+            }
+          ]
+        },
+        {
+          "name": "AccountRevocation",
+          "transitions": [
+            {
+              "event": "confirm_erasure",
+              "target": "ThresholdLanding",
+              "line": 236,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "refund_confirmed"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 7200.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
