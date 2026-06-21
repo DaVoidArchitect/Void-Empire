@@ -60,7 +60,35 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_logoshdl",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: LogosHDL",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Idle (ID: 0)",
+          ";   on compile_rtl -> EmittingRTL",
+          "    vfmv.v.f v5, 38224.8000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State EmittingRTL (ID: 1)",
+          ";   on rtl_success -> Idle",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     },
     {
       "name": "VoidOneCoreSpec",
@@ -142,7 +170,42 @@
           "name": "ReadyForTapeout",
           "transitions": []
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_voidonecorespec",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: VoidOneCoreSpec",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State SpecDraft (ID: 0)",
+          ";   on commit_spec -> SpecLocked",
+          "    vfmv.v.f v5, 191124.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State SpecLocked (ID: 1)",
+          ";   on verify_layout -> VerifiedLayout",
+          "    vfmv.v.f v5, 382248.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State VerifiedLayout (ID: 2)",
+          ";   on export_gdsii -> ReadyForTapeout",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ReadyForTapeout (ID: 3)"
+        ]
+      }
     }
   ]
 }
