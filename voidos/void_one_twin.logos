@@ -13,7 +13,7 @@ intent VoidOneDigitalTwin {
     lifetime: 365 days;
 
     require {
-        energy 100.0 Wh;
+        energy 200.0 Wh;
     }
 
     state Idle {
