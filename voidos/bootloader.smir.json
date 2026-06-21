@@ -121,7 +121,53 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_bootloader",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: Bootloader",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Off (ID: 0)",
+          ";   on power_on -> RealMode",
+          "    vfmv.v.f v5, 19112.4000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State RealMode (ID: 1)",
+          ";   on load_gdt -> ProtectedMode",
+          "    vfmv.v.f v5, 38224.8000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ProtectedMode (ID: 2)",
+          ";   on enable_paging -> PagingEnabled",
+          "    vfmv.v.f v5, 76449.6000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State PagingEnabled (ID: 3)",
+          ";   on jump_to_kernel -> KernelExecuting",
+          "    vfmv.v.f v5, 38224.8000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 4                  ; Load target state ID 4",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State KernelExecuting (ID: 4)",
+          ";   on reset -> Off",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     },
     {
       "name": "PhysicalPageAllocator",
@@ -351,7 +397,69 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_physicalpageallocator",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: PhysicalPageAllocator",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Uninitialized (ID: 0)",
+          ";   on configure_memory -> MemoryMapped",
+          "    vfmv.v.f v5, 382248.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on configure_memory -> Panic",
+          "    li t1, 4                  ; Load target state ID 4",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State MemoryMapped (ID: 1)",
+          ";   on allocate_kernel_page -> KernelPageAllocated",
+          "    vfmv.v.f v5, 382.2480    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on allocate_tensor_page -> TensorPageAllocated",
+          "    vfmv.v.f v5, 764.4960    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on free_kernel_page -> MemoryMapped",
+          "    vfmv.v.f v5, 191.1240    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on free_tensor_page -> MemoryMapped",
+          "    vfmv.v.f v5, 382.2480    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State KernelPageAllocated (ID: 2)",
+          ";   on complete -> MemoryMapped",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State TensorPageAllocated (ID: 3)",
+          ";   on complete -> MemoryMapped",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State Panic (ID: 4)",
+          ";   on restart_system -> Uninitialized",
+          "    vfmv.v.f v5, 764496.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     },
     {
       "name": "InterruptVectorTable",
@@ -549,7 +657,70 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_interruptvectortable",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: InterruptVectorTable",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State LoadIVT (ID: 0)",
+          ";   on ivt_register -> Listening",
+          "    vfmv.v.f v5, 19112.4000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State Listening (ID: 1)",
+          ";   on page_fault -> RestartUserTaskLoop",
+          "    vfmv.v.f v5, 19112.4000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on page_fault -> RestartKernelTaskLoop",
+          "    vfmv.v.f v5, 57337.2000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on double_fault -> IsolateTaskGroup",
+          "    vfmv.v.f v5, 76449.6000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 4                  ; Load target state ID 4",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on hardware_tick -> ServiceTick",
+          "    vfmv.v.f v5, 38.2248    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 5                  ; Load target state ID 5",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State RestartUserTaskLoop (ID: 2)",
+          ";   on resume -> Listening",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State RestartKernelTaskLoop (ID: 3)",
+          ";   on resume -> Listening",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State IsolateTaskGroup (ID: 4)",
+          ";   on cleanup_complete -> Listening",
+          "    vfmv.v.f v5, 38224.8000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ServiceTick (ID: 5)",
+          ";   on tick_done -> Listening",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     }
   ]
 }
