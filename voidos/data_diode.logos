@@ -1,0 +1,72 @@
+# ============================================================================
+# Void OS — Unidirectional Optical Data Diode and Legacy Interop Bridge
+# ============================================================================
+# Models the isolation barrier and zero-copy packet sanitation engine.
+# Legacy packets are stripped of corporate metadata and serialized to .vmf.
+# ============================================================================
+
+intent DataDiodeInterop {
+    steward: "bridge_security";
+    target: "optical_diode";
+    license: "PRIVATE";
+    scope: "Subnet";
+    provenance: "gateway_authority";
+    lifetime: 24 hours;
+
+    require {
+        energy 100.0 Wh;
+    }
+
+    state Idle {
+        # Await incoming raw binary intent packet from legacy OS (Windows/Linux/etc)
+        on receive_packet -> IngestLegacyPacket {
+            require energy 1.0 Wh;
+            require cycle 10 cycles;
+        }
+    }
+
+    state IngestLegacyPacket {
+        # Strip corporate tracking wrappers, telemetry headers, and OS metadata.
+        # Enforces zero trace of corporate identifiers before data ingestion.
+        on strip_headers [metadata_cleared == 1] -> SerializeVMF {
+            require energy 2.0 Wh;
+            require cycle 50 cycles;
+        }
+        on strip_headers [metadata_cleared == 0] -> SanitizeBuffer;
+    }
+
+    state SerializeVMF {
+        # Serialize the sanitized payload into a raw 192-byte signed Void Matrix Format (.vmf) token.
+        # Packet structure: 32-byte public key || 64-byte signature || 8-byte timestamp || 88-byte payload.
+        on serialize_token [packet_size_bytes == 192] -> OpticalDiodeEmit {
+            require energy 3.0 Wh;
+            require cycle 60 cycles;
+        }
+        on serialize_token [packet_size_bytes != 192] -> SanitizeBuffer;
+    }
+
+    state OpticalDiodeEmit {
+        # Unidirectional optical diode transmission: forward payload to inner core.
+        # Feedback channel is physically isolated (rx_feedback_bps == 0).
+        on transmit_payload [rx_feedback_bps == 0] -> CommitTransaction {
+            require energy 5.0 Wh;
+            require cycle 100 cycles;
+        }
+        on transmit_payload [rx_feedback_bps > 0] -> SanitizeBuffer;
+    }
+
+    state CommitTransaction {
+        # Successfully dispatch clean intent payload into the Walled Garden services.
+        on commit_success -> Idle {
+            require energy 1.0 Wh;
+        }
+    }
+
+    state SanitizeBuffer {
+        # Security quarantine: perform secure zero-fill (memset_s) on the isolated 192-byte buffer.
+        on zero_fill_buffer -> Idle {
+            require energy 10.0 Wh;
+            require cycle 100 cycles;
+        }
+    }
+}
