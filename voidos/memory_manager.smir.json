@@ -209,7 +209,63 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_memorymanager",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: MemoryManager",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Idle (ID: 0)",
+          ";   on allocate_tensor -> Allocating",
+          "    vfmv.v.f v5, 19112.4000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on allocate_tensor -> AllocationError",
+          "    li t1, 4                  ; Load target state ID 4",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State Allocating (ID: 1)",
+          ";   on page_binding_success -> Allocated",
+          "    vfmv.v.f v5, 3822.4800    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on page_binding_error -> OutOfMemory",
+          "    li t1, 5                  ; Load target state ID 5",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State Allocated (ID: 2)",
+          ";   on release_tensor -> Releasing",
+          "    vfmv.v.f v5, 7644.9600    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State Releasing (ID: 3)",
+          ";   on page_free_success -> Idle",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State AllocationError (ID: 4)",
+          ";   on clear_error -> Idle",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State OutOfMemory (ID: 5)",
+          ";   on purge_caches -> Idle",
+          "    vfmv.v.f v5, 38224.8000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     },
     {
       "name": "SovereignCompute",
@@ -380,7 +436,60 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_sovereigncompute",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: SovereignCompute",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Idle (ID: 0)",
+          ";   on dispatch_gemm -> ComputingGEMM",
+          "    vfmv.v.f v5, 76449.6000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on dispatch_fused_activation -> ComputingFusedActivation",
+          "    vfmv.v.f v5, 30579.8400    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ComputingGEMM (ID: 1)",
+          ";   on gemm_complete -> Idle",
+          "    vfmv.v.f v5, 19112.4000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on computation_fault -> SystemPanic",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ComputingFusedActivation (ID: 2)",
+          ";   on fusion_complete -> Idle",
+          "    vfmv.v.f v5, 7644.9600    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on computation_fault -> SystemPanic",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State SystemPanic (ID: 3)",
+          ";   on reset_registers -> Idle",
+          "    vfmv.v.f v5, 191124.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     }
   ]
 }
