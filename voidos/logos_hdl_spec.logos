@@ -44,7 +44,7 @@ intent VoidOneCoreSpec {
 
     state SpecDraft {
         # Architect a custom accelerator using RISC-V Vector Extensions (RVV)
-        # Spec constraint: $VLEN = 512$ bits, 128 parallel execution lanes.
+        # Spec constraint: $VLEN = 2048$ bits, 512 parallel execution lanes.
         on commit_spec -> SpecLocked {
             require energy 50.0 Wh;
             require cycle 500 cycles;
