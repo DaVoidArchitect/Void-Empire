@@ -86,7 +86,7 @@ intent KnowledgeNode_101 {
     coord_x: 0.8;
     coord_y: 0.2;
     coord_z: 0.1;
-    fact: "Low-level SIMD register allocation: map virtual registers v0-v31 to physical AVX-512 vector registers zmm0-zmm31, utilizing a graph-coloring allocator with spill cost computed as loop nesting depth.";
+    fact: "Low-level vector register allocation: map virtual registers v0-v31 directly to physical Void One wide registers, utilizing a graph-coloring allocator for vector registers of width VLEN=2048.";
     links: "102,103";
 }
 
@@ -98,7 +98,7 @@ intent KnowledgeNode_102 {
     coord_x: 0.82;
     coord_y: 0.2;
     coord_z: 0.1;
-    fact: "Vector optimization pass: fuse adjacent multiply-accumulate operations into single-cycle Fused Multiply-Accumulate (FMA) instructions, preserving IEEE 754 precision.";
+    fact: "Vector optimization pass: fuse adjacent multiply-accumulate operations into single-cycle Fused Multiply-Accumulate (FMA) instructions, executing in parallel across 512 wide register lanes.";
     links: "101,103";
 }
 
@@ -188,4 +188,42 @@ intent KnowledgeNode_303 {
     coord_z: 0.2;
     fact: "Walled Garden memory containment: write-protect kernel page tables using WP bit in CR0; user-space pages are marked non-executable (NX bit) to prevent buffer overflows.";
     links: "301,302";
+}
+
+# --- LOGOS_METAPROGRAMMING Domain ---
+
+intent KnowledgeNode_401 {
+    steward: "truth_authority";
+    target: "tli_engine";
+    node_id: 401;
+    domain: LOGOS_METAPROGRAMMING;
+    coord_x: 0.5;
+    coord_y: 0.8;
+    coord_z: 0.5;
+    fact: "Logos grammar rules: declare an intent with steward, target, scope, provenance, and lifetime headers, followed by a require block specifying mass/energy bounds, then state definitions containing conditional transition events (on event [guard] -> target_state { require ... }).";
+    links: "402,403";
+}
+
+intent KnowledgeNode_402 {
+    steward: "truth_authority";
+    target: "tli_engine";
+    node_id: 402;
+    domain: LOGOS_METAPROGRAMMING;
+    coord_x: 0.52;
+    coord_y: 0.8;
+    coord_z: 0.5;
+    fact: "Logos test suite execution: verify all state transitions programmatically via the LogosVM send_event interface, ensuring the global mesh_context energy pool rolls back completely on any blocked transition state. No generic stack trace is permitted; all constraint violations must emit dark logic telemetry.";
+    links: "401,403";
+}
+
+intent KnowledgeNode_403 {
+    steward: "truth_authority";
+    target: "tli_engine";
+    node_id: 403;
+    domain: LOGOS_METAPROGRAMMING;
+    coord_x: 0.5;
+    coord_y: 0.82;
+    coord_z: 0.5;
+    fact: "Void One layout repair algorithm: traverse the 2D spatial coordinate graph of phonon pipelines; if defect_density > 0 or unstable_clusters_flag == 1, dynamically recalculate routing coordinates utilizing the Golden Angle (137.5 degrees) to route around defective nodes without orthogonal grids.";
+    links: "401,402";
 }
