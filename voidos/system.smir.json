@@ -158,7 +158,45 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_mailbox",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: Mailbox",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Idle (ID: 0)",
+          ";   on receive_envelope -> Idle",
+          "    vfmv.v.f v5, 3822.4800    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on receive_envelope -> Processing",
+          "    vfmv.v.f v5, 382.2480    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on receive_envelope -> Idle",
+          "    vfmv.v.f v5, 1911.2400    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State Processing (ID: 1)",
+          ";   on done -> Idle",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     },
     {
       "name": "Scheduler",
@@ -253,7 +291,40 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_scheduler",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: Scheduler",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Idle (ID: 0)",
+          ";   on dispatch_task -> Running",
+          "    vfmv.v.f v5, 7644.9600    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on dispatch_task -> Running",
+          "    vfmv.v.f v5, 1911.2400    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State Running (ID: 1)",
+          ";   on complete -> Idle",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     },
     {
       "name": "Treasury",
@@ -348,7 +419,40 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_treasury",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: Treasury",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Idle (ID: 0)",
+          ";   on process_payment -> Settled",
+          "    vfmv.v.f v5, 23622.9264    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on process_payment -> Settled",
+          "    vfmv.v.f v5, 6184.7726    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State Settled (ID: 1)",
+          ";   on reset -> Idle",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     },
     {
       "name": "Storage",
@@ -433,7 +537,49 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_storage",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: Storage",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Idle (ID: 0)",
+          ";   on write_block -> Writing",
+          "    vfmv.v.f v5, 191.1240    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on read_block -> Reading",
+          "    vfmv.v.f v5, 38.2248    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State Writing (ID: 1)",
+          ";   on commit -> Idle",
+          "    vfmv.v.f v5, 76.4496    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on rollback -> Idle",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State Reading (ID: 2)",
+          ";   on close -> Idle",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     },
     {
       "name": "Session",
@@ -595,7 +741,60 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_session",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: Session",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Closed (ID: 0)",
+          ";   on request_auth -> Authenticating",
+          "    vfmv.v.f v5, 382.2480    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State Authenticating (ID: 1)",
+          ";   on verify_phrase -> Active",
+          "    vfmv.v.f v5, 191.1240    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on reject_phrase -> Closed",
+          "    vfmv.v.f v5, 764.4960    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State Active (ID: 2)",
+          ";   on tick_expiry -> Expired",
+          "    vfmv.v.f v5, 38.2248    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on close -> Closed",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State Expired (ID: 3)",
+          ";   on renew -> Active",
+          "    vfmv.v.f v5, 305.7984    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on close -> Closed",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     },
     {
       "name": "Bootloader",
@@ -717,7 +916,53 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_bootloader",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: Bootloader",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Off (ID: 0)",
+          ";   on power_on -> RealMode",
+          "    vfmv.v.f v5, 19112.4000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State RealMode (ID: 1)",
+          ";   on load_gdt -> ProtectedMode",
+          "    vfmv.v.f v5, 38224.8000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ProtectedMode (ID: 2)",
+          ";   on enable_paging -> PagingEnabled",
+          "    vfmv.v.f v5, 76449.6000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State PagingEnabled (ID: 3)",
+          ";   on jump_to_kernel -> KernelExecuting",
+          "    vfmv.v.f v5, 38224.8000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 4                  ; Load target state ID 4",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State KernelExecuting (ID: 4)",
+          ";   on reset -> Off",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     },
     {
       "name": "PhysicalPageAllocator",
@@ -947,7 +1192,69 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_physicalpageallocator",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: PhysicalPageAllocator",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Uninitialized (ID: 0)",
+          ";   on configure_memory -> MemoryMapped",
+          "    vfmv.v.f v5, 382248.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on configure_memory -> Panic",
+          "    li t1, 4                  ; Load target state ID 4",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State MemoryMapped (ID: 1)",
+          ";   on allocate_kernel_page -> KernelPageAllocated",
+          "    vfmv.v.f v5, 382.2480    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on allocate_tensor_page -> TensorPageAllocated",
+          "    vfmv.v.f v5, 764.4960    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on free_kernel_page -> MemoryMapped",
+          "    vfmv.v.f v5, 191.1240    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on free_tensor_page -> MemoryMapped",
+          "    vfmv.v.f v5, 382.2480    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State KernelPageAllocated (ID: 2)",
+          ";   on complete -> MemoryMapped",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State TensorPageAllocated (ID: 3)",
+          ";   on complete -> MemoryMapped",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State Panic (ID: 4)",
+          ";   on restart_system -> Uninitialized",
+          "    vfmv.v.f v5, 764496.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     },
     {
       "name": "InterruptVectorTable",
@@ -1145,7 +1452,70 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_interruptvectortable",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: InterruptVectorTable",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State LoadIVT (ID: 0)",
+          ";   on ivt_register -> Listening",
+          "    vfmv.v.f v5, 19112.4000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State Listening (ID: 1)",
+          ";   on page_fault -> RestartUserTaskLoop",
+          "    vfmv.v.f v5, 19112.4000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on page_fault -> RestartKernelTaskLoop",
+          "    vfmv.v.f v5, 57337.2000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on double_fault -> IsolateTaskGroup",
+          "    vfmv.v.f v5, 76449.6000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 4                  ; Load target state ID 4",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on hardware_tick -> ServiceTick",
+          "    vfmv.v.f v5, 38.2248    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 5                  ; Load target state ID 5",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State RestartUserTaskLoop (ID: 2)",
+          ";   on resume -> Listening",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State RestartKernelTaskLoop (ID: 3)",
+          ";   on resume -> Listening",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State IsolateTaskGroup (ID: 4)",
+          ";   on cleanup_complete -> Listening",
+          "    vfmv.v.f v5, 38224.8000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ServiceTick (ID: 5)",
+          ";   on tick_done -> Listening",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     },
     {
       "name": "MemoryManager",
@@ -1355,7 +1725,63 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_memorymanager",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: MemoryManager",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Idle (ID: 0)",
+          ";   on allocate_tensor -> Allocating",
+          "    vfmv.v.f v5, 19112.4000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on allocate_tensor -> AllocationError",
+          "    li t1, 4                  ; Load target state ID 4",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State Allocating (ID: 1)",
+          ";   on page_binding_success -> Allocated",
+          "    vfmv.v.f v5, 3822.4800    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on page_binding_error -> OutOfMemory",
+          "    li t1, 5                  ; Load target state ID 5",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State Allocated (ID: 2)",
+          ";   on release_tensor -> Releasing",
+          "    vfmv.v.f v5, 7644.9600    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State Releasing (ID: 3)",
+          ";   on page_free_success -> Idle",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State AllocationError (ID: 4)",
+          ";   on clear_error -> Idle",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State OutOfMemory (ID: 5)",
+          ";   on purge_caches -> Idle",
+          "    vfmv.v.f v5, 38224.8000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     },
     {
       "name": "SovereignCompute",
@@ -1526,7 +1952,60 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_sovereigncompute",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: SovereignCompute",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Idle (ID: 0)",
+          ";   on dispatch_gemm -> ComputingGEMM",
+          "    vfmv.v.f v5, 76449.6000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on dispatch_fused_activation -> ComputingFusedActivation",
+          "    vfmv.v.f v5, 30579.8400    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ComputingGEMM (ID: 1)",
+          ";   on gemm_complete -> Idle",
+          "    vfmv.v.f v5, 19112.4000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on computation_fault -> SystemPanic",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ComputingFusedActivation (ID: 2)",
+          ";   on fusion_complete -> Idle",
+          "    vfmv.v.f v5, 7644.9600    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on computation_fault -> SystemPanic",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State SystemPanic (ID: 3)",
+          ";   on reset_registers -> Idle",
+          "    vfmv.v.f v5, 191124.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     },
     {
       "name": "LogosHDL",
@@ -1587,7 +2066,35 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_logoshdl",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: LogosHDL",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Idle (ID: 0)",
+          ";   on compile_rtl -> EmittingRTL",
+          "    vfmv.v.f v5, 38224.8000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State EmittingRTL (ID: 1)",
+          ";   on rtl_success -> Idle",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     },
     {
       "name": "VoidOneCoreSpec",
@@ -1669,7 +2176,42 @@
           "name": "ReadyForTapeout",
           "transitions": []
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_voidonecorespec",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: VoidOneCoreSpec",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State SpecDraft (ID: 0)",
+          ";   on commit_spec -> SpecLocked",
+          "    vfmv.v.f v5, 191124.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State SpecLocked (ID: 1)",
+          ";   on verify_layout -> VerifiedLayout",
+          "    vfmv.v.f v5, 382248.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State VerifiedLayout (ID: 2)",
+          ";   on export_gdsii -> ReadyForTapeout",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ReadyForTapeout (ID: 3)"
+        ]
+      }
     },
     {
       "name": "HermeticGateway",
@@ -1720,7 +2262,35 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_hermeticgateway",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: HermeticGateway",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Closed (ID: 0)",
+          ";   on enable_diode -> OpenUnidirectional",
+          "    vfmv.v.f v5, 19112.4000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State OpenUnidirectional (ID: 1)",
+          ";   on disable_diode -> Closed",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     },
     {
       "name": "CryptographicHermeticProtocol",
@@ -2002,7 +2572,77 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_cryptographichermeticprotocol",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: CryptographicHermeticProtocol",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Listening (ID: 0)",
+          ";   on receive_packet -> DecryptingZeroCopy",
+          "    vfmv.v.f v5, 7644.9600    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on receive_packet -> DropAndClearBuffer",
+          "    li t1, 6                  ; Load target state ID 6",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State DecryptingZeroCopy (ID: 1)",
+          ";   on decrypt_success -> VerifyingLegacySignature",
+          "    vfmv.v.f v5, 19112.4000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on decrypt_fail -> DropAndClearBuffer",
+          "    li t1, 6                  ; Load target state ID 6",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State VerifyingLegacySignature (ID: 2)",
+          ";   on signature_valid -> SanitizingBounds",
+          "    vfmv.v.f v5, 38224.8000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on signature_valid -> DropAndClearBuffer",
+          "    li t1, 6                  ; Load target state ID 6",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State SanitizingBounds (ID: 3)",
+          ";   on validation_success -> CastDataPayload",
+          "    vfmv.v.f v5, 3822.4800    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 4                  ; Load target state ID 4",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on validation_success -> DropAndClearBuffer",
+          "    li t1, 6                  ; Load target state ID 6",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State CastDataPayload (ID: 4)",
+          ";   on cast_complete -> ProcessingPayload",
+          "    vfmv.v.f v5, 3822.4800    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 5                  ; Load target state ID 5",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ProcessingPayload (ID: 5)",
+          ";   on processing_done -> Listening",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State DropAndClearBuffer (ID: 6)",
+          ";   on zero_fill_buffer -> Listening",
+          "    vfmv.v.f v5, 19112.4000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     },
     {
       "name": "VoidMesh",
@@ -2355,7 +2995,112 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_voidmesh",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: VoidMesh",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Disconnected (ID: 0)",
+          ";   on connect_nic -> NodeHandshake",
+          "    vfmv.v.f v5, 38224.8000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State NodeHandshake (ID: 1)",
+          ";   on peer_challenge_verify -> SlidingWindowSyncing",
+          "    vfmv.v.f v5, 57337.2000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on peer_challenge_verify -> RejectNode",
+          "    li t1, 9                  ; Load target state ID 9",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State SlidingWindowSyncing (ID: 2)",
+          ";   on sliding_window_lock -> Connected",
+          "    vfmv.v.f v5, 19112.4000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State Connected (ID: 3)",
+          ";   on send_frame -> FrameSent",
+          "    vfmv.v.f v5, 3822.4800    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 4                  ; Load target state ID 4",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on receive_ack -> Connected",
+          "    vfmv.v.f v5, 1911.2400    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on receive_ack -> ReTransmitFrame",
+          "    vfmv.v.f v5, 7644.9600    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 5                  ; Load target state ID 5",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on frame_timeout -> ReTransmitFrame",
+          "    vfmv.v.f v5, 11467.4400    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 5                  ; Load target state ID 5",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on dispatch_weight_slice -> DistributingWeights",
+          "    vfmv.v.f v5, 57337.2000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 6                  ; Load target state ID 6",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on verify_consensus_pass -> VerifyingConsensus",
+          "    vfmv.v.f v5, 76449.6000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 7                  ; Load target state ID 7",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on disconnect -> Disconnected",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State FrameSent (ID: 4)",
+          ";   on wait_ack -> Connected",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ReTransmitFrame (ID: 5)",
+          ";   on retransmit_complete -> Connected",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State DistributingWeights (ID: 6)",
+          ";   on distribution_success -> Connected",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on distribution_timeout -> Connected",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State VerifyingConsensus (ID: 7)",
+          ";   on consensus_match -> Connected",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on consensus_mismatch -> AuditTrigger",
+          "    li t1, 8                  ; Load target state ID 8",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State AuditTrigger (ID: 8)",
+          ";   on flag_malicious_node -> Connected",
+          "    vfmv.v.f v5, 191124.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State RejectNode (ID: 9)",
+          ";   on disconnect_peer -> Disconnected",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     },
     {
       "name": "TLIEngine",
@@ -2390,7 +3135,7 @@
             {
               "event": "load_intention",
               "target": "RelaxingLattice",
-              "line": 23,
+              "line": 22,
               "guard": {
                 "expr": {
                   "type": "binary",
@@ -2423,7 +3168,7 @@
             {
               "event": "load_intention",
               "target": "FilterNoise",
-              "line": 27,
+              "line": 26,
               "guard": {
                 "expr": {
                   "type": "binary",
@@ -2449,7 +3194,7 @@
             {
               "event": "evaluate_path",
               "target": "ConvergingState",
-              "line": 34,
+              "line": 31,
               "guard": {
                 "expr": {
                   "type": "binary",
@@ -2482,7 +3227,7 @@
             {
               "event": "path_divergence",
               "target": "ResetStateSpace",
-              "line": 38
+              "line": 35
             }
           ]
         },
@@ -2492,7 +3237,7 @@
             {
               "event": "state_stabilised",
               "target": "EmittingReflection",
-              "line": 43,
+              "line": 39,
               "requires": [
                 {
                   "resource": "energy",
@@ -2514,7 +3259,7 @@
             {
               "event": "write_success",
               "target": "Idle",
-              "line": 51
+              "line": 46
             }
           ]
         },
@@ -2524,7 +3269,7 @@
             {
               "event": "clear_buffer",
               "target": "Idle",
-              "line": 55,
+              "line": 50,
               "requires": [
                 {
                   "resource": "energy",
@@ -2541,7 +3286,7 @@
             {
               "event": "flush_lattice",
               "target": "Idle",
-              "line": 61,
+              "line": 56,
               "requires": [
                 {
                   "resource": "energy",
@@ -2552,7 +3297,415 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_tliengine",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: TLIEngine",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Idle (ID: 0)",
+          ";   on load_intention -> RelaxingLattice",
+          "    vfmv.v.f v5, 191124.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on load_intention -> FilterNoise",
+          "    li t1, 4                  ; Load target state ID 4",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State RelaxingLattice (ID: 1)",
+          ";   on evaluate_path -> ConvergingState",
+          "    vfmv.v.f v5, 382248.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on path_divergence -> ResetStateSpace",
+          "    li t1, 5                  ; Load target state ID 5",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ConvergingState (ID: 2)",
+          ";   on state_stabilised -> EmittingReflection",
+          "    vfmv.v.f v5, 76449.6000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State EmittingReflection (ID: 3)",
+          ";   on write_success -> Idle",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State FilterNoise (ID: 4)",
+          ";   on clear_buffer -> Idle",
+          "    vfmv.v.f v5, 38224.8000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ResetStateSpace (ID: 5)",
+          ";   on flush_lattice -> Idle",
+          "    vfmv.v.f v5, 191124.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
+    },
+    {
+      "name": "SovereignKnowledgeNode",
+      "headers": {
+        "steward": "truth_core",
+        "target": "knowledge_matrix",
+        "license": "PRIVATE",
+        "scope": "Global",
+        "provenance": "truth_authority",
+        "lifetime": {
+          "value": 365,
+          "unit": "days"
+        }
+      },
+      "requirements": [],
+      "constraints": [],
+      "states": [],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_sovereignknowledgenode",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: SovereignKnowledgeNode",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)"
+        ]
+      }
+    },
+    {
+      "name": "KnowledgeNode_101",
+      "headers": {
+        "steward": "truth_authority",
+        "target": "tli_engine",
+        "node_id": 101,
+        "domain": "BARE_METAL_COMPILER",
+        "coord_x": 0.8,
+        "coord_y": 0.2,
+        "coord_z": 0.1,
+        "fact": "Low-level SIMD register allocation: map virtual registers v0-v31 to physical AVX-512 vector registers zmm0-zmm31, utilizing a graph-coloring allocator with spill cost computed as loop nesting depth.",
+        "links": "102,103"
+      },
+      "requirements": [],
+      "constraints": [],
+      "states": [],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_knowledgenode_101",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: KnowledgeNode_101",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)"
+        ]
+      }
+    },
+    {
+      "name": "KnowledgeNode_102",
+      "headers": {
+        "steward": "truth_authority",
+        "target": "tli_engine",
+        "node_id": 102,
+        "domain": "BARE_METAL_COMPILER",
+        "coord_x": 0.82,
+        "coord_y": 0.2,
+        "coord_z": 0.1,
+        "fact": "Vector optimization pass: fuse adjacent multiply-accumulate operations into single-cycle Fused Multiply-Accumulate (FMA) instructions, preserving IEEE 754 precision.",
+        "links": "101,103"
+      },
+      "requirements": [],
+      "constraints": [],
+      "states": [],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_knowledgenode_102",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: KnowledgeNode_102",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)"
+        ]
+      }
+    },
+    {
+      "name": "KnowledgeNode_103",
+      "headers": {
+        "steward": "truth_authority",
+        "target": "tli_engine",
+        "node_id": 103,
+        "domain": "BARE_METAL_COMPILER",
+        "coord_x": 0.8,
+        "coord_y": 0.22,
+        "coord_z": 0.1,
+        "fact": "Instruction pipeline alignment: pad hot branch targets to 32-byte cache line boundaries using multi-byte NOPs (0x0F 0x1F) to minimize instruction fetch stalls.",
+        "links": "101,102"
+      },
+      "requirements": [],
+      "constraints": [],
+      "states": [],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_knowledgenode_103",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: KnowledgeNode_103",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)"
+        ]
+      }
+    },
+    {
+      "name": "KnowledgeNode_201",
+      "headers": {
+        "steward": "truth_authority",
+        "target": "tli_engine",
+        "node_id": 201,
+        "domain": "CRYPTO_SECURITY",
+        "coord_x": 0.2,
+        "coord_y": 0.3,
+        "coord_z": 0.9,
+        "fact": "192-byte packet format: 32-byte public key, 64-byte Ed25519 signature, 8-byte monotonic timestamp, 88-byte encrypted payload. Diode checks signatures prior to payload decryption.",
+        "links": "202,203"
+      },
+      "requirements": [],
+      "constraints": [],
+      "states": [],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_knowledgenode_201",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: KnowledgeNode_201",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)"
+        ]
+      }
+    },
+    {
+      "name": "KnowledgeNode_202",
+      "headers": {
+        "steward": "truth_authority",
+        "target": "tli_engine",
+        "node_id": 202,
+        "domain": "CRYPTO_SECURITY",
+        "coord_x": 0.22,
+        "coord_y": 0.3,
+        "coord_z": 0.9,
+        "fact": "Data Diode Shield invariant: memory buffers are cleared via a hardware-assisted secure zero-fill (memset_s) immediately upon detection of invalid signatures or bounds violations.",
+        "links": "201,203"
+      },
+      "requirements": [],
+      "constraints": [],
+      "states": [],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_knowledgenode_202",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: KnowledgeNode_202",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)"
+        ]
+      }
+    },
+    {
+      "name": "KnowledgeNode_203",
+      "headers": {
+        "steward": "truth_authority",
+        "target": "tli_engine",
+        "node_id": 203,
+        "domain": "CRYPTO_SECURITY",
+        "coord_x": 0.2,
+        "coord_y": 0.32,
+        "coord_z": 0.9,
+        "fact": "P2P Handshake Ceremony: DH-Merkle exchange over curve25519; ephemeral keys must possess at least 256 bits of entropy derived from hardware ring oscillators.",
+        "links": "201,202"
+      },
+      "requirements": [],
+      "constraints": [],
+      "states": [],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_knowledgenode_203",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: KnowledgeNode_203",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)"
+        ]
+      }
+    },
+    {
+      "name": "KnowledgeNode_301",
+      "headers": {
+        "steward": "truth_authority",
+        "target": "tli_engine",
+        "node_id": 301,
+        "domain": "VOIDOS_CORE",
+        "coord_x": 0.7,
+        "coord_y": 0.4,
+        "coord_z": 0.2,
+        "fact": "Interrupt Vector Table layout: 256 entries starting at physical address 0x00000000. Index 0x0D maps to General Protection Fault handler with kernel privileges.",
+        "links": "302,303"
+      },
+      "requirements": [],
+      "constraints": [],
+      "states": [],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_knowledgenode_301",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: KnowledgeNode_301",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)"
+        ]
+      }
+    },
+    {
+      "name": "KnowledgeNode_302",
+      "headers": {
+        "steward": "truth_authority",
+        "target": "tli_engine",
+        "node_id": 302,
+        "domain": "VOIDOS_CORE",
+        "coord_x": 0.72,
+        "coord_y": 0.4,
+        "coord_z": 0.2,
+        "fact": "Page Table Hierarchy: 4-level paging (PML4, PDPT, PD, PT). PML4 base register CR3 must be aligned to a 4KB boundary and verified by hardware on context switch.",
+        "links": "301,303"
+      },
+      "requirements": [],
+      "constraints": [],
+      "states": [],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_knowledgenode_302",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: KnowledgeNode_302",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)"
+        ]
+      }
+    },
+    {
+      "name": "KnowledgeNode_303",
+      "headers": {
+        "steward": "truth_authority",
+        "target": "tli_engine",
+        "node_id": 303,
+        "domain": "VOIDOS_CORE",
+        "coord_x": 0.7,
+        "coord_y": 0.42,
+        "coord_z": 0.2,
+        "fact": "Walled Garden memory containment: write-protect kernel page tables using WP bit in CR0; user-space pages are marked non-executable (NX bit) to prevent buffer overflows.",
+        "links": "301,302"
+      },
+      "requirements": [],
+      "constraints": [],
+      "states": [],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_knowledgenode_303",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: KnowledgeNode_303",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)"
+        ]
+      }
     },
     {
       "name": "VoidOneDigitalTwin",
@@ -2570,7 +3723,7 @@
       "requirements": [
         {
           "resource": "energy",
-          "value": 360000.0,
+          "value": 720000.0,
           "unit": "J"
         }
       ],
@@ -3089,7 +4242,924 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_voidonedigitaltwin",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: VoidOneDigitalTwin",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Idle (ID: 0)",
+          ";   on boot_twin -> StackConfigured",
+          "    vfmv.v.f v5, 38224.8000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on boot_twin -> ConstraintViolation",
+          "    li t1, 8                  ; Load target state ID 8",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State StackConfigured (ID: 1)",
+          ";   on verify_layers -> DefectMapping",
+          "    vfmv.v.f v5, 76449.6000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on verify_layers -> ThermalOverload",
+          "    li t1, 7                  ; Load target state ID 7",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State DefectMapping (ID: 2)",
+          ";   on load_defect_priors -> ActiveSimulation",
+          "    vfmv.v.f v5, 57337.2000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on load_defect_priors -> ReRouteFabric",
+          "    li t1, 6                  ; Load target state ID 6",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ActiveSimulation (ID: 3)",
+          ";   on propagate_pulse -> ActiveSimulation",
+          "    vfmv.v.f v5, 3822.4800    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on route_transaction -> ApplyInterTariff",
+          "    vfmv.v.f v5, 23622.9264    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 4                  ; Load target state ID 4",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on route_transaction -> ApplyIntraLease",
+          "    vfmv.v.f v5, 6184.7726    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 5                  ; Load target state ID 5",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on thermal_alert -> ThermalOverload",
+          "    li t1, 7                  ; Load target state ID 7",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on power_off -> Idle",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ApplyInterTariff (ID: 4)",
+          ";   on commit_tariff -> ActiveSimulation",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ApplyIntraLease (ID: 5)",
+          ";   on commit_lease -> ActiveSimulation",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ReRouteFabric (ID: 6)",
+          ";   on bypass_complete -> DefectMapping",
+          "    vfmv.v.f v5, 19112.4000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ThermalOverload (ID: 7)",
+          ";   on cool_down -> StackConfigured",
+          "    vfmv.v.f v5, 191124.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ConstraintViolation (ID: 8)",
+          ";   on halt_system -> Idle",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
+    },
+    {
+      "name": "VoidOneGeometry",
+      "headers": {
+        "steward": "pdk_compiler",
+        "target": "spatial_layout",
+        "license": "PRIVATE",
+        "scope": "Global",
+        "provenance": "hardware_authority",
+        "lifetime": {
+          "value": 365,
+          "unit": "days"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 3600000.0,
+          "unit": "J"
+        },
+        {
+          "resource": "mass",
+          "value": 0.05,
+          "unit": "kg"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "initialize_mesh",
+              "target": "HolographicSimulation",
+              "line": 23,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 180000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 100.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "HolographicSimulation",
+          "transitions": [
+            {
+              "event": "map_phonon_pipelines",
+              "target": "SuperatomicRouting",
+              "line": 32,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "and",
+                  "left": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "pipeline_count"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 256
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "<=",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "pitch_nm"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 10
+                    }
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 200.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "SuperatomicRouting",
+          "transitions": [
+            {
+              "event": "configure_tracks",
+              "target": "WideRegistersSetup",
+              "line": 41,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "and",
+                  "left": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "orthogonal_grid"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 0
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "right_angles"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 0
+                    }
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 540000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 300.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "configure_tracks",
+              "target": "ConstraintViolation",
+              "line": 45,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "or",
+                  "left": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "orthogonal_grid"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 1
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "right_angles"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 1
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "WideRegistersSetup",
+          "transitions": [
+            {
+              "event": "allocate_registers",
+              "target": "MaterialRelaxation",
+              "line": 50,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "and",
+                  "left": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "vlen_bits"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 2048
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "execution_lanes"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 512
+                    }
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 720000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 400.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "allocate_registers",
+              "target": "ConstraintViolation",
+              "line": 54,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "!=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "vlen_bits"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 2048
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "MaterialRelaxation",
+          "transitions": [
+            {
+              "event": "run_relaxation_simulation",
+              "target": "OptimizedGrowth",
+              "line": 60,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "and",
+                  "left": {
+                    "type": "binary",
+                    "op": "==",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "defect_density"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 0
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": ">=",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "entropy_harvest_pct"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 98
+                    }
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 1080000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 600.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "run_relaxation_simulation",
+              "target": "ReRouteFabric",
+              "line": 64,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "or",
+                  "left": {
+                    "type": "binary",
+                    "op": ">",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "defect_density"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 0
+                    }
+                  },
+                  "right": {
+                    "type": "binary",
+                    "op": "<",
+                    "left": {
+                      "type": "literal",
+                      "value_type": "IDENTIFIER",
+                      "value": "entropy_harvest_pct"
+                    },
+                    "right": {
+                      "type": "literal",
+                      "value_type": "NUMBER",
+                      "value": 98
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "OptimizedGrowth",
+          "transitions": [
+            {
+              "event": "export_layout",
+              "target": "ReadyForTapeout",
+              "line": 69,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 360000.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ReRouteFabric",
+          "transitions": [
+            {
+              "event": "repair_defects",
+              "target": "MaterialRelaxation",
+              "line": 76,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 540000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 250.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ReadyForTapeout",
+          "transitions": []
+        },
+        {
+          "name": "ConstraintViolation",
+          "transitions": [
+            {
+              "event": "halt_system",
+              "target": "Idle",
+              "line": 85
+            }
+          ]
+        }
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_voidonegeometry",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: VoidOneGeometry",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Idle (ID: 0)",
+          ";   on initialize_mesh -> HolographicSimulation",
+          "    vfmv.v.f v5, 191124.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State HolographicSimulation (ID: 1)",
+          ";   on map_phonon_pipelines -> SuperatomicRouting",
+          "    vfmv.v.f v5, 382248.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State SuperatomicRouting (ID: 2)",
+          ";   on configure_tracks -> WideRegistersSetup",
+          "    vfmv.v.f v5, 573372.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on configure_tracks -> ConstraintViolation",
+          "    li t1, 8                  ; Load target state ID 8",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State WideRegistersSetup (ID: 3)",
+          ";   on allocate_registers -> MaterialRelaxation",
+          "    vfmv.v.f v5, 764496.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 4                  ; Load target state ID 4",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on allocate_registers -> ConstraintViolation",
+          "    li t1, 8                  ; Load target state ID 8",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State MaterialRelaxation (ID: 4)",
+          ";   on run_relaxation_simulation -> OptimizedGrowth",
+          "    vfmv.v.f v5, 1146744.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 5                  ; Load target state ID 5",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on run_relaxation_simulation -> ReRouteFabric",
+          "    li t1, 6                  ; Load target state ID 6",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State OptimizedGrowth (ID: 5)",
+          ";   on export_layout -> ReadyForTapeout",
+          "    vfmv.v.f v5, 382248.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 7                  ; Load target state ID 7",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ReRouteFabric (ID: 6)",
+          ";   on repair_defects -> MaterialRelaxation",
+          "    vfmv.v.f v5, 573372.0000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 4                  ; Load target state ID 4",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ReadyForTapeout (ID: 7)",
+          "; State ConstraintViolation (ID: 8)",
+          ";   on halt_system -> Idle",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
+    },
+    {
+      "name": "DataDiodeInterop",
+      "headers": {
+        "steward": "bridge_security",
+        "target": "optical_diode",
+        "license": "PRIVATE",
+        "scope": "Subnet",
+        "provenance": "gateway_authority",
+        "lifetime": {
+          "value": 24,
+          "unit": "hours"
+        }
+      },
+      "requirements": [
+        {
+          "resource": "energy",
+          "value": 360000.0,
+          "unit": "J"
+        }
+      ],
+      "constraints": [],
+      "states": [
+        {
+          "name": "Idle",
+          "transitions": [
+            {
+              "event": "receive_packet",
+              "target": "IngestLegacyPacket",
+              "line": 22,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 3600.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 10.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "IngestLegacyPacket",
+          "transitions": [
+            {
+              "event": "strip_headers",
+              "target": "SerializeVMF",
+              "line": 31,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "metadata_cleared"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 1
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 7200.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 50.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "strip_headers",
+              "target": "SanitizeBuffer",
+              "line": 35,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "metadata_cleared"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 0
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "SerializeVMF",
+          "transitions": [
+            {
+              "event": "serialize_token",
+              "target": "OpticalDiodeEmit",
+              "line": 41,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "packet_size_bytes"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 192
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 10800.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 60.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "serialize_token",
+              "target": "SanitizeBuffer",
+              "line": 45,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "!=",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "packet_size_bytes"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 192
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "OpticalDiodeEmit",
+          "transitions": [
+            {
+              "event": "transmit_payload",
+              "target": "CommitTransaction",
+              "line": 51,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": "==",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "rx_feedback_bps"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 0
+                  }
+                }
+              },
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 18000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 100.0,
+                  "unit": "cycles"
+                }
+              ]
+            },
+            {
+              "event": "transmit_payload",
+              "target": "SanitizeBuffer",
+              "line": 55,
+              "guard": {
+                "expr": {
+                  "type": "binary",
+                  "op": ">",
+                  "left": {
+                    "type": "literal",
+                    "value_type": "IDENTIFIER",
+                    "value": "rx_feedback_bps"
+                  },
+                  "right": {
+                    "type": "literal",
+                    "value_type": "NUMBER",
+                    "value": 0
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "CommitTransaction",
+          "transitions": [
+            {
+              "event": "commit_success",
+              "target": "Idle",
+              "line": 60,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 3600.0,
+                  "unit": "J"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "SanitizeBuffer",
+          "transitions": [
+            {
+              "event": "zero_fill_buffer",
+              "target": "Idle",
+              "line": 67,
+              "requires": [
+                {
+                  "resource": "energy",
+                  "value": 36000.0,
+                  "unit": "J"
+                },
+                {
+                  "resource": "cycle",
+                  "value": 100.0,
+                  "unit": "cycles"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_datadiodeinterop",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: DataDiodeInterop",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State Idle (ID: 0)",
+          ";   on receive_packet -> IngestLegacyPacket",
+          "    vfmv.v.f v5, 3822.4800    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State IngestLegacyPacket (ID: 1)",
+          ";   on strip_headers -> SerializeVMF",
+          "    vfmv.v.f v5, 7644.9600    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on strip_headers -> SanitizeBuffer",
+          "    li t1, 5                  ; Load target state ID 5",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State SerializeVMF (ID: 2)",
+          ";   on serialize_token -> OpticalDiodeEmit",
+          "    vfmv.v.f v5, 11467.4400    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on serialize_token -> SanitizeBuffer",
+          "    li t1, 5                  ; Load target state ID 5",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State OpticalDiodeEmit (ID: 3)",
+          ";   on transmit_payload -> CommitTransaction",
+          "    vfmv.v.f v5, 19112.4000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 4                  ; Load target state ID 4",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on transmit_payload -> SanitizeBuffer",
+          "    li t1, 5                  ; Load target state ID 5",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State CommitTransaction (ID: 4)",
+          ";   on commit_success -> Idle",
+          "    vfmv.v.f v5, 3822.4800    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State SanitizeBuffer (ID: 5)",
+          ";   on zero_fill_buffer -> Idle",
+          "    vfmv.v.f v5, 38224.8000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     },
     {
       "name": "Void",
@@ -3768,7 +5838,170 @@
             }
           ]
         }
-      ]
+      ],
+      "native_layout": {
+        "vlen_bits": 2048,
+        "lanes": 512,
+        "registers": {
+          "v0": "state_id_void",
+          "v1": "mesh_energy_joules",
+          "v2": "mesh_cycle_count",
+          "v3": "mesh_entropy_value",
+          "v4": "vector_execution_mask",
+          "v5": "vector_operand_a_2048b",
+          "v6": "vector_operand_b_2048b",
+          "v7": "vector_dest_accumulator"
+        },
+        "instructions": [
+          "; NATIVE COMPILATION LOOP FOR INTENT: Void",
+          "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
+          "; State ThresholdLanding (ID: 0)",
+          ";   on become_citizen -> CitizenOnboarding",
+          "    vfmv.v.f v5, 382.2480    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on enter_void -> DownloadPortal",
+          "    vfmv.v.f v5, 191.1240    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on parallax_tick -> ThresholdLanding",
+          "    vfmv.v.f v5, 3.8225    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State DownloadPortal (ID: 1)",
+          ";   on download_desktop -> DownloadPortal",
+          "    vfmv.v.f v5, 76.4496    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on download_mobile -> DownloadPortal",
+          "    vfmv.v.f v5, 76.4496    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 1                  ; Load target state ID 1",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on proceed_to_auth -> CitizenAuthentication",
+          "    vfmv.v.f v5, 191.1240    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 4                  ; Load target state ID 4",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on cancel -> ThresholdLanding",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State CitizenOnboarding (ID: 2)",
+          ";   on submit_details -> KeyGeneration",
+          "    vfmv.v.f v5, 1911.2400    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 3                  ; Load target state ID 3",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on cancel -> ThresholdLanding",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State KeyGeneration (ID: 3)",
+          ";   on generate_keys -> ActivePortalSession",
+          "    vfmv.v.f v5, 7644.9600    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 5                  ; Load target state ID 5",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on failure -> CitizenOnboarding",
+          "    li t1, 2                  ; Load target state ID 2",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State CitizenAuthentication (ID: 4)",
+          ";   on verify_passkey -> ActivePortalSession",
+          "    vfmv.v.f v5, 382.2480    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 5                  ; Load target state ID 5",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on reject_passkey -> ThresholdLanding",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State ActivePortalSession (ID: 5)",
+          ";   on view_feed -> SocialFeed",
+          "    vfmv.v.f v5, 382.2480    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 6                  ; Load target state ID 6",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on view_subnets -> SubnetRegistry",
+          "    vfmv.v.f v5, 764.4960    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 7                  ; Load target state ID 7",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on view_quests -> QuestBoard",
+          "    vfmv.v.f v5, 764.4960    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 8                  ; Load target state ID 8",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on view_companion -> CompanionNode",
+          "    vfmv.v.f v5, 573.3720    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 9                  ; Load target state ID 9",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on sign_out -> ThresholdLanding",
+          "    vfmv.v.f v5, 191.1240    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on request_refund -> AccountRevocation",
+          "    vfmv.v.f v5, 3822.4800    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 10                  ; Load target state ID 10",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State SocialFeed (ID: 6)",
+          ";   on publish_post -> SocialFeed",
+          "    vfmv.v.f v5, 1911.2400    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 6                  ; Load target state ID 6",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on exit -> ActivePortalSession",
+          "    li t1, 5                  ; Load target state ID 5",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State SubnetRegistry (ID: 7)",
+          ";   on create_subnet -> SubnetRegistry",
+          "    vfmv.v.f v5, 19112.4000    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 7                  ; Load target state ID 7",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on exit -> ActivePortalSession",
+          "    li t1, 5                  ; Load target state ID 5",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State QuestBoard (ID: 8)",
+          ";   on claim_quest -> QuestBoard",
+          "    vfmv.v.f v5, 764.4960    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 8                  ; Load target state ID 8",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on submit_proof -> QuestBoard",
+          "    vfmv.v.f v5, 3057.9840    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 8                  ; Load target state ID 8",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on verify_proof -> QuestBoard",
+          "    vfmv.v.f v5, 3822.4800    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 8                  ; Load target state ID 8",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on exit -> ActivePortalSession",
+          "    li t1, 5                  ; Load target state ID 5",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State CompanionNode (ID: 9)",
+          ";   on configure_companion -> CompanionNode",
+          "    vfmv.v.f v5, 1146.7440    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 9                  ; Load target state ID 9",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          ";   on exit -> ActivePortalSession",
+          "    li t1, 5                  ; Load target state ID 5",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
+          "; State AccountRevocation (ID: 10)",
+          ";   on confirm_erasure -> ThresholdLanding",
+          "    vfmv.v.f v5, 7644.9600    ; Load total energy cost (with 6.18% fee) into v5",
+          "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
+          "    li t1, 0                  ; Load target state ID 0",
+          "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)"
+        ]
+      }
     }
   ]
 }
