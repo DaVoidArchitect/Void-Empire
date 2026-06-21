@@ -16,6 +16,8 @@ import "hermetic_gateway.logos";
 import "voidmesh.logos";
 import "tli_engine.logos";
 import "void_one_twin.logos";
+import "void_one_geometry.logos";
+import "data_diode.logos";
 import "telemetry_ui.logos";
 
 # Global Compiler Optimizations
@@ -23,7 +25,7 @@ import "telemetry_ui.logos";
 # directly into single-pass vector register targets.
 # config {
 #     optimize_layer_fusion: 1;
-#     vector_register_width: 512;
+#     vector_register_width: 2048;
 #     sys_entropy_anchor: 0xF00DBABE;
 # }
 
