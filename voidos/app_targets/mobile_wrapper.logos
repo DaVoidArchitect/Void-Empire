@@ -1,0 +1,57 @@
+# ============================================================================
+# Sovereign Void OS — Mobile Wrapper Target (mobile_wrapper.logos)
+# ============================================================================
+# Packages visual telemetry assets into a secure hardware-accelerated mobile
+# application binary (truth.apk) running intelligence loops locally.
+# ============================================================================
+
+import "../telemetry_ui.logos";
+
+intent MobileWrapper {
+    steward: "android_render_pipeline";
+    target: "hardware_accelerated_surface";
+    license: "PRIVATE";
+    scope: "Global";
+    provenance: "mobile_client_runtime";
+    lifetime: 365 days;
+
+    require {
+        energy 25.0 Wh;
+        mass 0.05 kg;
+    }
+
+    constraint {
+        energy max 100.0 Wh;
+        mass max 0.2 kg;
+    }
+
+    # Initialize GLES window surface
+    fn init_opengl_context(screen_width: Number, screen_height: Number) -> Number
+        pre {
+            screen_width > 0;
+            screen_height > 0;
+        }
+        post {
+            is_gles_active == 1;
+        }
+    {
+        screen_width ⨀ screen_height ◰ 2048 ⊸ 512 ◶ 1;
+    }
+
+    state Suspended {
+        on resume_app -> ActiveForeground {
+            require energy 0.5 Wh;
+            require cycle 5 cycles;
+        }
+    }
+
+    state ActiveForeground {
+        on render_frame -> ActiveForeground {
+            require energy 0.05 Wh;
+            require cycle 1 cycles;
+        }
+        on pause_app -> Suspended {
+            require energy 0.1 Wh;
+        }
+    }
+}
