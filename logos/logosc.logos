@@ -4,6 +4,8 @@
 # Models the compiler state machine and includes reflection and tacit BQN vector math.
 # ============================================================================
 
+import "../void_core/fractal_invariance.logos";
+
 intent LogosCompiler {
     steward: "logosc_core";
     target: "compiler_bootstrap";
@@ -22,15 +24,17 @@ intent LogosCompiler {
         mass max 1.0 kg;
     }
 
-    # Static reflection analysis function
-    fn check_reflection_metadata(ty: Type) -> ^^Type 
+    # Static reflection analysis function enforcing fractal matrix rules
+    fn check_reflection_metadata(ty: Type, scaling_factor: Number) -> ^^Type 
         pre {
             enabled == 1;
+            scaling_factor > 0;
         }
         post {
             is_authorized == 1;
         }
     {
+        scaling_factor ⨀ 1 ◰ 2048 ⊸ 512 ◶ 1;
         ^^ty;
     }
 
