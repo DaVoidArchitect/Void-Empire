@@ -24,7 +24,7 @@ intent HermeticGateway {
 
     state OpenUnidirectional {
         # Optical/physical unidirectional data path (no feedback link).
-        # Feedback transmission rate limit: $R_{\text{feedback}} = 0$ bps.
+        # Feedback transmission rate limit: R_feedback = 0 bps.
         on disable_diode -> Closed;
     }
 }
@@ -44,7 +44,7 @@ intent CryptographicHermeticProtocol {
 
     state Listening {
         # Ingest legacy packets. Zero-copy binary parser checks frame structure.
-        # Format constraint: $\text{Packet} = \text{Encrypt}_{K_{\text{Void}}}(\text{Payload}) \parallel \text{Sign}_{K_{\text{Legacy}}}(\text{Payload})$
+        # Format constraint: Packet = Encrypt_{K_Void}(Payload) || Sign_{K_Legacy}(Payload)
         # Packet length is fixed to exactly 192 bytes (96-byte payload + 96-byte legacy signature).
         on receive_packet [packet_size_bytes == 192] -> DecryptingZeroCopy {
             require energy 2.0 Wh;
@@ -54,7 +54,7 @@ intent CryptographicHermeticProtocol {
     }
 
     state DecryptingZeroCopy {
-        # Decrypt payload using private key $K_{\text{Void}}$ directly in place
+        # Decrypt payload using private key K_Void directly in place
         on decrypt_success -> VerifyingLegacySignature {
             require energy 5.0 Wh;
             require cycle 100 cycles;
@@ -73,7 +73,7 @@ intent CryptographicHermeticProtocol {
 
     state SanitizingBounds {
         # Defensive sanitize: clear buffer to 0x00 and drop packet instantly if any payload
-        # integer falls even 1 unit outside configured bounds $[val_{\text{min}}, val_{\text{max}}]$.
+        # integer falls even 1 unit outside configured bounds [val_min, val_max].
         on validation_success [val_out_of_bounds == 0] -> CastDataPayload {
             require energy 1.0 Wh;
             require cycle 20 cycles;
