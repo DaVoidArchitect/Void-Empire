@@ -1,0 +1,31 @@
+{
+  "host": "127.0.0.1",
+  "vtp_port": 59000,
+  "http_port": 58080,
+  "https_port": 58443,
+  "ssl_certificate": "C:/Users/voidi/OneDrive/Desktop/VOID Empire/localhost.crt",
+  "ssl_key": "C:/Users/voidi/OneDrive/Desktop/VOID Empire/localhost.key",
+  "state_machine": "voidos/system.smir.json",
+  "platform_fee": 0.0618,
+  "isolation_mode": "hermetic",
+  "diode_buffer_bytes": 192,
+  "static_downloads": {
+    "desktop": "voidos/app_targets/truth_desktop.exe",
+    "mobile": "voidos/app_targets/truth.apk",
+    "ide": "logos/ide/voidstudio.exe"
+  },
+  "routes": [
+    {
+      "path": "/get/desktop",
+      "target": "voidos/app_targets/truth_desktop.exe"
+    },
+    {
+      "path": "/get/mobile",
+      "target": "voidos/app_targets/truth.apk"
+    },
+    {
+      "path": "/get/ide",
+      "target": "logos/ide/voidstudio.exe"
+    }
+  ]
+}
