@@ -1,0 +1,213 @@
+{
+  "generated_utc": "2026-06-14T15:16:44.064476+00:00",
+  "design_version": "V2.0-FRONTIER-R1",
+  "release_id": "VOIDONE-2.0-FRONTIER-R1",
+  "program_id": "VOID-MASTER-TAPEOUT-ONE-2.0",
+  "scenario_count": 3,
+  "check_count": 4,
+  "pass_count": 4,
+  "checks": [
+    {
+      "name": "Ecosystem multi-scenario execution",
+      "pass": true,
+      "detail": "all deterministic eon scenarios satisfy livability and stability thresholds",
+      "evidence": {
+        "scenario_passes": {
+          "baseline": true,
+          "resource_shock": true,
+          "participation_shock": true
+        }
+      }
+    },
+    {
+      "name": "Citizen livability floor",
+      "pass": true,
+      "detail": "citizen living outcomes remain viable across eon horizons",
+      "evidence": {
+        "avg_livable_global": 1.0,
+        "min_livable_global": 1.0,
+        "max_insolvency_global": 0.0
+      }
+    },
+    {
+      "name": "Economic stability index",
+      "pass": true,
+      "detail": "worst-case scenario remains above minimum stability index",
+      "evidence": {
+        "min_stability_index": 0.998919
+      }
+    },
+    {
+      "name": "Anti-abuse and governance resilience",
+      "pass": true,
+      "detail": "governed operations remain reliable and replay abuse is blocked",
+      "evidence": {
+        "min_governed_op_success_rate": 1.0,
+        "min_fraud_block_rate": 1.0
+      }
+    }
+  ],
+  "scenario_results": [
+    {
+      "scenario": "baseline",
+      "seed": 101,
+      "eon_count": 12,
+      "cycles_per_eon": 15,
+      "total_cycles": 180,
+      "citizen_count": 36,
+      "metrics": {
+        "avg_livable_ratio": 1.0,
+        "min_livable_ratio": 1.0,
+        "max_insolvency_ratio": 0.0,
+        "gini_p95": 0.006465,
+        "reserve_final": 357877.0,
+        "reserve_floor": 357877.0,
+        "reserve_adequacy_ratio": 41.420949,
+        "governed_op_success_rate": 1.0,
+        "governance_success_rate": 1.0,
+        "fraud_probe_block_rate": 1.0,
+        "stability_index": 0.99903
+      },
+      "ops": {
+        "total_governed_ops": 9996,
+        "failed_governed_ops": 0,
+        "governance_rounds": 12,
+        "governance_success": 12,
+        "fraud_probe_attempts": 6,
+        "fraud_probe_blocked": 6
+      },
+      "series_samples": {
+        "livability_first5": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "livability_last5": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "insolvency_last5": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "scenario_pass": true
+    },
+    {
+      "scenario": "resource_shock",
+      "seed": 202,
+      "eon_count": 12,
+      "cycles_per_eon": 15,
+      "total_cycles": 180,
+      "citizen_count": 36,
+      "metrics": {
+        "avg_livable_ratio": 1.0,
+        "min_livable_ratio": 1.0,
+        "max_insolvency_ratio": 0.0,
+        "gini_p95": 0.006764,
+        "reserve_final": 351890.256,
+        "reserve_floor": 351890.256,
+        "reserve_adequacy_ratio": 38.063588,
+        "governed_op_success_rate": 1.0,
+        "governance_success_rate": 1.0,
+        "fraud_probe_block_rate": 1.0,
+        "stability_index": 0.998985
+      },
+      "ops": {
+        "total_governed_ops": 9998,
+        "failed_governed_ops": 0,
+        "governance_rounds": 12,
+        "governance_success": 12,
+        "fraud_probe_attempts": 7,
+        "fraud_probe_blocked": 7
+      },
+      "series_samples": {
+        "livability_first5": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "livability_last5": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "insolvency_last5": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "scenario_pass": true
+    },
+    {
+      "scenario": "participation_shock",
+      "seed": 303,
+      "eon_count": 12,
+      "cycles_per_eon": 15,
+      "total_cycles": 180,
+      "citizen_count": 36,
+      "metrics": {
+        "avg_livable_ratio": 1.0,
+        "min_livable_ratio": 1.0,
+        "max_insolvency_ratio": 0.0,
+        "gini_p95": 0.007209,
+        "reserve_final": 354431.426,
+        "reserve_floor": 354431.426,
+        "reserve_adequacy_ratio": 39.827336,
+        "governed_op_success_rate": 1.0,
+        "governance_success_rate": 1.0,
+        "fraud_probe_block_rate": 1.0,
+        "stability_index": 0.998919
+      },
+      "ops": {
+        "total_governed_ops": 9102,
+        "failed_governed_ops": 0,
+        "governance_rounds": 12,
+        "governance_success": 12,
+        "fraud_probe_attempts": 9,
+        "fraud_probe_blocked": 9
+      },
+      "series_samples": {
+        "livability_first5": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "livability_last5": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "insolvency_last5": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "scenario_pass": true
+    }
+  ],
+  "livability_report": "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\citizen_livability_report.json",
+  "overall_pass": true
+}
