@@ -33,7 +33,7 @@ The mapping from the initial scaffold architecture to the active Logos codebase 
 3. **Phase-2: Hardening & Local Walled Garden** (Completed & Verified)
    - Tested and validated: unidirectional signature checking, automatic memory zeroing upon error state, and VoidMesh local synchronization.
 4. **Phase-3: Silicon-Aligned Deployment Runtime** (Completed & Spec-Locked)
-   - Integrated with RISC-V Vector Accelerator registers $v0$–$v31$ outlined in **[logos_hdl_spec.logos](file:///c:/Users/voidi/OneDrive/Desktop/VOID%20Empire/voidos/logos_hdl_spec.logos)**.
+   - Integrated with RISC-V Vector Accelerator registers v0-v31 outlined in **[logos_hdl_spec.logos](file:///c:/Users/voidi/OneDrive/Desktop/VOID%20Empire/voidos/logos_hdl_spec.logos)**.
 
 ## Note
 Defect-aware system architecture does not remove cleanroom/foundry requirements for physical chip fabrication.
