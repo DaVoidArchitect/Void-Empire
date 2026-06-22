@@ -1,0 +1,17 @@
+design_name: "Void One"
+design_version: "V2.0-FRONTIER-R1"
+release_id: "VOIDONE-2.0-FRONTIER-R1"
+program_id: "VOID-MASTER-TAPEOUT-ONE-2.0"
+certification_target: "FRONTIER_V2_CERTIFIED"
+version_status: "current"
+feature_baseline:
+  - "950K SovereignExcursion qualification"
+  - "Defect Connectome / Plasticity / Immune pruning pipeline"
+  - "Statistical yield model with mission/raw P50/P90 gates"
+  - "Readiness-v2 hard-gate certification"
+authoritative_artifacts:
+  suite_report: "validation/xenalchemy_test_report.json"
+  readiness_report: "validation/frontier_readiness_report.json"
+  yield_report: "validation/yield_report.json"
+  connectome_report: "validation/defect_connectome_report.json"
+  gds_geometry: "AlchemyGDSII/xenalchemy_core_mask_maps_geometry.json"
