@@ -1,0 +1,28 @@
+{
+  "portfolio_id": "SV_FRONTIER_PORTFOLIO_V1",
+  "updated_at_utc": null,
+  "hypotheses": [
+    {
+      "id": "HYP-001",
+      "title": "Adaptive homeostasis derating controller",
+      "domain_tags": ["design", "controls", "verification"],
+      "risk_tier": "medium",
+      "status": "open",
+      "scores": {
+        "novelty": 0.0,
+        "feasibility": 0.0,
+        "evidence_strength": 0.0,
+        "constitutional_alignment": 1.0,
+        "composite": 0.0
+      },
+      "decision": {
+        "state": "hold",
+        "reason": "awaiting evidence"
+      }
+    }
+  ],
+  "notes": [
+    "Keep constitutional alignment at 1.0 for any promotable branch.",
+    "Composite score should drive promote/hold/kill decisions."
+  ]
+}
