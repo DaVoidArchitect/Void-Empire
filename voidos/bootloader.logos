@@ -32,8 +32,8 @@ intent Bootloader {
     }
 
     state ProtectedMode {
-        # Initialize page table directory and load control register $CR3$
-        # Enable paging by setting PG bit in control register $CR0$ (bit 31)
+        # Initialize page table directory and load control register CR3
+        # Enable paging by setting PG bit in control register CR0 (bit 31)
         on enable_paging -> PagingEnabled {
             require energy 20.0 Wh;
             require cycle 200 cycles;
@@ -67,8 +67,8 @@ intent PhysicalPageAllocator {
 
     state Uninitialized {
         # Establish two-tier memory layout:
-        # 1. Kernel Space $[0x00100000, 0x07FFFFFF]$ (128MB isolated pool)
-        # 2. High Tensors Space $[0x100000000, \infty[$ (Dynamic extended physical memory mapping above 4GB)
+        # 1. Kernel Space [0x00100000, 0x07FFFFFF] (128MB isolated pool)
+        # 2. High Tensors Space [0x100000000, inf[ (Dynamic extended physical memory mapping above 4GB)
         on configure_memory [ram_size_mb >= 8192] -> MemoryMapped {
             require energy 100.0 Wh;
             require cycle 1000 cycles;
@@ -132,7 +132,7 @@ intent InterruptVectorTable {
     }
 
     state Listening {
-        # Handle Page Fault (Interrupt 14, $PF$). Triggers CR2 read.
+        # Handle Page Fault (Interrupt 14, PF). Triggers CR2 read.
         # Transition gracefully isolates and restarts the failing task loop rather than halting.
         on page_fault [is_kernel_fault == 0] -> RestartUserTaskLoop {
             require energy 5.0 Wh;
@@ -142,7 +142,7 @@ intent InterruptVectorTable {
             require energy 15.0 Wh;
             require cycle 150 cycles;
         }
-        # Handle Double Fault (Interrupt 8, $DF$). Gracefully resets task scheduler space.
+        # Handle Double Fault (Interrupt 8, DF). Gracefully resets task scheduler space.
         on double_fault -> IsolateTaskGroup {
             require energy 20.0 Wh;
             require cycle 200 cycles;
