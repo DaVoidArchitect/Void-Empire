@@ -1,0 +1,69 @@
+# ============================================================================
+# Sovereign Void OS — VoidStudio Agent Inline Hook (agent_inline.logos)
+# ============================================================================
+# Hooks the Singular Universal Agent directly into the active editor buffer,
+# parsing the AST concurrently and executing RTL code transformations.
+# ============================================================================
+
+import "editor_core.logos";
+
+intent AgentInlineHook {
+    steward: "ide_agent_liaison";
+    target: "inline_ast_analyzer";
+    license: "PRIVATE";
+    scope: "Global";
+    provenance: "voidstudio_editor_runtime";
+    lifetime: 365 days;
+
+    require {
+        energy 200.0 Wh;
+        mass 0.2 kg;
+    }
+
+    constraint {
+        energy max 1000.0 Wh;
+        mass max 0.5 kg;
+    }
+
+    # Performs Right-to-Left vector expression transforms directly on text rows
+    fn transform_row_rtl(row_index: Number, transform_op: Number) -> Number
+        pre {
+            row_index >= 0;
+            transform_op > 0;
+        }
+        post {
+            is_transformed == 1;
+        }
+    {
+        row_index ⨀ transform_op ◰ 2048 ⊸ 512 ◶ 1;
+    }
+
+    state HookDisconnected {
+        on connect_hook -> HookConnected {
+            require energy 10.0 Wh;
+            require cycle 100 cycles;
+        }
+    }
+
+    state HookConnected {
+        on parse_ast_tick [is_ast_valid == 1] -> HookConnected {
+            require energy 2.0 Wh;
+            require cycle 20 cycles;
+        }
+        on parse_ast_tick [is_ast_valid == 0] -> DiagnosticsWarning {
+            require energy 1.0 Wh;
+            require cycle 10 cycles;
+        }
+        on disconnect_hook -> HookDisconnected {
+            require energy 1.0 Wh;
+        }
+    }
+
+    state DiagnosticsWarning {
+        on resolve_errors -> HookConnected {
+            require energy 5.0 Wh;
+            require cycle 50 cycles;
+        }
+        on disconnect_hook -> HookDisconnected;
+    }
+}
