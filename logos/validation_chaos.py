@@ -437,6 +437,33 @@ def run_test_suite():
         assert "smir file not found" in res.stderr.lower() or "smir file not found" in res.stdout.lower()
     test_case("Integration", "logos_vm_nonexistent_file", integration_logos_vm_nonexistent_file)
 
+    def integration_fractal_invariance_constraint_chaos():
+        # Load the fractal invariance framework
+        with open("void_core/fractal_invariance.logos", "r", encoding="utf-8") as f:
+            code = f.read()
+        
+        # Parse and compile
+        prog = Parser(tokenize(code)).parse()
+        
+        # Test 1: Compile with zero/negative resources should raise ThermodynamicConstraintError
+        try:
+            bad_mesh = {'mass': 0.0, 'energy': 100.0, 'entropy': 0.1, 'cycle': 0.9}
+            Compiler(bad_mesh).compile(prog)
+            raise AssertionError("Expected ThermodynamicConstraintError for zero mass capacity")
+        except ThermodynamicConstraintError:
+            pass
+            
+        # Test 2: VM with initial state violating constraint should block transition
+        # FractalInvariance constraint: mass max 0.5 kg.
+        # Let's set initial mesh mass to 0.6 kg (violates constraint).
+        mesh = {'mass': 0.6, 'energy': 500.0 * 3600.0, 'entropy': 1e12, 'cycle': 1e12}
+        smir = Compiler(mesh).compile(prog)
+        vm = LogosVM(smir, mesh)
+        res = vm.send_event("FractalInvariance", "verify_invariance")
+        # Should be blocked due to constraint violation on mass
+        assert res["status"] == "blocked", f"Expected blocked status, got {res['status']}"
+    test_case("Integration", "fractal_invariance_constraint_chaos", integration_fractal_invariance_constraint_chaos)
+
     # ==========================================
     # SUMMARY
     # ==========================================
