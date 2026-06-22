@@ -1,0 +1,13 @@
+{
+  "host": "127.0.0.1",
+  "vtp_port": 9000,
+  "http_port": 8080,
+  "ssl_certificate": "localhost.crt",
+  "ssl_key": "localhost.key",
+  "state_machine": "voidos/system.smir.json",
+  "platform_fee": 0.0618,
+  "isolation_mode": "hermetic",
+  "diode_buffer_bytes": 192,
+  "static_downloads": {},
+  "routes": []
+}
