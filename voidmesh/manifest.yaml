@@ -1,0 +1,13 @@
+name: "iVoid Portal"
+short_name: "iVoid"
+description: "Sovereign Civilization Operating System Layer & Truth AI Companion"
+start_url: "/index.html"
+display: "standalone"
+background_color: "#020204"
+theme_color: "#7c3aed"
+orientation: "portrait-primary"
+icons:
+  - src: "void_portal_icon.png"
+    sizes: "512x512"
+    type: "image/png"
+    purpose: "any maskable"
