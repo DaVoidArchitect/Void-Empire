@@ -15,6 +15,9 @@ This directory defines the **custom synthetic PDK (sPDK)** layout and material s
 - **[process_envelope.yaml](file:///c:/Users/voidi/OneDrive/Desktop/VOID%20Empire/void_one_chip/pdk/synthetic_v1/process_envelope.yaml)**: Thermal limits, lattice defect ratios, and phonon propagation thresholds.
 - **[rule_deck.yaml](file:///c:/Users/voidi/OneDrive/Desktop/VOID%20Empire/void_one_chip/pdk/synthetic_v1/rule_deck.yaml)**: Strict verification scoring constraints and pass/fail gates.
 
+## Fractal Coordinate Geometry Grounding
+To guarantee structural self-similarity across all chip tiers, physical processing nodes (e.g., `MAT_RE6SE8CL2` superatomic logic structures and `MAT_GRAPHENE_MULTI_DOPED` interconnect tracks) conform directly to the master coordinate scaling tensor schemas defined in `void_core/fractal_invariance.logos`. All layout coordinates are mapped recursively down to nanoscale phonon waveguides, preserving the global mathematical boundaries across all layers.
+
 ## Generated Specifications (Locked & Verified)
 
 To ensure an immutable, zero-dependency deployment, the final sPDK outputs are checked in directly:
