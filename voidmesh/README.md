@@ -13,3 +13,14 @@ VoidMesh coordinates network frames and synchronizes cognitive attention weights
 
 * **Connection Protocol**: Pre-handshake challenge-response authentication occurs at the socket level. Nodes solve verification checks before accessing sliding-window buffers.
 * **Weight Consensus**: Attention weight updates are distributed across active peers. Node responses must match a majority consensus before state mutations are committed.
+
+## Sovereign Client Portal Downloads
+
+| Download Target | Target Architecture | File Path | Compilation Engine | Features / Constraints |
+| :--- | :--- | :--- | :--- | :--- |
+| **Truth Desktop Client Engine** | Win32 Standalone x64 | `voidos/app_targets/truth_desktop.exe` | `logosc_v3.exe` | Zero-dependency, native Win32 window surface mapping, hardware accelerated. |
+| **Truth Mobile Client Core** | Android APK (ARM64) | `voidos/app_targets/truth.apk` | `logosc_v3.exe` | Freestanding mobile client, OpenGL ES rendering, local TLI execution. |
+| **VoidStudio Native IDE** | Win32 Standalone x64 | `logos/ide/voidstudio.exe` | `logosc_v3.exe` | Full-scale editor, TextMate token grammar parser, concurrent inline AST diagnostics. |
+
+> [!NOTE]
+> All distributed executables and application packages are 100% autonomous, zero-dependency, native binaries generated directly by the local self-hosting compilation engine (`logosc_v3.exe`) running under VoidOS. No browser runtime overhead or corporate web engine wrappers are bundled.
