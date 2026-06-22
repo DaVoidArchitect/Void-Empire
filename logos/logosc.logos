@@ -1,0 +1,105 @@
+# ============================================================================
+# Logos Self-Hosting Compiler Specification (logosc.logos)
+# ============================================================================
+# Models the compiler state machine and includes reflection and tacit BQN vector math.
+# ============================================================================
+
+intent LogosCompiler {
+    steward: "logosc_core";
+    target: "compiler_bootstrap";
+    license: "PRIVATE";
+    scope: "Subnet";
+    provenance: "compiler_authority";
+    lifetime: 12 hours;
+
+    require {
+        energy 500.0 Wh;
+        mass 0.1 kg;
+    }
+
+    constraint {
+        energy max 1000.0 Wh;
+        mass max 1.0 kg;
+    }
+
+    # Static reflection analysis function
+    fn check_reflection_metadata(ty: Type) -> ^^Type 
+        pre {
+            enabled == 1;
+        }
+        post {
+            is_authorized == 1;
+        }
+    {
+        ^^ty;
+    }
+
+    # Tacit array vector mapping primitive utilizing BQN glyphs
+    # Direct hardware mapping for VLEN=2048 and 512 parallel execution lanes
+    fn emit_vector_register_layout(lanes: Number, width: Number) -> Number 
+        pre {
+            lanes == 512;
+            width == 2048;
+        }
+    {
+        # Right-to-Left evaluation for BQN array glyphs:
+        # ◰: Viewport Projection, ⨀: Spatial Intersection, ⊸: Infix Combinator, ◶: Multi-Option Choose
+        lanes ⨀ width ◰ 2048 ⊸ 512 ◶ 1;
+    }
+
+    state Initialize {
+        on scan_tokens -> Lexing {
+            require energy 5.0 Wh;
+            require cycle 100 cycles;
+        }
+    }
+
+    state Lexing {
+        on tokens_ready -> Parsing {
+            require energy 10.0 Wh;
+            require cycle 200 cycles;
+        }
+        on syntax_error -> Error;
+    }
+
+    state Parsing {
+        on ast_built -> SemanticVerification {
+            require energy 25.0 Wh;
+            require cycle 500 cycles;
+        }
+        on syntax_error -> Error;
+    }
+
+    state SemanticVerification {
+        on thermo_verified -> BytecodeLowering {
+            require energy 30.0 Wh;
+            require cycle 300 cycles;
+        }
+        on constraint_violation -> Error;
+    }
+
+    state BytecodeLowering {
+        on bytecode_ready -> EmitBinary {
+            require energy 15.0 Wh;
+            require cycle 200 cycles;
+        }
+    }
+
+    state EmitBinary {
+        on write_success -> Finished {
+            require energy 2.0 Wh;
+            require cycle 50 cycles;
+        }
+        on write_failure -> Error;
+    }
+
+    state Finished {
+        on reset -> Initialize;
+    }
+
+    state Error {
+        on fault_clear -> Initialize {
+            require energy 50.0 Wh;
+        }
+    }
+}
