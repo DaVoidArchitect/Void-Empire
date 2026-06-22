@@ -126,6 +126,10 @@ intent Void {
             require energy 0.02 Wh;
             require cycle 5 cycles;
         }
+        on download_ide -> DownloadPortal {
+            require energy 0.02 Wh;
+            require cycle 5 cycles;
+        }
         on proceed_to_auth -> CitizenAuthentication {
             require energy 0.05 Wh;
             require cycle 3 cycles;
