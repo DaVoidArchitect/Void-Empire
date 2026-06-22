@@ -1,0 +1,77 @@
+# ============================================================================
+# Sovereign Void OS — System Peripheral Automation Driver (peripherals.logos)
+# ============================================================================
+# Translates high-level IntentTokens into virtual host inputs (mouse vectors,
+# click states, keyboard scan codes) guarded by physical/thermal boundaries.
+# ============================================================================
+
+intent PeripheralDriver {
+    steward: "peripheral_operator";
+    target: "virtual_host_input_engine";
+    license: "PRIVATE";
+    scope: "Global";
+    provenance: "device_automation_runtime";
+    lifetime: 365 days;
+
+    require {
+        energy 150.0 Wh;
+        mass 0.1 kg;
+    }
+
+    constraint {
+        energy max 500.0 Wh;
+        mass max 0.3 kg;
+    }
+
+    # Emits mouse coordinate vectors and click state
+    # Bounded by screen coordinates (e.g. 1920x1080) and physical temperature limits
+    fn dispatch_mouse_input(x: Number, y: Number, clicked: Number, cpu_temp_c: Number) -> Number
+        pre {
+            x >= 0;
+            x <= 1920;
+            y >= 0;
+            y <= 1080;
+            clicked >= 0;
+            clicked <= 1;
+            cpu_temp_c < 85; # Bounded under critical thermal limit (85°C)
+        }
+        post {
+            is_dispatched == 1;
+        }
+    {
+        x ⨀ y ◰ 2048 ⊸ 512 ◶ 1;
+    }
+
+    # Emits keyboard scan codes
+    fn dispatch_keyboard_input(scan_code: Number, key_down: Number, cpu_temp_c: Number) -> Number
+        pre {
+            scan_code >= 0;
+            scan_code <= 255;
+            key_down >= 0;
+            key_down <= 1;
+            cpu_temp_c < 85; # Bounded under critical thermal limit (85°C)
+        }
+        post {
+            is_dispatched == 1;
+        }
+    {
+        scan_code ⨀ key_down ◰ 2048 ⊸ 512 ◶ 1;
+    }
+
+    state Off {
+        on power_on -> Active {
+            require energy 2.0 Wh;
+            require cycle 20 cycles;
+        }
+    }
+
+    state Active {
+        on process_input_token -> Active {
+            require energy 0.5 Wh;
+            require cycle 5 cycles;
+        }
+        on power_off -> Off {
+            require energy 1.0 Wh;
+        }
+    }
+}
