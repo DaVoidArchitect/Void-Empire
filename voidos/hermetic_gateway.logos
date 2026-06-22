@@ -100,3 +100,88 @@ intent CryptographicHermeticProtocol {
         }
     }
 }
+
+intent SecuredExternalBridge {
+    steward: "bridge_operator";
+    target: "unidirectional_data_diode";
+    license: "PRIVATE";
+    scope: "Subnet";
+    provenance: "gateway_authority";
+    lifetime: 48 hours;
+
+    require {
+        energy 200.0 Wh;
+        mass 0.1 kg;
+    }
+
+    constraint {
+        energy max 1000.0 Wh;
+        mass max 0.5 kg;
+    }
+
+    # Ingestion contract: isolates external buffers to read-only page slices
+    fn isolate_buffer_page(addr: Number, len: Number) -> Number
+        pre {
+            addr >= 1048576; # Base kernel page boundary
+            len == 4096;     # Single page slice
+        }
+        post {
+            is_read_only == 1;
+        }
+    {
+        addr;
+    }
+
+    state Idle {
+        on receive_document -> IngestDocument {
+            require energy 5.0 Wh;
+            require cycle 50 cycles;
+        }
+        on receive_table -> IngestDataTable {
+            require energy 10.0 Wh;
+            require cycle 100 cycles;
+        }
+        on receive_stream -> IngestStream {
+            require energy 15.0 Wh;
+            require cycle 150 cycles;
+        }
+    }
+
+    state IngestDocument {
+        on pass_diode [metadata_cleared == 1] -> IsolatedPage {
+            require energy 2.0 Wh;
+            require cycle 20 cycles;
+        }
+        on pass_diode [metadata_cleared == 0] -> Quarantine;
+    }
+
+    state IngestDataTable {
+        on pass_diode [metadata_cleared == 1] -> IsolatedPage {
+            require energy 4.0 Wh;
+            require cycle 40 cycles;
+        }
+        on pass_diode [metadata_cleared == 0] -> Quarantine;
+    }
+
+    state IngestStream {
+        on pass_diode [metadata_cleared == 1] -> IsolatedPage {
+            require energy 6.0 Wh;
+            require cycle 60 cycles;
+        }
+        on pass_diode [metadata_cleared == 0] -> Quarantine;
+    }
+
+    state IsolatedPage {
+        on expose_to_agent -> Idle {
+            require energy 1.0 Wh;
+        }
+    }
+
+    state Quarantine {
+        on purge_buffer -> Idle {
+            require energy 10.0 Wh;
+            require cycle 100 cycles;
+        }
+    }
+}
+
