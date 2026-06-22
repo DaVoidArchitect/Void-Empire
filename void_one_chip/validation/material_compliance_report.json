@@ -1,0 +1,11 @@
+{
+  "bom_path": "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\pdk\\XENALCHEMY_Golden_BOM.csv",
+  "forbidden_terms": [
+    "silicon",
+    "si",
+    "copper",
+    "cu"
+  ],
+  "violations": [],
+  "pass": true
+}
