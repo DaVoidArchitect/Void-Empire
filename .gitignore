@@ -1,0 +1,52 @@
+# ============================================================================
+# VOID ECOSYSTEM REPOSITORY ISOLATION & GITIGNORE HARDENING
+# ============================================================================
+
+# 1. Compiled Binaries & Executables
+*.exe
+*.apk
+*.dll
+*.so
+*.dylib
+*.bin
+*.coords
+*.gds
+*.gdsii
+*.gdsbin
+
+# 2. Intermediate Assembly & Verification Files
+*.il
+*.asm
+*.ys
+*.smt2
+*.vsmb
+*.log
+*.err
+*.spec
+*.sqlite
+*.xml
+*.json
+
+# 3. Python Leftovers & Bytecode Caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.venv/
+poetry.lock
+pip-log.txt
+
+# 4. Dependency & Build Outputs
+node_modules/
+dist/
+build/
+server-dist/
+.codex-vite/
+.void-server-test/
+
+# 5. Local Scratch & Historical Archives
+scratch/
+Void Archive/
+.agents/
+.gemini/
