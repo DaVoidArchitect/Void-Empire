@@ -50,3 +50,11 @@ scratch/
 Void Archive/
 .agents/
 .gemini/
+
+# 6. VoidMesh Local Site Assets
+voidmesh/index.html
+voidmesh/wasm_bootstrapper.js
+localhost.crt
+localhost.key
+server_out.log
+server_err.log
