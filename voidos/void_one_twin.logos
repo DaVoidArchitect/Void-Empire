@@ -49,20 +49,20 @@ intent VoidOneDigitalTwin {
 
     state ActiveSimulation {
         # Run active chip simulation. Models clockless pulse propagation delay:
-        # $\tau_{\text{delay}} \propto d_{\text{path}} \cdot \eta_{\text{material}}$
+        # tau_delay proportional to d_path * eta_material
         on propagate_pulse [pulse_delay_ns < 5.0] -> ActiveSimulation {
             require energy 1.0 Wh;
             require cycle 10 cycles;
         }
 
         # Treasury ALU Hard-Law: Inter-Subnet Transfers
-        # If $src \neq dst$, apply tariff: $T_{\text{tariff}} = 6.18\%$ (618 BPS) to Genesis Treasury.
+        # If src != dst, apply tariff: T_tariff = 6.18% (618 BPS) to Genesis Treasury.
         on route_transaction [src_subnet_id != dst_subnet_id] -> ApplyInterTariff {
             require energy 6.18 Wh;
         }
 
         # Treasury ALU Hard-Law: Intra-Subnet Lease
-        # If $src = dst$, apply lease fee: $T_{\text{lease}} = 0.16\%$ (16 BPS) to localized volume.
+        # If src == dst, apply lease fee: T_lease = 0.16% (16 BPS) to localized volume.
         on route_transaction [src_subnet_id == dst_subnet_id] -> ApplyIntraLease {
             require energy 1.618 Wh;
         }
