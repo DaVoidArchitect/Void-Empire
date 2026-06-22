@@ -384,6 +384,67 @@ def main():
 
     results["VoidStudio IDE & Agent Inline Hook"] = run_test("VoidStudio IDE & Agent Inline Hook", test_ide_modules)
 
+    # 12. Nested Fractal Invariance & Treasury Fee Verification
+    def test_fractal_invariance():
+        # Compile master invariance blueprint
+        with open("void_core/fractal_invariance.logos", "r", encoding="utf-8") as f:
+            code = f.read()
+        smir = compile_logos(code, source_path="void_core/fractal_invariance.logos")
+        
+        # Verify intent is FractalInvariance
+        intents = [i["name"] for i in smir.get("intents", [])]
+        assert "FractalInvariance" in intents, "FractalInvariance missing from compiled SMIR"
+        
+        # Verify initial state of FractalInvariance is Balanced
+        mesh = {'mass': 0.2, 'energy': 500.0 * 3600.0, 'entropy': 1e12, 'cycle': 1e12}
+        vm = LogosVM(smir, mesh)
+        assert vm.current_state("FractalInvariance") == "Balanced", "Initial state must be Balanced"
+        
+        # Verify the verify_invariance transition with 6.18% platform fee
+        energy_before = vm.mesh['energy']
+        cycle_before = vm.mesh['cycle']
+        
+        res = vm.send_event("FractalInvariance", "verify_invariance")
+        assert res["status"] == "transitioned", f"Failed to verify invariance: {res}"
+        assert vm.current_state("FractalInvariance") == "Balanced"
+        
+        # Platform fee applies 6.18%:
+        # energy: 1.0 Wh * 3600 = 3600 J. Deducts 3600 * 1.0618 = 3822.48 J
+        # cycle: 10 cycles. Deducts 10 * 1.0618 = 10.618 cycles
+        energy_after = vm.mesh['energy']
+        cycle_after = vm.mesh['cycle']
+        
+        expected_energy_deduction = 1.0 * 3600.0 * 1.0618
+        expected_cycle_deduction = 10.0 * 1.0618
+        
+        assert abs((energy_before - energy_after) - expected_energy_deduction) < 1e-3, f"Energy deduction mismatch: {energy_before - energy_after}"
+        assert abs((cycle_before - cycle_after) - expected_cycle_deduction) < 1e-3, f"Cycle deduction mismatch: {cycle_before - cycle_after}"
+        
+        # Compile voidos/treasury.logos
+        with open("voidos/treasury.logos", "r", encoding="utf-8") as f:
+            t_code = f.read()
+        t_smir = compile_logos(t_code, source_path="voidos/treasury.logos")
+        
+        t_intents = [i["name"] for i in t_smir.get("intents", [])]
+        assert "Treasury" in t_intents, "Treasury missing from compiled SMIR"
+        
+        # Test Treasury VM
+        t_vm = LogosVM(t_smir, mesh, runtime_ctx={"is_inter_subnet": 1})
+        assert t_vm.current_state("Treasury") == "Idle"
+        
+        # Process payment (inter-subnet) -> Settled. Requires energy 6.18 Wh
+        e_before = t_vm.mesh['energy']
+        res = t_vm.send_event("Treasury", "process_payment")
+        assert res["status"] == "transitioned"
+        assert t_vm.current_state("Treasury") == "Settled"
+        e_after = t_vm.mesh['energy']
+        
+        # 6.18 Wh * 3600 = 22248 J. Deducts 22248 * 1.0618 = 23622.9264 J
+        expected_t_deduction = 6.18 * 3600.0 * 1.0618
+        assert abs((e_before - e_after) - expected_t_deduction) < 1e-3, f"Treasury deduction mismatch"
+
+    results["Nested Fractal Invariance & Treasury"] = run_test("Nested Fractal Invariance & Treasury", test_fractal_invariance)
+
     print("================================================================================")
     print("                                TEST SUMMARY")
     print("================================================================================")
