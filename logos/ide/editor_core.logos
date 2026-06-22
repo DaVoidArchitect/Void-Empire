@@ -1,0 +1,59 @@
+# ============================================================================
+# Sovereign Void OS — VoidStudio Native IDE Core (editor_core.logos)
+# ============================================================================
+# Constructs a text editing engine utilizing TextMate grammar tokens
+# for real-time syntax highlighting within the native environment.
+# ============================================================================
+
+intent EditorCore {
+    steward: "ide_operator";
+    target: "textmate_syntax_highlight_engine";
+    license: "PRIVATE";
+    scope: "Global";
+    provenance: "voidstudio_editor_runtime";
+    lifetime: 365 days;
+
+    require {
+        energy 100.0 Wh;
+        mass 0.2 kg;
+    }
+
+    constraint {
+        energy max 300.0 Wh;
+        mass max 0.5 kg;
+    }
+
+    # Loads and highlights a buffer slice based on grammar tokens
+    fn highlight_buffer_row(row_index: Number, textmate_token_id: Number) -> Number
+        pre {
+            row_index >= 0;
+            textmate_token_id >= 0;
+        }
+        post {
+            is_highlighted == 1;
+        }
+    {
+        row_index ⨀ textmate_token_id ◰ 2048 ⊸ 512 ◶ 1;
+    }
+
+    state WorkspaceClosed {
+        on open_workspace -> WorkspaceOpen {
+            require energy 5.0 Wh;
+            require cycle 50 cycles;
+        }
+    }
+
+    state WorkspaceOpen {
+        on insert_char -> WorkspaceOpen {
+            require energy 0.01 Wh;
+            require cycle 1 cycles;
+        }
+        on delete_char -> WorkspaceOpen {
+            require energy 0.01 Wh;
+            require cycle 1 cycles;
+        }
+        on close_workspace -> WorkspaceClosed {
+            require energy 1.0 Wh;
+        }
+    }
+}
