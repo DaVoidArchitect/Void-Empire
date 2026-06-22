@@ -1,0 +1,70 @@
+# ============================================================================
+# Logos Virtual Machine Native Specification (logos_vm.logos)
+# ============================================================================
+# Models the execution loop and transactional state registers of the Logos VM.
+# ============================================================================
+
+intent LogosVM {
+    steward: "logos_vm_core";
+    target: "vm_bootstrap";
+    license: "PRIVATE";
+    scope: "Subnet";
+    provenance: "vm_authority";
+    lifetime: 24 hours;
+
+    require {
+        energy 1000.0 Wh;
+        mass 0.2 kg;
+    }
+
+    constraint {
+        energy max 5000.0 Wh;
+        mass max 2.0 kg;
+    }
+
+    # BQN tacit array projection for memory address mapping
+    fn calculate_page_offset(index: Number, base: Number) -> Number 
+        pre {
+            index >= 0;
+        }
+    {
+        index ⨀ base ◰ 4096;
+    }
+
+    state Boot {
+        on load_context -> Idle {
+            require energy 10.0 Wh;
+            require cycle 100 cycles;
+        }
+        on boot_failure -> Fault;
+    }
+
+    state Idle {
+        on process_event -> Executing {
+            require energy 50.0 Wh;
+            require cycle 1000 cycles;
+        }
+        on shutdown -> Terminated;
+    }
+
+    state Executing {
+        on commit_transition -> Idle {
+            require energy 10.0 Wh;
+            require cycle 100 cycles;
+        }
+        on transaction_rollback -> Idle {
+            require energy 5.0 Wh;
+            require cycle 50 cycles;
+        }
+        on execution_fault -> Fault;
+    }
+
+    state Fault {
+        on reset_vm -> Boot {
+            require energy 100.0 Wh;
+            require cycle 500 cycles;
+        }
+    }
+
+    state Terminated {}
+}
