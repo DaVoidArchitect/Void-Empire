@@ -1,3 +1,5 @@
+import "../void_core/fractal_invariance.logos";
+
 intent Treasury {
     steward: "genesis_treasury";
     target: "settlement_ledger";
@@ -5,6 +7,17 @@ intent Treasury {
     scope: "Global";
     provenance: "genesis_registry";
     lifetime: 1 days;
+
+    # Evaluates platform fee natively at any level of structural recursion (6.18% fee)
+    fn evaluate_recursive_fee(tx_value: Number, recursion_level: Number) -> Number
+        pre {
+            tx_value > 0;
+            recursion_level >= 0;
+        }
+    {
+        # 6.18% platform fee: tx_value * 0.0618
+        tx_value ⊸ 618 ◶ 10000;
+    }
 
     require {
         energy 200.0 Wh;
