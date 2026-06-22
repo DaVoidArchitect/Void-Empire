@@ -20,7 +20,7 @@ intent MemoryManager {
     state Idle {
         # Bind directly to physical memory allocation maps, bypassing virtual OS calls.
         # Enforce compile-time bounds checking on tensor size to guarantee offsets remain within physical bounds.
-        # Invariant: $0 \le \text{Offset} < \text{PageBounds}$
+        # Invariant: 0 <= Offset < PageBounds
         on allocate_tensor [tensor_size_bytes <= 1073741824 and offset_bound_ok == 1] -> Allocating {
             require energy 5.0 Wh;
             require cycle 50 cycles;
@@ -72,8 +72,8 @@ intent SovereignCompute {
     }
 
     state Idle {
-        # Execute standard Matrix multiplication. Utilizes vector registers $v0$–$v31$.
-        # Performance bound: $\Delta t_{\text{kernel}} \propto \frac{D_{\text{matrix}}^3}{\text{Lanes}}$
+        # Execute standard Matrix multiplication. Utilizes vector registers v0-v31.
+        # Performance bound: delta_t_kernel proportional to D_matrix^3 / Lanes
         on dispatch_gemm [matrix_dim <= 4096] -> ComputingGEMM {
             require energy 20.0 Wh;
             require cycle 200 cycles;
@@ -81,7 +81,7 @@ intent SovereignCompute {
 
         # Optimized layer-fused vector instruction path: Bias Addition + Scale + Softmax
         # Fuses three operations into a single-pass vector register pipeline, eliminating memory writebacks.
-        # Invariant: $\vec{x}_{\text{out}} = \text{Softmax}(\text{Scale} \cdot (\vec{x}_{\text{in}} + \vec{b}))$
+        # Invariant: x_out = Softmax(Scale * (x_in + b))
         on dispatch_fused_activation [vector_dim <= 16384] -> ComputingFusedActivation {
             require energy 8.0 Wh;
             require cycle 80 cycles;
