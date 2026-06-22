@@ -42,19 +42,19 @@ Logos compiles physical constraints at the base layer. Primitives are normalized
 
 | Primitive | Description | Source Units | Normalized Unit (Internal) |
 | :--- | :--- | :--- | :--- |
-| **`mass`** | Physical matter weight | `kg` (kilograms), `g` (grams), `mg` (milligrams), `t` (metric tons) | **Kilograms ($kg$)** |
-| **`energy`** | Thermal/electrical work | `J` (Joules), `kJ` (kilojoules), `Wh` (Watt-hours), `kWh` (kilowatt-hours), `MWh` (megawatt-hours) | **Joules ($J$)** or **Kilowatt-hours ($kWh$)** |
+| **`mass`** | Physical matter weight | `kg` (kilograms), `g` (grams), `mg` (milligrams), `t` (metric tons) | **Kilograms (kg)** |
+| **`energy`** | Thermal/electrical work | `J` (Joules), `kJ` (kilojoules), `Wh` (Watt-hours), `kWh` (kilowatt-hours), `MWh` (megawatt-hours) | **Joules (J)** or **Kilowatt-hours (kWh)** |
 | **`entropy`** | Mechanical wear/decay limit | `%` or decimal fraction (e.g., `0.05` or `5%`) | **Decimal Fraction (0.0 to 1.0)** |
 | **`cycle`** | Material recycling loop efficiency | `%` or decimal fraction (e.g., `0.95` or `95%`) | **Decimal Fraction (0.0 to 1.0)** |
 
 ### B. Standard Normalization Formulas
-- $1\text{ g} = 10^{-3}\text{ kg}$
-- $1\text{ mg} = 10^{-6}\text{ kg}$
-- $1\text{ t} = 10^{3}\text{ kg}$
-- $1\text{ Wh} = 3600\text{ J}$
-- $1\text{ kWh} = 3.6 \times 10^6\text{ J}$
-- $1\text{ MWh} = 3.6 \times 10^9\text{ J}$
-- $1\text{ kJ} = 1000\text{ J}$
+- 1 g = 10^-3 kg
+- 1 mg = 10^-6 kg
+- 1 t = 10^3 kg
+- 1 Wh = 3600 J
+- 1 kWh = 3.6 * 10^6 J
+- 1 MWh = 3.6 * 10^9 J
+- 1 kJ = 1000 J
 
 ---
 
