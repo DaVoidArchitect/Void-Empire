@@ -4,6 +4,8 @@
 # Handles tensor memory offset bounds checking and fused vector transformations.
 # ============================================================================
 
+import "../void_core/fractal_invariance.logos";
+
 intent MemoryManager {
     steward: "model_inference_engine";
     target: "physical_allocator";
@@ -15,6 +17,20 @@ intent MemoryManager {
     require {
         energy 200.0 Wh;
         cycle 1000 cycles;
+    }
+
+    # Verifies sandboxed memory block copies the security and layout attributes of the host kernel
+    fn replicate_kernel_layout_attributes(parent_attrs: Number, child_attrs: Number) -> Number
+        pre {
+            parent_attrs > 0;
+            child_attrs > 0;
+            parent_attrs ⊸ child_attrs == 0; # Perfect fractal clone
+        }
+        post {
+            is_cloned == 1;
+        }
+    {
+        parent_attrs;
     }
 
     state Idle {
