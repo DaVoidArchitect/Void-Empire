@@ -25,7 +25,7 @@ DATA DIODE BUFFER STATUS   : SANITIZED & OPERATIONAL (192-Byte Zero-Copy Guard)
 | **Logos Compiler** | 16 | `logosc_v3.exe` | **PASS** | Native Self-Hosting Verification |
 | **Logos VM Runtime** | 12 | `logos_vm_v2.exe` | **PASS** | Automated Chaos & User Suites |
 | **Truth AI Oracle** | 19 | `truth.exe` | **PASS** | Offline TLI Coordinate Relaxation |
-| **Void OS Core** | 35 | `system.smir.json` | **PASS** | Fully Declarative Intent Compilation |
+| **Void OS Core** | 35 | `system.logos` | **PASS** | Fully Declarative Intent Compilation |
 | **Void One PDK/CAD** | 104 | `void_one_geometry.logos` | **PASS** | Digital Twin TCAD Conformance Checks |
 
 ### Production Standalone Binaries
@@ -108,12 +108,15 @@ Void-Empire/
 │   ├── data_diode.logos            # Optical data diode interop bridge
 │   ├── hermetic_gateway.logos      # Cryptographic zero-copy packet parser
 │   ├── tli_engine.logos            # Relational Knowledge Matrix nodes
-│   ├── voidmesh.logos              # P2P mesh network weight sync interface
 │   ├── treasury.logos              # Resource distribution split logic
 │   ├── scheduler.logos             # Task priority allocator
 │   ├── mailbox.logos               # Anti-replay signature verification
 │   ├── system.logos                # Unified Operating System topology
 │   └── telemetry_ui.logos          # UI layout with dark logic canvas
+├── voidmesh/                       # VoidMesh Sovereign Network & Web Portal
+│   ├── voidmesh.logos              # P2P mesh network weight sync interface
+│   ├── manifest.yaml               # PWA web portal manifest
+│   └── vtp_config.yaml             # Virtual Threshold Portal configurations
 ├── void_one_chip/                  # Post-silicon PDK & Simulation specs
 │   ├── src/
 │   │   └── sovereign_core_top.txt  # Timing-tree-free top-level layout
