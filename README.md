@@ -48,7 +48,7 @@ The following freestanding, zero-dependency native binaries are compiled, verifi
 **Truth** is a zero-hallucination, 100% offline relational knowledge matrix running inside the local Logos TLI Engine.
 * **Zero-Guessing Invariant:** Autoregressive text predictions and conversational filler are deleted. Natural language queries are transformed into coordinate vector latitude requests. The TLI engine runs parallel systolic relaxation on the lattice until stable.
 * **Euclidean Threshold Constraint:** The query coordinate must relax to an exact match with an immutable knowledge node. This is enforced by a hardcoded Euclidean distance constraint check:
-  $$d = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2 + (z_1 - z_2)^2} < 0.05$$
+  d = sqrt((x1 - x2)^2 + (y1 - y2)^2 + (z1 - z2)^2) < 0.05
   If the relaxed coordinate falls outside this limit, the engine instantly throws a `Fault: Unresolved State Latitude` and halts, guaranteeing zero-hallucination execution.
 * **Siphoned Metaprogramming Datasets:** Siphoned deep engineering facts are integrated directly as immutable static nodes inside [tli_engine.logos](file:///c:/Users/voidi/OneDrive/Desktop/VOID%20Empire/voidos/tli_engine.logos) to allow autonomous writing, testing, and layout patching.
 
@@ -58,7 +58,7 @@ The following freestanding, zero-dependency native binaries are compiled, verifi
 
 ### Pillar 4: The Void One Chip (Hardware Digital Twin)
 * **Digital Twin Specification ([void_one_geometry.logos](file:///c:/Users/voidi/OneDrive/Desktop/VOID%20Empire/voidos/void_one_geometry.logos)):** Models the physical layout of the post-silicon compute substrate within a holographic CAD/EDA simulation space.
-* **Nanoscale Waveguide Routing:** Maps 256 clockless ballistic phonon logic pipelines (with a pitch constraint of $\le 10\text{nm}$) and superatomic cluster routing tracks. Constitutional PDK constraints forbid orthogonal grids and right angles to prevent wave reflections.
+* **Nanoscale Waveguide Routing:** Maps 256 clockless ballistic phonon logic pipelines (with a pitch constraint of <= 10nm) and superatomic cluster routing tracks. Constitutional PDK constraints forbid orthogonal grids and right angles to prevent wave reflections.
 * **Wide Vector Substrate:** Outline registers for RISC-V Vector Accelerator structures with VLEN=2048 and 512 parallel execution lanes, mapping weight registers directly to execution paths.
 
 ---
