@@ -227,6 +227,163 @@ def main():
 
     results["Polymorphic Agent Modulations"] = run_test("Polymorphic Agent Modulations", test_polymorphic_agent)
 
+    # 7. Desktop Wrapper Initialization Test
+    def test_desktop_wrapper():
+        with open("voidos/app_targets/desktop_wrapper.logos", "r", encoding="utf-8") as f:
+            code = f.read()
+        smir = compile_logos(code, source_path="voidos/app_targets/desktop_wrapper.logos")
+        
+        # Verify intent is DesktopWrapper
+        intents = [i["name"] for i in smir.get("intents", [])]
+        assert "DesktopWrapper" in intents, "DesktopWrapper missing from compiled SMIR"
+        
+        # Verify initial state of DesktopWrapper is Closed
+        mesh = {'mass': 0.2, 'energy': 100.0 * 3600.0, 'entropy': 1e12, 'cycle': 1e12}
+        vm = LogosVM(smir, mesh)
+        assert vm.current_state("DesktopWrapper") == "Closed", "Initial state must be Closed"
+        
+        # Transition to RenderingActive
+        res = vm.send_event("DesktopWrapper", "initialize_window")
+        assert res["status"] == "transitioned", f"Failed to initialize window: {res}"
+        assert vm.current_state("DesktopWrapper") == "RenderingActive"
+        
+        # Render tick
+        res = vm.send_event("DesktopWrapper", "render_tick")
+        assert res["status"] == "transitioned"
+        assert vm.current_state("DesktopWrapper") == "RenderingActive"
+        
+        # Close window
+        res = vm.send_event("DesktopWrapper", "close_window")
+        assert res["status"] == "transitioned"
+        assert vm.current_state("DesktopWrapper") == "Closed"
+
+    results["Desktop Wrapper Initialization"] = run_test("Desktop Wrapper Initialization", test_desktop_wrapper)
+
+    # 8. Mobile Wrapper Initialization Test
+    def test_mobile_wrapper():
+        with open("voidos/app_targets/mobile_wrapper.logos", "r", encoding="utf-8") as f:
+            code = f.read()
+        smir = compile_logos(code, source_path="voidos/app_targets/mobile_wrapper.logos")
+        
+        intents = [i["name"] for i in smir.get("intents", [])]
+        assert "MobileWrapper" in intents, "MobileWrapper missing from compiled SMIR"
+        
+        mesh = {'mass': 0.1, 'energy': 50.0 * 3600.0, 'entropy': 1e12, 'cycle': 1e12}
+        vm = LogosVM(smir, mesh)
+        assert vm.current_state("MobileWrapper") == "Suspended", "Initial state must be Suspended"
+        
+        # Transition to ActiveForeground
+        res = vm.send_event("MobileWrapper", "resume_app")
+        assert res["status"] == "transitioned", f"Failed to resume app: {res}"
+        assert vm.current_state("MobileWrapper") == "ActiveForeground"
+        
+        # Render frame
+        res = vm.send_event("MobileWrapper", "render_frame")
+        assert res["status"] == "transitioned"
+        assert vm.current_state("MobileWrapper") == "ActiveForeground"
+        
+        # Pause app
+        res = vm.send_event("MobileWrapper", "pause_app")
+        assert res["status"] == "transitioned"
+        assert vm.current_state("MobileWrapper") == "Suspended"
+
+    results["Mobile Wrapper Initialization"] = run_test("Mobile Wrapper Initialization", test_mobile_wrapper)
+
+    # 9. System Peripheral Automation Test
+    def test_peripheral_driver():
+        with open("voidos/peripherals.logos", "r", encoding="utf-8") as f:
+            code = f.read()
+        smir = compile_logos(code, source_path="voidos/peripherals.logos")
+        
+        intents = [i["name"] for i in smir.get("intents", [])]
+        assert "PeripheralDriver" in intents, "PeripheralDriver missing from compiled SMIR"
+        
+        mesh = {'mass': 0.2, 'energy': 300.0 * 3600.0, 'entropy': 1e12, 'cycle': 1e12}
+        vm = LogosVM(smir, mesh)
+        assert vm.current_state("PeripheralDriver") == "Off", "Initial state must be Off"
+        
+        # Power on
+        res = vm.send_event("PeripheralDriver", "power_on")
+        assert res["status"] == "transitioned"
+        assert vm.current_state("PeripheralDriver") == "Active"
+        
+        # Process input
+        res = vm.send_event("PeripheralDriver", "process_input_token")
+        assert res["status"] == "transitioned"
+        assert vm.current_state("PeripheralDriver") == "Active"
+        
+        # Power off
+        res = vm.send_event("PeripheralDriver", "power_off")
+        assert res["status"] == "transitioned"
+        assert vm.current_state("PeripheralDriver") == "Off"
+
+    results["System Peripheral Automation"] = run_test("System Peripheral Automation", test_peripheral_driver)
+
+    # 10. Secured Ingestion Bridge & Diode Test
+    def test_secured_external_bridge():
+        with open("voidos/hermetic_gateway.logos", "r", encoding="utf-8") as f:
+            code = f.read()
+        smir = compile_logos(code, source_path="voidos/hermetic_gateway.logos")
+        
+        intents = [i["name"] for i in smir.get("intents", [])]
+        assert "SecuredExternalBridge" in intents, "SecuredExternalBridge missing from compiled SMIR"
+        
+        # Test SecuredExternalBridge flow
+        mesh = {'mass': 0.2, 'energy': 500.0 * 3600.0, 'entropy': 1e12, 'cycle': 1e12}
+        vm = LogosVM(smir, mesh, runtime_ctx={"metadata_cleared": 1})
+        assert vm.current_state("SecuredExternalBridge") == "Idle"
+        
+        # Ingest document
+        res = vm.send_event("SecuredExternalBridge", "receive_document")
+        assert res["status"] == "transitioned"
+        assert vm.current_state("SecuredExternalBridge") == "IngestDocument"
+        
+        # Pass diode validator with metadata_cleared == 1
+        res = vm.send_event("SecuredExternalBridge", "pass_diode")
+        assert res["status"] == "transitioned"
+        assert vm.current_state("SecuredExternalBridge") == "IsolatedPage"
+        
+        # Expose to agent
+        res = vm.send_event("SecuredExternalBridge", "expose_to_agent")
+        assert res["status"] == "transitioned"
+        assert vm.current_state("SecuredExternalBridge") == "Idle"
+
+    results["Secured External Ingestion Bridge"] = run_test("Secured External Ingestion Bridge", test_secured_external_bridge)
+
+    # 11. VoidStudio Native IDE Core & Inline Agent Test
+    def test_ide_modules():
+        with open("logos/ide/agent_inline.logos", "r", encoding="utf-8") as f:
+            code = f.read()
+        smir = compile_logos(code, source_path="logos/ide/agent_inline.logos")
+        
+        intents = [i["name"] for i in smir.get("intents", [])]
+        assert "EditorCore" in intents, "EditorCore missing from compiled SMIR"
+        assert "AgentInlineHook" in intents, "AgentInlineHook missing from compiled SMIR"
+        
+        mesh = {'mass': 0.3, 'energy': 250.0 * 3600.0, 'entropy': 1e12, 'cycle': 1e12}
+        vm = LogosVM(smir, mesh, runtime_ctx={"is_ast_valid": 1})
+        
+        # Validate EditorCore Workspace flow
+        assert vm.current_state("EditorCore") == "WorkspaceClosed"
+        res = vm.send_event("EditorCore", "open_workspace")
+        assert res["status"] == "transitioned"
+        assert vm.current_state("EditorCore") == "WorkspaceOpen"
+        
+        res = vm.send_event("EditorCore", "insert_char")
+        assert res["status"] == "transitioned"
+        
+        # Validate AgentInlineHook connection and diagnostics flow
+        assert vm.current_state("AgentInlineHook") == "HookDisconnected"
+        res = vm.send_event("AgentInlineHook", "connect_hook")
+        assert res["status"] == "transitioned"
+        assert vm.current_state("AgentInlineHook") == "HookConnected"
+        
+        res = vm.send_event("AgentInlineHook", "parse_ast_tick")
+        assert res["status"] == "transitioned"
+        assert vm.current_state("AgentInlineHook") == "HookConnected"
+
+    results["VoidStudio IDE & Agent Inline Hook"] = run_test("VoidStudio IDE & Agent Inline Hook", test_ide_modules)
+
     print("================================================================================")
     print("                                TEST SUMMARY")
     print("================================================================================")
