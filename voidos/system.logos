@@ -13,7 +13,7 @@ import "bootloader.logos";
 import "memory_manager.logos";
 import "logos_hdl_spec.logos";
 import "hermetic_gateway.logos";
-import "voidmesh.logos";
+import "../voidmesh/voidmesh.logos";
 import "tli_engine.logos";
 import "void_one_twin.logos";
 import "void_one_geometry.logos";
