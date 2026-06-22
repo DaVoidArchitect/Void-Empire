@@ -1,0 +1,66 @@
+# ============================================================================
+# Sovereign Void OS — Desktop Wrapper Target (desktop_wrapper.logos)
+# ============================================================================
+# Maps visual layouts from telemetry_ui.logos directly to native host window
+# surfaces, compiling down to a zero-dependency truth_desktop.exe binary.
+# ============================================================================
+
+import "../telemetry_ui.logos";
+
+intent DesktopWrapper {
+    steward: "window_manager";
+    target: "native_win32_surface";
+    license: "PRIVATE";
+    scope: "Global";
+    provenance: "desktop_client_runtime";
+    lifetime: 365 days;
+
+    require {
+        energy 50.0 Wh;
+        mass 0.1 kg;
+    }
+
+    constraint {
+        energy max 200.0 Wh;
+        mass max 0.5 kg;
+    }
+
+    # Bind host render buffer to void black graphics context
+    fn bind_window_surface(width: Number, height: Number) -> Number
+        pre {
+            width >= 640;
+            height >= 480;
+        }
+        post {
+            is_bound == 1;
+        }
+    {
+        width ⨀ height ◰ 2048 ⊸ 512 ◶ 1;
+    }
+
+    # Blit layout pixels to frame buffer
+    fn blit_telemetry_layout(layout_id: Number) -> Number
+        pre {
+            layout_id > 0;
+        }
+    {
+        layout_id ⨀ 2048 ◰ 2048 ⊸ 512 ◶ 1;
+    }
+
+    state Closed {
+        on initialize_window -> RenderingActive {
+            require energy 1.0 Wh;
+            require cycle 10 cycles;
+        }
+    }
+
+    state RenderingActive {
+        on render_tick -> RenderingActive {
+            require energy 0.1 Wh;
+            require cycle 2 cycles;
+        }
+        on close_window -> Closed {
+            require energy 0.5 Wh;
+        }
+    }
+}
