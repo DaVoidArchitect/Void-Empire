@@ -19,7 +19,7 @@ The mapping from the initial scaffold architecture to the active Logos codebase 
 - **Core Subsystems & Services** (historically `services/`):
   - **[treasury.logos](file:///c:/Users/voidi/OneDrive/Desktop/VOID%20Empire/voidos/treasury.logos)**: Declarative value splits and resource allocation gates.
   - **[tli_engine.logos](file:///c:/Users/voidi/OneDrive/Desktop/VOID%20Empire/voidos/tli_engine.logos)**: Topological Latticed Intelligence offline oracle knowledge database.
-  - **[voidmesh.logos](file:///c:/Users/voidi/OneDrive/Desktop/VOID%20Empire/voidos/voidmesh.logos)**: Peer weight-slice synchronization consensus interface.
+  - **[voidmesh.logos](file:///c:/Users/voidi/OneDrive/Desktop/VOID%20Empire/voidmesh/voidmesh.logos)**: Peer weight-slice synchronization consensus interface (segregated under `voidmesh/` root directory).
 - **Developer API & Attestation Surfaces** (historically `apis/`):
   - **[session.logos](file:///c:/Users/voidi/OneDrive/Desktop/VOID%20Empire/voidos/session.logos)**: Intent payload validation and secure developer sessions.
 
