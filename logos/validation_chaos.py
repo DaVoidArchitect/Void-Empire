@@ -348,7 +348,7 @@ def run_test_suite():
     test_case("VM", "event_1000_times", vm_event_1000_times)
 
     def vm_resource_exhaustion():
-        mesh = {'mass': 1000.0, 'energy': 50.0, 'entropy': 0.01, 'cycle': 0.99}
+        mesh = {'mass': 1000.0, 'energy': 60.0, 'entropy': 0.01, 'cycle': 0.99}
         code = "intent T { state Init { on loop -> Init { require energy 10.0 J; } } }"
         smir = Compiler(mesh).compile(Parser(tokenize(code)).parse())
         vm = LogosVM(smir, mesh, {'t_state': 'Init'})
