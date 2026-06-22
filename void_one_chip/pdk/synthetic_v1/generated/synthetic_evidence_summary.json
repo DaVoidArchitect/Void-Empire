@@ -1,0 +1,78 @@
+{
+  "profile_id": "SV-LIVING-STACK-ALPHA",
+  "generated_at_utc": "2026-06-14T15:16:39.471457+00:00",
+  "source_files": {
+    "material_library": "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\pdk\\synthetic_v1\\material_library.yaml",
+    "stack_manifest": "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\pdk\\synthetic_v1\\stack_manifest.yaml",
+    "process_envelope": "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\pdk\\synthetic_v1\\process_envelope.yaml",
+    "rule_deck": "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\pdk\\synthetic_v1\\rule_deck.yaml"
+  },
+  "constitutional": {
+    "constraints": {
+      "silicon_allowed": false,
+      "copper_allowed": false,
+      "l3_treasury_mutable": false,
+      "dark_channel_required": true
+    },
+    "violations": [],
+    "pass": true
+  },
+  "metrics": {
+    "thermal_stability": 0.51368,
+    "dark_channel_affinity": 0.860833,
+    "defect_tolerance": 0.926667,
+    "constitutional_alignment": 1.0,
+    "viability_score": 0.811604,
+    "viability_threshold": 0.72,
+    "viability_headroom": 0.091604,
+    "viability_headroom_target": 0.08,
+    "viability_headroom_pass": true,
+    "weights": {
+      "thermal_stability": 0.3,
+      "dark_channel_affinity": 0.2,
+      "defect_tolerance": 0.2,
+      "constitutional_alignment": 0.3
+    }
+  },
+  "living_system_policy": {
+    "sensing": {
+      "required_signals": [
+        "thermal_input_milliK",
+        "defect_density",
+        "entropy_gain",
+        "route_congestion",
+        "treasury_flow"
+      ]
+    },
+    "homeostasis": {
+      "enabled": true,
+      "max_derate_per_window_pct": 18.0
+    },
+    "immune_response": {
+      "enabled": true,
+      "quarantine_on_anomaly_score_ge": 0.82
+    },
+    "regeneration": {
+      "enabled": true,
+      "remap_latency_cycles_target": 64
+    }
+  },
+  "kpi_targets": {
+    "thermal": {
+      "l0_surface_temp_k_max": 315.0,
+      "collapse_guard_entry_k_min": 950.0,
+      "max_heat_load_k": 950.0
+    },
+    "defect_sovereignty": {
+      "performance_retention_pct_min": 70.0,
+      "remap_latency_cycles_max": 128
+    },
+    "living_system": {
+      "homeostasis_oscillation_index_max": 0.15,
+      "immune_false_positive_rate_max": 0.08
+    }
+  },
+  "layer_count": 6,
+  "pass": true,
+  "recommendations": []
+}
