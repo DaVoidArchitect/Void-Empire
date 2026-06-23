@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#020105" />
+    <meta name="description" content="iVoid Sovereign Portal — Unified civilizational spatial canvas platform integrating peer-to-peer social networks, global commodity trading, cognitive computing telemetry, and Truth AI companion nodes." />
     <title>iVoid — Sovereign Portal</title>
     <link rel="icon" type="image/png" href="void_portal_icon.png">
     
@@ -45,11 +46,27 @@
         letter-spacing: 0.3em;
         pointer-events: none;
       }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
     </style>
   </head>
   <body>
-    <div id="loader">BECOMING...</div>
-    <canvas id="void-framebuffer"></canvas>
+    <header class="sr-only">
+      <h1>iVoid Sovereign Portal</h1>
+    </header>
+    <main id="void-portal-viewport">
+      <div id="loader">BECOMING...</div>
+      <canvas id="void-framebuffer"></canvas>
+    </main>
     <script src="wasm_bootstrapper.js"></script>
   </body>
 </html>
