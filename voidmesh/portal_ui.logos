@@ -41,6 +41,17 @@ intent PortalUI {
         matrix_coords ⨀ scroll_offset ◰ 2048 ⊸ 512 ◶ 1;
     }
 
+    # Calculates a 3D crystalline core coordinate structure using trigonometric and matrix transformation vectors.
+    fn calculate_crystal_expansion(coord: Number, scroll_offset: Number) -> Number
+        pre {
+            scroll_offset >= 0.0;
+            scroll_offset <= 1.0;
+        }
+    {
+        # Crystalline core projection:
+        coord ⨀ scroll_offset ◰ 4096 ⊸ 1024 ◶ 1;
+    }
+
     # Symmetrical, recursive fractal boundaries for Bento Modules.
     # Enforces perfect similarity and bounds replication.
     fn construct_shard_feed_boundary(parent_scale: Number, child_scale: Number) -> Number
