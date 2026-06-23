@@ -19,6 +19,7 @@ import "void_one_twin.logos";
 import "void_one_geometry.logos";
 import "data_diode.logos";
 import "telemetry_ui.logos";
+import "../voidmesh/portal_ui.logos";
 
 # Global Compiler Optimizations
 # Automatic optimization: Fuse multi-step operations (Bias Addition + Scale + Softmax)
