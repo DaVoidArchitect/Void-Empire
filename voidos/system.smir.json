@@ -6639,43 +6639,9 @@
           "name": "MatrixCentral",
           "transitions": [
             {
-              "event": "scroll_offset_changed",
+              "event": "scroll_offset",
               "target": "Interpolating",
-              "line": 79,
-              "guard": {
-                "expr": {
-                  "type": "binary",
-                  "op": "and",
-                  "left": {
-                    "type": "binary",
-                    "op": ">",
-                    "left": {
-                      "type": "literal",
-                      "value_type": "IDENTIFIER",
-                      "value": "scroll_val"
-                    },
-                    "right": {
-                      "type": "literal",
-                      "value_type": "NUMBER",
-                      "value": 0.0
-                    }
-                  },
-                  "right": {
-                    "type": "binary",
-                    "op": "<",
-                    "left": {
-                      "type": "literal",
-                      "value_type": "IDENTIFIER",
-                      "value": "scroll_val"
-                    },
-                    "right": {
-                      "type": "literal",
-                      "value_type": "NUMBER",
-                      "value": 1.0
-                    }
-                  }
-                }
-              },
+              "line": 90,
               "requires": [
                 {
                   "resource": "energy",
@@ -6685,25 +6651,9 @@
               ]
             },
             {
-              "event": "scroll_offset_changed",
+              "event": "scroll_offset",
               "target": "BentoDashboard",
-              "line": 83,
-              "guard": {
-                "expr": {
-                  "type": "binary",
-                  "op": ">=",
-                  "left": {
-                    "type": "literal",
-                    "value_type": "IDENTIFIER",
-                    "value": "scroll_val"
-                  },
-                  "right": {
-                    "type": "literal",
-                    "value_type": "NUMBER",
-                    "value": 1.0
-                  }
-                }
-              },
+              "line": 94,
               "requires": [
                 {
                   "resource": "energy",
@@ -6718,25 +6668,9 @@
           "name": "Interpolating",
           "transitions": [
             {
-              "event": "scroll_offset_changed",
+              "event": "scroll_offset",
               "target": "MatrixCentral",
-              "line": 90,
-              "guard": {
-                "expr": {
-                  "type": "binary",
-                  "op": "<=",
-                  "left": {
-                    "type": "literal",
-                    "value_type": "IDENTIFIER",
-                    "value": "scroll_val"
-                  },
-                  "right": {
-                    "type": "literal",
-                    "value_type": "NUMBER",
-                    "value": 0.0
-                  }
-                }
-              },
+              "line": 101,
               "requires": [
                 {
                   "resource": "energy",
@@ -6746,25 +6680,9 @@
               ]
             },
             {
-              "event": "scroll_offset_changed",
+              "event": "scroll_offset",
               "target": "BentoDashboard",
-              "line": 93,
-              "guard": {
-                "expr": {
-                  "type": "binary",
-                  "op": ">=",
-                  "left": {
-                    "type": "literal",
-                    "value_type": "IDENTIFIER",
-                    "value": "scroll_val"
-                  },
-                  "right": {
-                    "type": "literal",
-                    "value_type": "NUMBER",
-                    "value": 1.0
-                  }
-                }
-              },
+              "line": 104,
               "requires": [
                 {
                   "resource": "energy",
@@ -6774,43 +6692,9 @@
               ]
             },
             {
-              "event": "scroll_offset_changed",
+              "event": "scroll_offset",
               "target": "Interpolating",
-              "line": 96,
-              "guard": {
-                "expr": {
-                  "type": "binary",
-                  "op": "and",
-                  "left": {
-                    "type": "binary",
-                    "op": ">",
-                    "left": {
-                      "type": "literal",
-                      "value_type": "IDENTIFIER",
-                      "value": "scroll_val"
-                    },
-                    "right": {
-                      "type": "literal",
-                      "value_type": "NUMBER",
-                      "value": 0.0
-                    }
-                  },
-                  "right": {
-                    "type": "binary",
-                    "op": "<",
-                    "left": {
-                      "type": "literal",
-                      "value_type": "IDENTIFIER",
-                      "value": "scroll_val"
-                    },
-                    "right": {
-                      "type": "literal",
-                      "value_type": "NUMBER",
-                      "value": 1.0
-                    }
-                  }
-                }
-              },
+              "line": 107,
               "requires": [
                 {
                   "resource": "energy",
@@ -6825,43 +6709,9 @@
           "name": "BentoDashboard",
           "transitions": [
             {
-              "event": "scroll_offset_changed",
+              "event": "scroll_offset",
               "target": "Interpolating",
-              "line": 103,
-              "guard": {
-                "expr": {
-                  "type": "binary",
-                  "op": "and",
-                  "left": {
-                    "type": "binary",
-                    "op": "<",
-                    "left": {
-                      "type": "literal",
-                      "value_type": "IDENTIFIER",
-                      "value": "scroll_val"
-                    },
-                    "right": {
-                      "type": "literal",
-                      "value_type": "NUMBER",
-                      "value": 1.0
-                    }
-                  },
-                  "right": {
-                    "type": "binary",
-                    "op": ">",
-                    "left": {
-                      "type": "literal",
-                      "value_type": "IDENTIFIER",
-                      "value": "scroll_val"
-                    },
-                    "right": {
-                      "type": "literal",
-                      "value_type": "NUMBER",
-                      "value": 0.0
-                    }
-                  }
-                }
-              },
+              "line": 114,
               "requires": [
                 {
                   "resource": "energy",
@@ -6871,25 +6721,9 @@
               ]
             },
             {
-              "event": "scroll_offset_changed",
+              "event": "scroll_offset",
               "target": "MatrixCentral",
-              "line": 106,
-              "guard": {
-                "expr": {
-                  "type": "binary",
-                  "op": "<=",
-                  "left": {
-                    "type": "literal",
-                    "value_type": "IDENTIFIER",
-                    "value": "scroll_val"
-                  },
-                  "right": {
-                    "type": "literal",
-                    "value_type": "NUMBER",
-                    "value": 0.0
-                  }
-                }
-              },
+              "line": 117,
               "requires": [
                 {
                   "resource": "energy",
@@ -6899,9 +6733,9 @@
               ]
             },
             {
-              "event": "select_shard_feed",
+              "event": "select_feed",
               "target": "ShardFeedActive",
-              "line": 111,
+              "line": 122,
               "requires": [
                 {
                   "resource": "energy",
@@ -6911,9 +6745,9 @@
               ]
             },
             {
-              "event": "select_identity_vault",
+              "event": "select_vault",
               "target": "IdentityVaultActive",
-              "line": 114,
+              "line": 125,
               "requires": [
                 {
                   "resource": "energy",
@@ -6923,9 +6757,9 @@
               ]
             },
             {
-              "event": "select_energy_grid",
+              "event": "select_grid",
               "target": "EnergyGridActive",
-              "line": 117,
+              "line": 128,
               "requires": [
                 {
                   "resource": "energy",
@@ -6940,9 +6774,9 @@
           "name": "ShardFeedActive",
           "transitions": [
             {
-              "event": "close_module",
+              "event": "close_mod",
               "target": "BentoDashboard",
-              "line": 123,
+              "line": 134,
               "requires": [
                 {
                   "resource": "energy",
@@ -6957,9 +6791,9 @@
           "name": "IdentityVaultActive",
           "transitions": [
             {
-              "event": "close_module",
+              "event": "close_mod",
               "target": "BentoDashboard",
-              "line": 129,
+              "line": 140,
               "requires": [
                 {
                   "resource": "energy",
@@ -6974,9 +6808,9 @@
           "name": "EnergyGridActive",
           "transitions": [
             {
-              "event": "close_module",
+              "event": "close_mod",
               "target": "BentoDashboard",
-              "line": 135,
+              "line": 146,
               "requires": [
                 {
                   "resource": "energy",
@@ -7005,72 +6839,72 @@
           "; NATIVE COMPILATION LOOP FOR INTENT: PortalUI",
           "vsetvli t0, x0, e64, m8, ta, ma   ; Configure vector unit for VLEN=2048 (e64, m8 grouping)",
           "; State MatrixCentral (ID: 0)",
-          ";   on scroll_offset_changed -> Interpolating",
+          ";   on scroll_offset -> Interpolating",
           "    vfmv.v.f v5, 38.2248    ; Load total energy cost (with 6.18% fee) into v5",
           "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
           "    li t1, 1                  ; Load target state ID 1",
           "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
-          ";   on scroll_offset_changed -> BentoDashboard",
+          ";   on scroll_offset -> BentoDashboard",
           "    vfmv.v.f v5, 191.1240    ; Load total energy cost (with 6.18% fee) into v5",
           "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
           "    li t1, 2                  ; Load target state ID 2",
           "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
           "; State Interpolating (ID: 1)",
-          ";   on scroll_offset_changed -> MatrixCentral",
+          ";   on scroll_offset -> MatrixCentral",
           "    vfmv.v.f v5, 38.2248    ; Load total energy cost (with 6.18% fee) into v5",
           "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
           "    li t1, 0                  ; Load target state ID 0",
           "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
-          ";   on scroll_offset_changed -> BentoDashboard",
+          ";   on scroll_offset -> BentoDashboard",
           "    vfmv.v.f v5, 191.1240    ; Load total energy cost (with 6.18% fee) into v5",
           "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
           "    li t1, 2                  ; Load target state ID 2",
           "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
-          ";   on scroll_offset_changed -> Interpolating",
+          ";   on scroll_offset -> Interpolating",
           "    vfmv.v.f v5, 19.1124    ; Load total energy cost (with 6.18% fee) into v5",
           "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
           "    li t1, 1                  ; Load target state ID 1",
           "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
           "; State BentoDashboard (ID: 2)",
-          ";   on scroll_offset_changed -> Interpolating",
+          ";   on scroll_offset -> Interpolating",
           "    vfmv.v.f v5, 76.4496    ; Load total energy cost (with 6.18% fee) into v5",
           "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
           "    li t1, 1                  ; Load target state ID 1",
           "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
-          ";   on scroll_offset_changed -> MatrixCentral",
+          ";   on scroll_offset -> MatrixCentral",
           "    vfmv.v.f v5, 191.1240    ; Load total energy cost (with 6.18% fee) into v5",
           "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
           "    li t1, 0                  ; Load target state ID 0",
           "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
-          ";   on select_shard_feed -> ShardFeedActive",
+          ";   on select_feed -> ShardFeedActive",
           "    vfmv.v.f v5, 38.2248    ; Load total energy cost (with 6.18% fee) into v5",
           "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
           "    li t1, 3                  ; Load target state ID 3",
           "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
-          ";   on select_identity_vault -> IdentityVaultActive",
+          ";   on select_vault -> IdentityVaultActive",
           "    vfmv.v.f v5, 38.2248    ; Load total energy cost (with 6.18% fee) into v5",
           "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
           "    li t1, 4                  ; Load target state ID 4",
           "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
-          ";   on select_energy_grid -> EnergyGridActive",
+          ";   on select_grid -> EnergyGridActive",
           "    vfmv.v.f v5, 38.2248    ; Load total energy cost (with 6.18% fee) into v5",
           "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
           "    li t1, 5                  ; Load target state ID 5",
           "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
           "; State ShardFeedActive (ID: 3)",
-          ";   on close_module -> BentoDashboard",
+          ";   on close_mod -> BentoDashboard",
           "    vfmv.v.f v5, 3.8225    ; Load total energy cost (with 6.18% fee) into v5",
           "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
           "    li t1, 2                  ; Load target state ID 2",
           "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
           "; State IdentityVaultActive (ID: 4)",
-          ";   on close_module -> BentoDashboard",
+          ";   on close_mod -> BentoDashboard",
           "    vfmv.v.f v5, 3.8225    ; Load total energy cost (with 6.18% fee) into v5",
           "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
           "    li t1, 2                  ; Load target state ID 2",
           "    vmv.v.x v0, t1              ; Write target state ID directly to v0 (state register)",
           "; State EnergyGridActive (ID: 5)",
-          ";   on close_module -> BentoDashboard",
+          ";   on close_mod -> BentoDashboard",
           "    vfmv.v.f v5, 3.8225    ; Load total energy cost (with 6.18% fee) into v5",
           "    vfsub.vv v1, v1, v5         ; Deduct energy cost from wide register v1 (mesh_energy)",
           "    li t1, 2                  ; Load target state ID 2",
