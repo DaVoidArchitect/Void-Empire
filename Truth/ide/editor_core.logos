@@ -1,0 +1,19 @@
+import "Truth/ide/agent_inline.logos";
+
+// Native Development Workspace - VoidStudio Engine
+
+struct WorkspaceBuffer {
+    textmate_tokens: u64,
+    contiguous_memory_ptr: u64
+}
+
+intent VoidStudioCore {
+    state AwaitInput {
+        transition LiveHighlight;
+    }
+
+    fn map_buffers(buffer: WorkspaceBuffer) {
+        // Connect TextMate arrays to VLEN=2048 vector blocks (RTL Execution)
+        flush_vlen() ⊸ render_syntax(buffer.textmate_tokens) ⊸ read_memory(buffer.contiguous_memory_ptr);
+    }
+}

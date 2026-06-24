@@ -1,0 +1,23 @@
+import "Truth/ui/telemetry_ui.logos";
+
+// Scale-Invariant Presentation Layer - Portal UI
+struct RenderCanvas {
+    base_hex: string,
+    width: u32,
+    height: u32
+}
+
+intent PortalDashboard {
+    state Render {
+        transition DrawMatrix;
+    }
+
+    fn apply_dark_logic(canvas: RenderCanvas) {
+        let matte_black = "#020105";
+        let gold_typography = "#E5B823";
+        require(canvas.base_hex == matte_black);
+        
+        // RTL Execution for bento box morph mapping
+        render_panels() ⊸ crystalline_morph() ⊸ hook_viewport();
+    }
+}

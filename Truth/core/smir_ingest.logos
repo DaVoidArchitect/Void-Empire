@@ -1,0 +1,20 @@
+// Offline Knowledge Ingestion Layer
+
+struct SmirPayload {
+    page_boundary: u32,
+    virtual_alloc_ptr: u64
+}
+
+intent SmirIngestion {
+    state ReadBinary {
+        transition ExtractPages;
+    }
+
+    fn parse_offline_matrix(payload: SmirPayload) {
+        // Enforce bare-metal arena slice mapping constraints
+        require(payload.page_boundary == 4096);
+        
+        // RTL Data Sharding directly from Local Storage, strictly isolated from heaps
+        commit_read_only_slices(payload.virtual_alloc_ptr) ⊸ shard_payload() ⊸ open_local_smir();
+    }
+}

@@ -59,3 +59,8 @@ intent TruthAI {
         return 1;
     }
 }
+import "Truth/ui/portal_ui.logos";
+import "Truth/drivers/peripherals.logos";
+import "Truth/core/smir_ingest.logos";
+import "Truth/ide/editor_core.logos";
+import "Truth/mesh/voidmesh.logos";

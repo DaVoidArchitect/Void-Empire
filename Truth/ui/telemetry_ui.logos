@@ -1,0 +1,21 @@
+// Telemetry UI - Active System Metrics
+
+struct TelemetryPanel {
+    frame_gradient_start: string,
+    frame_gradient_end: string
+}
+
+intent TelemetryVisuals {
+    state UpdateCharts {
+        transition PushFrames;
+    }
+
+    fn draw_charts(panel: TelemetryPanel) {
+        // Enforce the Dark Logic gradient topology
+        require(panel.frame_gradient_start == "#15072B");
+        require(panel.frame_gradient_end == "#3E1066");
+        
+        // RTL Vector graphics execution pipeline
+        draw_gold_lines() ⊸ push_metrics();
+    }
+}
