@@ -1,0 +1,41 @@
+version: "synthetic_v1"
+profile_id: "SV-LIVING-STACK-ALPHA"
+description: "Living-system-oriented Void One stack profile"
+
+constitutional_constraints:
+  silicon_allowed: false
+  copper_allowed: false
+  l3_treasury_mutable: false
+  dark_channel_required: true
+
+layer_order:
+  - layer: L0
+    intent: thermal_barrier
+    preferred_material_ids: [MAT_C60_AEROGEL]
+    thickness_um_target: 2.5
+
+  - layer: L1
+    intent: substrate
+    preferred_material_ids: [MAT_12C_DIAMOND]
+    thickness_um_target: 50.0
+
+  - layer: L2
+    intent: coupling
+    preferred_material_ids: [MAT_BEAL2O4]
+    thickness_um_target: 1.5
+
+  - layer: L3
+    intent: logic
+    preferred_material_ids: [MAT_RE6SE8CL2]
+    thickness_um_target: 0.35
+    immutable_hardlaw_zone: true
+
+  - layer: L4
+    intent: dark_channel
+    preferred_material_ids: [MAT_AMORPH_C_BISB]
+    thickness_um_target: 2.2
+
+  - layer: L5
+    intent: interconnect
+    preferred_material_ids: [MAT_GRAPHENE_MULTI_DOPED]
+    thickness_um_target: 0.12

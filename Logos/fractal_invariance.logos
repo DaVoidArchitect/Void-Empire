@@ -1,0 +1,1 @@
+fractal intent FractalInvariance { require { mass: 0.5 kg; } constraint { mass: max 0.5 kg; } state S { on verify_invariance -> S; } }

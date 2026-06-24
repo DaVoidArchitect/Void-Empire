@@ -1,0 +1,66 @@
+{
+  "generated_utc": "2026-06-14T15:16:44.063476+00:00",
+  "design_version": "V2.0-FRONTIER-R1",
+  "release_id": "VOIDONE-2.0-FRONTIER-R1",
+  "program_id": "VOID-MASTER-TAPEOUT-ONE-2.0",
+  "thresholds": {
+    "avg_livable_ratio_min": 0.9,
+    "min_livable_ratio_min": 0.78,
+    "max_insolvency_ratio_max": 0.22,
+    "stability_index_min": 0.82
+  },
+  "scenario_metrics": [
+    {
+      "scenario": "baseline",
+      "metrics": {
+        "avg_livable_ratio": 1.0,
+        "min_livable_ratio": 1.0,
+        "max_insolvency_ratio": 0.0,
+        "gini_p95": 0.006465,
+        "reserve_final": 357877.0,
+        "reserve_floor": 357877.0,
+        "reserve_adequacy_ratio": 41.420949,
+        "governed_op_success_rate": 1.0,
+        "governance_success_rate": 1.0,
+        "fraud_probe_block_rate": 1.0,
+        "stability_index": 0.99903
+      },
+      "scenario_pass": true
+    },
+    {
+      "scenario": "resource_shock",
+      "metrics": {
+        "avg_livable_ratio": 1.0,
+        "min_livable_ratio": 1.0,
+        "max_insolvency_ratio": 0.0,
+        "gini_p95": 0.006764,
+        "reserve_final": 351890.256,
+        "reserve_floor": 351890.256,
+        "reserve_adequacy_ratio": 38.063588,
+        "governed_op_success_rate": 1.0,
+        "governance_success_rate": 1.0,
+        "fraud_probe_block_rate": 1.0,
+        "stability_index": 0.998985
+      },
+      "scenario_pass": true
+    },
+    {
+      "scenario": "participation_shock",
+      "metrics": {
+        "avg_livable_ratio": 1.0,
+        "min_livable_ratio": 1.0,
+        "max_insolvency_ratio": 0.0,
+        "gini_p95": 0.007209,
+        "reserve_final": 354431.426,
+        "reserve_floor": 354431.426,
+        "reserve_adequacy_ratio": 39.827336,
+        "governed_op_success_rate": 1.0,
+        "governance_success_rate": 1.0,
+        "fraud_probe_block_rate": 1.0,
+        "stability_index": 0.998919
+      },
+      "scenario_pass": true
+    }
+  ],
+  "overall_livability_pass": true
+}

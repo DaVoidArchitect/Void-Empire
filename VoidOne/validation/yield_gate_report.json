@@ -1,0 +1,12 @@
+{
+  "yield_report": "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\yield_report.json",
+  "gates": {
+    "raw_die_yield_p50": true,
+    "raw_die_yield_p90": true,
+    "mission_yield_p50": true,
+    "mission_yield_p90": true,
+    "strict_suite_pass": true
+  },
+  "failures": [],
+  "pass": true
+}

@@ -1,0 +1,10 @@
+{
+  "scanned_sv_file_count": 16,
+  "target_dirs": [
+    "src",
+    "validation/formal_core/src"
+  ],
+  "forbidden_identifier_hits": [],
+  "always_ff_violations": [],
+  "pass": true
+}

@@ -1,0 +1,82 @@
+{
+  "generated_utc": "2026-06-14T15:16:29.470071+00:00",
+  "strict_mode": true,
+  "python": {
+    "pass": true,
+    "version": "3.12.13",
+    "executable": "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\scratch\\.venv\\Scripts\\python.exe",
+    "required_min": "3.10"
+  },
+  "requirements_path": "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\requirements.txt",
+  "package_checks": [
+    {
+      "package": "devsim",
+      "import_name": "devsim",
+      "required": false,
+      "pass": true,
+      "detail": "module spec found (optional runtime dependency)"
+    },
+    {
+      "package": "qutip",
+      "import_name": "qutip",
+      "required": true,
+      "pass": true,
+      "detail": "import ok"
+    },
+    {
+      "package": "numpy",
+      "import_name": "numpy",
+      "required": true,
+      "pass": true,
+      "detail": "import ok"
+    },
+    {
+      "package": "scipy",
+      "import_name": "scipy",
+      "required": true,
+      "pass": true,
+      "detail": "import ok"
+    },
+    {
+      "package": "z3-solver",
+      "import_name": "z3",
+      "required": true,
+      "pass": true,
+      "detail": "import ok"
+    },
+    {
+      "package": "pyyaml",
+      "import_name": "yaml",
+      "required": true,
+      "pass": true,
+      "detail": "import ok"
+    }
+  ],
+  "binary_checks": {
+    "sby": {
+      "pass": true,
+      "path": "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\scratch\\.venv\\Scripts\\yowasp-sby.exe",
+      "detail": "requires sby/yowasp-sby",
+      "required": true
+    },
+    "yosys": {
+      "pass": true,
+      "path": "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\scratch\\.venv\\Scripts\\yowasp-yosys.exe",
+      "detail": "requires yosys/yowasp-yosys",
+      "required": true
+    },
+    "yosys_smtbmc": {
+      "pass": true,
+      "path": "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\scratch\\.venv\\Scripts\\yowasp-yosys-smtbmc.exe",
+      "detail": "requires yosys-smtbmc/yowasp-yosys-smtbmc",
+      "required": true
+    },
+    "z3": {
+      "pass": true,
+      "path": "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\scratch\\.venv\\bin\\z3.exe",
+      "detail": "resolved from venv bin directory",
+      "required": true
+    }
+  },
+  "pass": true
+}

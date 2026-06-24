@@ -1,0 +1,1572 @@
+{
+  "generated_utc": "2026-06-14T15:16:40.868619+00:00",
+  "design_name": "Void One",
+  "design_version": "V2.0-FRONTIER-R1",
+  "release_id": "VOIDONE-2.0-FRONTIER-R1",
+  "program_id": "VOID-MASTER-TAPEOUT-ONE-2.0",
+  "certification_target": "FRONTIER_V2_CERTIFIED",
+  "file_count": 260,
+  "tree_sha256": "b281bdc475e22bcfd621073eb04b9c0aee4d82a45f1fda25c2b8537fcefe8bfa",
+  "files": [
+    {
+      "path": "AlchemyGDSII/Xenalchemy_Fab_Process_Flow_Document.md",
+      "category": "AlchemyGDSII",
+      "size_bytes": 5457,
+      "sha256": "f4f290a9660be9d5894caab428b30f67aee64c2de08226c8a4dead29a68de76b"
+    },
+    {
+      "path": "AlchemyGDSII/build_alchemy_gdsii.py",
+      "category": "AlchemyGDSII",
+      "size_bytes": 8639,
+      "sha256": "8718f9b4d902e1b02a77847372539dfc00bfaa08e493b0800c9c874d3ac21c9a"
+    },
+    {
+      "path": "AlchemyGDSII/xenalchemy_core_mask_maps.gds",
+      "category": "AlchemyGDSII",
+      "size_bytes": 99202,
+      "sha256": "85def42fb302647c30f0a87c35850607956647d4e81d2032218e6546839b2a59"
+    },
+    {
+      "path": "AlchemyGDSII/xenalchemy_core_mask_maps.gdsbin",
+      "category": "AlchemyGDSII",
+      "size_bytes": 99202,
+      "sha256": "85def42fb302647c30f0a87c35850607956647d4e81d2032218e6546839b2a59"
+    },
+    {
+      "path": "AlchemyGDSII/xenalchemy_core_mask_maps.gdsii",
+      "category": "AlchemyGDSII",
+      "size_bytes": 99202,
+      "sha256": "85def42fb302647c30f0a87c35850607956647d4e81d2032218e6546839b2a59"
+    },
+    {
+      "path": "AlchemyGDSII/xenalchemy_core_mask_maps_coordinates.bin",
+      "category": "AlchemyGDSII",
+      "size_bytes": 2562,
+      "sha256": "c9d412674b96746d3156617f39de3c8e3878d9f1b202f3c2536fbce1089a6890"
+    },
+    {
+      "path": "AlchemyGDSII/xenalchemy_core_mask_maps_geometry.json",
+      "category": "AlchemyGDSII",
+      "size_bytes": 26590,
+      "sha256": "e8cf690e53abc4c212776e87f9942c1ee73b2d8d72055327da17b09fb6413310"
+    },
+    {
+      "path": "BREAKTHROUGH_OWNERSHIP_CHARTER.md",
+      "category": "documentation_or_metadata",
+      "size_bytes": 1920,
+      "sha256": "b73d14ba34bee8d8d2538cc49be8f4e2db4eae4dc1b152f9ec44795778370577"
+    },
+    {
+      "path": "CHAOSBENCH_KPI_FRAMEWORK.md",
+      "category": "documentation_or_metadata",
+      "size_bytes": 992,
+      "sha256": "72a7eb2e22bc3f1e2433891c5cfdaf73851ea7f38d7d1a1a5d4d3709cf4bf1bc"
+    },
+    {
+      "path": "CHAOS_INFRASTRUCTURE_ROADMAP.md",
+      "category": "documentation_or_metadata",
+      "size_bytes": 1486,
+      "sha256": "eb644e4c2e5f384d688e71f2c94b0e5673e0d0c2f2ecedcf935ea76b302ca617"
+    },
+    {
+      "path": "EMPLOYEE_MANIFESTO.md",
+      "category": "documentation_or_metadata",
+      "size_bytes": 2174,
+      "sha256": "7a6a6b8c52c1635b90c007a0550e60dd21d21b7ae358c6f9ea8c9b4ba79477db"
+    },
+    {
+      "path": "IP_LEGAL_NOTICE.txt",
+      "category": "documentation_or_metadata",
+      "size_bytes": 1667,
+      "sha256": "b220217299d5088f224ed4ef071a6e25141b2cb89a6131fea0c13be28a2dbd98"
+    },
+    {
+      "path": "SOVEREIGN_CORE_V1_SPEC.md",
+      "category": "documentation_or_metadata",
+      "size_bytes": 6395,
+      "sha256": "5b40216673dbd767da30376e40e9b698834b791fa1dd1bc81db55b4763beb421"
+    },
+    {
+      "path": "SOVEREIGN_VOID_CATEGORY_POSITIONING.md",
+      "category": "documentation_or_metadata",
+      "size_bytes": 1294,
+      "sha256": "865afc87b89495fa7ce36dff11097d82c796c7facfd754cc9a60666ef43a85e4"
+    },
+    {
+      "path": "THE_MANIFESTO.md",
+      "category": "documentation_or_metadata",
+      "size_bytes": 2547,
+      "sha256": "af384eda01824c1033a2d3153613bcc8a16e39df16a0fcb00dd34d2f11753879"
+    },
+    {
+      "path": "V1_TO_VOID_V2_MIGRATION.md",
+      "category": "documentation_or_metadata",
+      "size_bytes": 1083,
+      "sha256": "ab3becc524a7667a9ad1ed7287aef87e7f929b38b19bde36d80439700fac93ab"
+    },
+    {
+      "path": "VERSION.json",
+      "category": "documentation_or_metadata",
+      "size_bytes": 869,
+      "sha256": "a0642613393872e7941db0e0a278d849cd7f88b36bebd72396782a0ace8882cc"
+    },
+    {
+      "path": "VOID_CERTIFICATION_PROFILE.md",
+      "category": "documentation_or_metadata",
+      "size_bytes": 2664,
+      "sha256": "dc8b26acb8af6062816872b57af0a5464bb2e206bff3499056117b466ec7ee60"
+    },
+    {
+      "path": "VOID_Sovereign_Core_Package/foundry_intake_letter.md",
+      "category": "VOID_Sovereign_Core_Package",
+      "size_bytes": 3343,
+      "sha256": "7fd3f6c5aff621b19848049878ffb43e981ab2d0ee646400e2964a5bf17bf85d"
+    },
+    {
+      "path": "VOID_Sovereign_Core_Package/foundry_modification_protocol.md",
+      "category": "VOID_Sovereign_Core_Package",
+      "size_bytes": 6507,
+      "sha256": "ff47a667e55f9e45467509e0aa556112154a76ca662e961e20db4812366fb023"
+    },
+    {
+      "path": "VOID_Sovereign_Core_Package/generate_nanoscale_lattice.py",
+      "category": "VOID_Sovereign_Core_Package",
+      "size_bytes": 5646,
+      "sha256": "a848f04f4ee9cce4ce5783af13ce001b40c5f4abccb74944b2a2b1d6c89581ef"
+    },
+    {
+      "path": "VOID_Sovereign_Core_Package/master_tape_out_manifest.md",
+      "category": "VOID_Sovereign_Core_Package",
+      "size_bytes": 5809,
+      "sha256": "03047d3e2a5df4cdc188cb4d176cb2e34025717a7e55fcd4b2404494c20b06fd"
+    },
+    {
+      "path": "VOID_Sovereign_Core_Package/nanoscale_lattice.coords",
+      "category": "VOID_Sovereign_Core_Package",
+      "size_bytes": 12329,
+      "sha256": "abf310264be3614978fa6fff51b0ea8d04ebfd8e1a94b26b3f5766fdbd1a0b9f"
+    },
+    {
+      "path": "VOID_Sovereign_Core_Package/xenalchemy_process_spec.tex",
+      "category": "VOID_Sovereign_Core_Package",
+      "size_bytes": 7693,
+      "sha256": "49ac457f9facb11517a3a93f6da261d67432ccc87410c4bbbf3358e81405b03c"
+    },
+    {
+      "path": "docs/technical/DEFECT_CONNECTOME_UPGRADE.md",
+      "category": "docs",
+      "size_bytes": 3491,
+      "sha256": "a8eaf0548c18900689589c7f1155844c53a0fa4b8a5f611305e7bd015c8eb607"
+    },
+    {
+      "path": "docs/technical/FRONTIER_HYPOTHESIS_LEDGER_TEMPLATE.md",
+      "category": "docs",
+      "size_bytes": 895,
+      "sha256": "6ab0f409b3c23d4ea57f66511ebee266287b6e953f789939545e3995eb1bbb74"
+    },
+    {
+      "path": "docs/technical/FRONTIER_UPGRADE_PROGRAM_12W.md",
+      "category": "docs",
+      "size_bytes": 4947,
+      "sha256": "282840e7430afaf34c32b2790796fde995a8b941dd12e23c1b7ea4fd5fef3d22"
+    },
+    {
+      "path": "docs/technical/LIVING_SYSTEM_UPGRADE.md",
+      "category": "docs",
+      "size_bytes": 2079,
+      "sha256": "1afa9402f61b8aa62e111eee8b1308006b9535124216693b129f562ab70db3e4"
+    },
+    {
+      "path": "docs/technical/VOID_CLOCKLESS_PULSE_CONTRACT.md",
+      "category": "docs",
+      "size_bytes": 2668,
+      "sha256": "471df1e7541c9e54c2a7d73f5e37a6a2556f891cfb563182dc18367a6c0d47e1"
+    },
+    {
+      "path": "docs/technical/VOID_CURRENCY_AND_TREASURY_SPEC.md",
+      "category": "docs",
+      "size_bytes": 2755,
+      "sha256": "828100e3f9ae1c12ba9d96956912253907715150992bec6d71a22e567ad87fd6"
+    },
+    {
+      "path": "docs/technical/VOID_ECOSYSTEM_DOD_CHECKLIST.md",
+      "category": "docs",
+      "size_bytes": 2680,
+      "sha256": "bd65466ca8f131379a31e22372f8626fbb02363c6fe7cdfb1ff9bedba76b4fc9"
+    },
+    {
+      "path": "docs/technical/VOID_EVENT_ORDERING_AND_REPLAY_SPEC.md",
+      "category": "docs",
+      "size_bytes": 2579,
+      "sha256": "bc20e8e4afb05bb17b4cf784f75361b7e75d416d124cc711406df7368e8490a1"
+    },
+    {
+      "path": "docs/technical/VOID_KNOWLEDGE_LICENSE_PROTOCOL.md",
+      "category": "docs",
+      "size_bytes": 2255,
+      "sha256": "7ec4fc05fa5d42181e640411f6f558662caeeb57f8f9bbcbe9ccb2935247bac2"
+    },
+    {
+      "path": "docs/technical/VOID_MOTHERBOARD_EQUIVALENCE_MAP.md",
+      "category": "docs",
+      "size_bytes": 5328,
+      "sha256": "b51aa5dd343284998ec30b365d8d8997eddf379bf8dbddd84d819bde059164ad"
+    },
+    {
+      "path": "docs/technical/VOID_OS_V0_1_ARCHITECTURE.md",
+      "category": "docs",
+      "size_bytes": 3621,
+      "sha256": "63e929fbce3b047fc2c59b39ae7dce26b1c6ea079ac73779b0ebeb3c5ec2bdf4"
+    },
+    {
+      "path": "docs/technical/VOID_PRODUCTION_READINESS_MASTER_PLAN.md",
+      "category": "docs",
+      "size_bytes": 4107,
+      "sha256": "ac268b2df07e9ff00c49554734d8647a738c7a5c8a4bf682f12d6e2f17fd82a4"
+    },
+    {
+      "path": "docs/technical/VOID_QUEST_ECONOMY_SPEC.md",
+      "category": "docs",
+      "size_bytes": 2941,
+      "sha256": "6f3533416d6bf7b783382c20ac2a73286010f54c5f61223c1cac4bc4f9b7199d"
+    },
+    {
+      "path": "docs/technical/VOID_RELEASE_GATES_AND_CI_SPEC.md",
+      "category": "docs",
+      "size_bytes": 2952,
+      "sha256": "b8c5a2bf8883ed5f48c46f1de5e735845349326cc7dce0576423e0422b2dbb11"
+    },
+    {
+      "path": "docs/technical/VOID_SYSCALL_AND_CAPABILITY_MODEL.md",
+      "category": "docs",
+      "size_bytes": 2663,
+      "sha256": "cd7cad73fd242a3117aa4dd13bd7125f2958bdc7a122b6bf31d267975dc36867"
+    },
+    {
+      "path": "docs/technical/VOID_TITLES_LEGACY_GRAPH_SPEC.md",
+      "category": "docs",
+      "size_bytes": 2099,
+      "sha256": "5da9f0f7abd3f3b4df641f95e0a45bbe4cfe44c93815d9029aa24236075761a9"
+    },
+    {
+      "path": "index.html",
+      "category": "documentation_or_metadata",
+      "size_bytes": 8391,
+      "sha256": "2c3ce01c5e61e2367c8aa9fd5fb3c31f1f278645d7c156a8a949babc37757e13"
+    },
+    {
+      "path": "pdk/XENALCHEMY_Golden_BOM.csv",
+      "category": "pdk",
+      "size_bytes": 1091,
+      "sha256": "b0cda96e62553816d00e263a6c3d968d2d4822c558c9a9f3c01d7e0f33b1715c"
+    },
+    {
+      "path": "pdk/synthetic_v1/README.md",
+      "category": "pdk",
+      "size_bytes": 1194,
+      "sha256": "270c3d81e24d0e0ac9878428df48cc5a07594cb651b51859d0ceaaffc8af0673"
+    },
+    {
+      "path": "pdk/synthetic_v1/generated/XENALCHEMY_Synthetic_Candidate_BOM.csv",
+      "category": "pdk",
+      "size_bytes": 1130,
+      "sha256": "3e3efa893ea8bd7877b77a052284087032c7c1490386e53efff8215ff159ca9e"
+    },
+    {
+      "path": "pdk/synthetic_v1/generated/synthetic_candidate_manifest.json",
+      "category": "pdk",
+      "size_bytes": 4831,
+      "sha256": "7765d2b6c873afbb236656a9f561ae826f842a85b53fefb29162c63e29eeb818"
+    },
+    {
+      "path": "pdk/synthetic_v1/generated/synthetic_evidence_summary.json",
+      "category": "pdk",
+      "size_bytes": 2558,
+      "sha256": "5e8449dcda6b878005c178090e342e3bb95d5fd428ecb421ce153ccba8842860"
+    },
+    {
+      "path": "pdk/synthetic_v1/material_library.yaml",
+      "category": "pdk",
+      "size_bytes": 2402,
+      "sha256": "2ee7ef9c5c9c33b3eb738f797e8de6e6adbae5268dab2e317c52a74b2557cdc2"
+    },
+    {
+      "path": "pdk/synthetic_v1/process_envelope.yaml",
+      "category": "pdk",
+      "size_bytes": 1083,
+      "sha256": "161a973c19b2f6153f1d3c4035a529fe98c367db94405cd1a482c7751edaf29e"
+    },
+    {
+      "path": "pdk/synthetic_v1/rule_deck.yaml",
+      "category": "pdk",
+      "size_bytes": 732,
+      "sha256": "0759fa4b4534d910e9be0c8f43a3680d5dbc3481a726cebb1e8daa5d4bf26d48"
+    },
+    {
+      "path": "pdk/synthetic_v1/stack_manifest.yaml",
+      "category": "pdk",
+      "size_bytes": 1032,
+      "sha256": "8b67ddfd7e36db5e9eed22492bfd891d04b230f15890acc0222386aa9d0111c8"
+    },
+    {
+      "path": "software/__init__.py",
+      "category": "misc",
+      "size_bytes": 64,
+      "sha256": "89e00d60db7539f333ec474d4ed5bb89f26090978bb0ebeb16f06d8f82741777"
+    },
+    {
+      "path": "software/__pycache__/__init__.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 235,
+      "sha256": "e9bdfbb3089795904c662a57f34a6083851d67da5d1f6185fb43274dfddf04ad"
+    },
+    {
+      "path": "software/__pycache__/__init__.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 280,
+      "sha256": "94e90f5f2cbb5bc132247afa051af70f5f65313a1f31679f5d3a56cb96ce8370"
+    },
+    {
+      "path": "software/__pycache__/__init__.cpython-314.pyc",
+      "category": "misc",
+      "size_bytes": 282,
+      "sha256": "bef53c45413c1555eaf069d770ce6d9445b94a01505557d1ef2b948840a60183"
+    },
+    {
+      "path": "software/voidos/README.md",
+      "category": "documentation_or_metadata",
+      "size_bytes": 838,
+      "sha256": "461d5fac5dcb2031494b35f9c1ed071e52f8bcec1e76bd98b13a898327ac9d5e"
+    },
+    {
+      "path": "software/voidos/__init__.py",
+      "category": "misc",
+      "size_bytes": 30,
+      "sha256": "4db6472cce38f8e7735f5ace5006c42af64b0197d7648c8ea276f162828abbc4"
+    },
+    {
+      "path": "software/voidos/__pycache__/__init__.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 208,
+      "sha256": "b7d2edbb0726b3eba4ba5aca8b182ea263e8581dabae87ad57f556f7db23511b"
+    },
+    {
+      "path": "software/voidos/__pycache__/__init__.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 253,
+      "sha256": "dc47ac9f8e9d9e0a2c12990f705210ccd7f70ec8259348eb2e4a35e9e185d54d"
+    },
+    {
+      "path": "software/voidos/__pycache__/__init__.cpython-314.pyc",
+      "category": "misc",
+      "size_bytes": 255,
+      "sha256": "8a577d4c320d7f3d0520d055754c228a2020d97233721b4cabefd70aa6947701"
+    },
+    {
+      "path": "software/voidos/apis/__init__.py",
+      "category": "misc",
+      "size_bytes": 35,
+      "sha256": "a02ab3db556e54437b1ba75b33847304da8e521adabfe97406d16a1035692be3"
+    },
+    {
+      "path": "software/voidos/apis/__pycache__/__init__.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 218,
+      "sha256": "94d966b394fdd1cfc562865f424591f5b3dfc7a73c1261481bad52a4f3618ac6"
+    },
+    {
+      "path": "software/voidos/apis/__pycache__/__init__.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 263,
+      "sha256": "580a904186e5a8d5768374edccb990983441cabad715180389a036879ee42ce7"
+    },
+    {
+      "path": "software/voidos/apis/__pycache__/__init__.cpython-314.pyc",
+      "category": "misc",
+      "size_bytes": 265,
+      "sha256": "11a71d297d0e6d7522811fd658c1585a3119458a9cf4baff4144644846be5ed2"
+    },
+    {
+      "path": "software/voidos/apis/__pycache__/contracts.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 1434,
+      "sha256": "f646d8a5c746b2fa943c374bcafa9ee294b11a22d27b8692eb99e7f59c70511a"
+    },
+    {
+      "path": "software/voidos/apis/__pycache__/contracts.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 1337,
+      "sha256": "ba8db3687265e7c6af562428d9a284c9e47b571f23afcd2fe95acc92da4138ec"
+    },
+    {
+      "path": "software/voidos/apis/__pycache__/contracts.cpython-314.pyc",
+      "category": "misc",
+      "size_bytes": 1609,
+      "sha256": "9670daaee5a1d1a1f958397bff0bce7af5355266832e84aa0c614dc61f7db82a"
+    },
+    {
+      "path": "software/voidos/apis/__pycache__/gateway.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 20869,
+      "sha256": "095d42b9661eed3178570bc699ced2bbaba0b7a33157e53daec83e791d8775e9"
+    },
+    {
+      "path": "software/voidos/apis/__pycache__/gateway.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 20247,
+      "sha256": "946dd89a2e791739514350e0a2739bfa523958ebcbac483b705e8a57108d7053"
+    },
+    {
+      "path": "software/voidos/apis/__pycache__/intent_adapter.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 6247,
+      "sha256": "4a3eb866e478420e0b3f4d56bf6ef23661c36ed9f65a0c4a8b12688f8c0627df"
+    },
+    {
+      "path": "software/voidos/apis/__pycache__/intent_adapter.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 5766,
+      "sha256": "b4303d10a6501b2f97c84f132f6510ac4f4b8dbdf2c2563a91ec162e9e1cfe5f"
+    },
+    {
+      "path": "software/voidos/apis/contracts.py",
+      "category": "misc",
+      "size_bytes": 779,
+      "sha256": "23bdc4605276245e7c0b98db725bab525dc78c6827facf3e2e4e0d271ba272d4"
+    },
+    {
+      "path": "software/voidos/apis/gateway.py",
+      "category": "misc",
+      "size_bytes": 19117,
+      "sha256": "542a85b34c924cdda977fa04b0f3a0fe3b72fbd1ad3293c0d413a36e11800234"
+    },
+    {
+      "path": "software/voidos/apis/intent_adapter.py",
+      "category": "misc",
+      "size_bytes": 4355,
+      "sha256": "024f00a73c6e611def1195dabd4f3af621c7f6062c35951588661f17a4285ef3"
+    },
+    {
+      "path": "software/voidos/docs/PHASE1_EXECUTION_BACKLOG.md",
+      "category": "documentation_or_metadata",
+      "size_bytes": 3390,
+      "sha256": "f8337e24397ee1962cd5b30f5b5501a7b6ee9d253f4b4ca20a135b6c2861a29f"
+    },
+    {
+      "path": "software/voidos/hal/__init__.py",
+      "category": "misc",
+      "size_bytes": 26,
+      "sha256": "e16ba9631815486edd37f4989f8d758c3b9aa2b3f33d189e4ef4f14967ea82bb"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/__init__.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 208,
+      "sha256": "716a8d5a1f9c08f40127155f96acbf5f6aae5ec7c2af3ffc39eaefcae559176c"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/__init__.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 253,
+      "sha256": "69f0a16bd3b30e4cb3b5937793215f4c79d4b08c5c2909cae22d051f76b5b804"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/__init__.cpython-314.pyc",
+      "category": "misc",
+      "size_bytes": 255,
+      "sha256": "4bbc4f789741659c2d7bc40b202be7fc81000d0fbeaad59a3361dd58283aed57"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/counter.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 2202,
+      "sha256": "22e2172049a4dd24db48484dd76ab18c2be34df878138beda36a422d968f0eda"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/counter.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 1879,
+      "sha256": "27239aea62f46906cd33d954349ea0a0a5322f255e3a7475a7ac7200c5d7af22"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/counter.cpython-314.pyc",
+      "category": "misc",
+      "size_bytes": 2542,
+      "sha256": "92ae5a6dc3f680629201d682744db82dde5ea7eb61eee0abc2a16c2ce1ef0272"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/io_bus.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 4506,
+      "sha256": "2f1cdf9ab9f1250b02e7bd6b1c5fbcd882a7f345e951dd6fc51c9a8d6678025c"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/io_bus.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 3542,
+      "sha256": "503451937010c42c6e1f498a9cf8f5bf894f439f71566072ed9128646fd2fb1d"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/mailbox.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 2579,
+      "sha256": "d2347ce2c7f7b9edd7398fb5dee5bd9754f6a75330deabffa259a31821886f30"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/mailbox.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 2278,
+      "sha256": "fd8873472130d9d2b5e931a109b0059268ea509a17a55ac6f61b90f8c1ffae4b"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/mailbox.cpython-314.pyc",
+      "category": "misc",
+      "size_bytes": 2814,
+      "sha256": "0849de6f185ee12498d9e2e4f68640b2a833621d610f698113bdd23ab9157b68"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/memory_fabric.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 4604,
+      "sha256": "6f9fce6b8e18b17d7d1f6cf6025a83d74b41bd4e01caf217eac950bf364aca33"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/memory_fabric.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 3855,
+      "sha256": "5ade15dd371280867eb06e6852c15ac166c2eee9a8704d20191e5a3fc4d44b22"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/network_link.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 4941,
+      "sha256": "a48d77dd1b77e6bdc5075053b14b03004b9ee446f3ff55fb6d5353f22657b19c"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/network_link.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 4258,
+      "sha256": "938dac97392780d73a6631f0c60841479d2233ba814e85ccf1caf5f2c3b02f13"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/peripheral_plane.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 4327,
+      "sha256": "fbbe18f88cbb6fadd5848f6600cbc6a2a9d42ad161bf3124426a083849dab5cd"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/peripheral_plane.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 3599,
+      "sha256": "b32d28fc916f499e12e1bdaa543b27072166af07c21b508b618d90d8b4d36159"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/storage_bridge.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 4658,
+      "sha256": "1e9694b1c240de794b037bb30ad6b1272564b717a3ab89380001b84f010efd86"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/storage_bridge.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 3867,
+      "sha256": "ce519d8c886a8086102fdcb86ecdbcaa295b210c37eb817c098c47afd37148b0"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/telemetry.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 1653,
+      "sha256": "9a5880ae7c2d3d62a7ed1eb2c24b324f6647f023280a287bb43da0b8eda998f3"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/telemetry.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 1440,
+      "sha256": "da8ed08c6a3135e9f20b9575a9d2f5e5070816bfcc4775e0b3dc6795c528ac87"
+    },
+    {
+      "path": "software/voidos/hal/__pycache__/telemetry.cpython-314.pyc",
+      "category": "misc",
+      "size_bytes": 1672,
+      "sha256": "0a5ad01a9e09092d6c302852c8734632c79397e265089ebce40acba4c9422186"
+    },
+    {
+      "path": "software/voidos/hal/counter.py",
+      "category": "misc",
+      "size_bytes": 777,
+      "sha256": "44f583a601c2ea483e9248c034dc4416560729635efe3596645c97a84bf5a52f"
+    },
+    {
+      "path": "software/voidos/hal/io_bus.py",
+      "category": "misc",
+      "size_bytes": 1794,
+      "sha256": "5d0fae6ea171a1898b8693f623dc9873ea1f2243b2b8ba4fe7d7b6b987e51783"
+    },
+    {
+      "path": "software/voidos/hal/mailbox.py",
+      "category": "misc",
+      "size_bytes": 1197,
+      "sha256": "1dd1340d66e0c5075e0104e74ef0ae560d75535b33d9d26cd8c8b30ac96d8fb2"
+    },
+    {
+      "path": "software/voidos/hal/memory_fabric.py",
+      "category": "misc",
+      "size_bytes": 2039,
+      "sha256": "d5add45e7a0932d96bdc30ac8765751ce2b78cf8a668f49e73fad9cec00fe49d"
+    },
+    {
+      "path": "software/voidos/hal/network_link.py",
+      "category": "misc",
+      "size_bytes": 2587,
+      "sha256": "35c3bff84072398b7862860899955d5d3d113d326aa0905f583e36f96c27a1cc"
+    },
+    {
+      "path": "software/voidos/hal/peripheral_plane.py",
+      "category": "misc",
+      "size_bytes": 2078,
+      "sha256": "6af96755ac02cdb50daa78a2a07e9242785afc9c0ac76f6d0542260a1ab425d5"
+    },
+    {
+      "path": "software/voidos/hal/storage_bridge.py",
+      "category": "misc",
+      "size_bytes": 2040,
+      "sha256": "3eb3dae8a2b751aa0b26e8b27578f71d2a927b88f30f8af80d6671caf858e3a9"
+    },
+    {
+      "path": "software/voidos/hal/telemetry.py",
+      "category": "misc",
+      "size_bytes": 791,
+      "sha256": "6eddf6e7b7fd2c3cde0da4fa28e9cfb53df96de3d832f3ef586138162a7ccf3b"
+    },
+    {
+      "path": "software/voidos/kernel/__init__.py",
+      "category": "misc",
+      "size_bytes": 29,
+      "sha256": "60849e68b63b78168646e3b1562add574814fffdd9b24b914b569759c5482764"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/__init__.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 214,
+      "sha256": "473148194e3e68a42c9ad07b9f3156790d8a91f1e4b6e9bc85448415f9385b0d"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/__init__.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 259,
+      "sha256": "120e3e61df555c9ac3595c2193e0ae87705e1ce926b8a99f8b18dd302b4be46a"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/__init__.cpython-314.pyc",
+      "category": "misc",
+      "size_bytes": 261,
+      "sha256": "d7d27d77627a65479636f815d947b1e0b073f7f5669d29595a1e73bb6d0c8e4f"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/boot_power_governor.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 3448,
+      "sha256": "0daaa9f8b69950d442f582ea0376c25fa2384f00a5eee07c2c4d3272e26164a5"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/boot_power_governor.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 3105,
+      "sha256": "54dde8876a58a725e0a3d5c36e4538b087b970944fda6f90db941150b411c889"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/capabilities.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 1769,
+      "sha256": "ca5fedb173f833aa16a7a66bdf27c445c541edb486aca76a6ebf2af1e35cea53"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/capabilities.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 1604,
+      "sha256": "61fca854611d3ee3ba8d68d322b8ba0e7f5fa76be5dd192db5e83abca6cb7af2"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/capabilities.cpython-314.pyc",
+      "category": "misc",
+      "size_bytes": 1871,
+      "sha256": "0ae0d16c33063b23800dee5b43566d3a27ef07408d81ceee32566019ef186f71"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/device_registry.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 3667,
+      "sha256": "2c926d74dcc4d77bbb4a2475cb84350117562c6e95557ed6a784c486322f75fc"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/device_registry.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 3244,
+      "sha256": "8901aef003c02aec0421a116c3675e5b27f3ddba897a4ca649505d9ac181d572"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/event_journal.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 3856,
+      "sha256": "975b05f9f1b94ceb5a9c61f53b7089e271db7ad53bd3ef7f540ca94080c2bf32"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/event_journal.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 3387,
+      "sha256": "dec741c9c7f525546629d100ef322cb21018e63f21e5982ab372f8b4a9d15c37"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/event_journal.cpython-314.pyc",
+      "category": "misc",
+      "size_bytes": 4287,
+      "sha256": "38c8d0055b8f9fa52960b4ef4e7992d834418c0e705bd82fd71c2b8954dc8ab4"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/event_router.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 5995,
+      "sha256": "55cca7bf90cb04002ecb40ad4e49d9756a8aaf61b6aa8a2c41a1a6892fa16911"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/event_router.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 5025,
+      "sha256": "5e54ce382eb7f2df6c3a15903fc143e68c3bb8329491b08422ab5982a3eeb460"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/mutation_coordinator.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 4462,
+      "sha256": "2c15765ee817c5835191f3c307ec25b439c870a0c87c9ceeacbae29823311e93"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/mutation_coordinator.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 3800,
+      "sha256": "be5df8a4712a06ca37891db51ce75f987855632350ffff4253788e14f0df29d8"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/mutation_coordinator.cpython-314.pyc",
+      "category": "misc",
+      "size_bytes": 4500,
+      "sha256": "e77c9292a4fede20912b6ca35039b2ce5d5d2e2708c81ad3a6f8ca9a7df31fa3"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/scheduler.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 3310,
+      "sha256": "a73cddcac4b474a8316c52612a0be74b4eb79705560b13fb1bc53ffc50f01fa9"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/scheduler.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 2791,
+      "sha256": "d8836d4b20b690a30b627acdd0453f8c9d36e690b2d4a53936ec45940d925279"
+    },
+    {
+      "path": "software/voidos/kernel/__pycache__/scheduler.cpython-314.pyc",
+      "category": "misc",
+      "size_bytes": 3383,
+      "sha256": "2c592584d945f7ab19128ede6b038fab9827c4ad75567b07c0e36c992220c183"
+    },
+    {
+      "path": "software/voidos/kernel/boot_power_governor.py",
+      "category": "misc",
+      "size_bytes": 1666,
+      "sha256": "18fb9421a218d08f61149d31d516b99ebaf701006d17b3274ffb03b1f78fbbd9"
+    },
+    {
+      "path": "software/voidos/kernel/capabilities.py",
+      "category": "misc",
+      "size_bytes": 838,
+      "sha256": "27f998d915bbc9c9f7d22238e1e3667cd0b50ef45560981112b5b89dc404dba5"
+    },
+    {
+      "path": "software/voidos/kernel/device_registry.py",
+      "category": "misc",
+      "size_bytes": 1868,
+      "sha256": "e29b592b84d26c1ef37b2f16d397b8c64711eac5b1f78d61931a01a7236f656b"
+    },
+    {
+      "path": "software/voidos/kernel/event_journal.py",
+      "category": "misc",
+      "size_bytes": 1949,
+      "sha256": "797b762930565cf1d6984007dae83d1cd0e8297458e215966cd62c8b93b3fae4"
+    },
+    {
+      "path": "software/voidos/kernel/event_router.py",
+      "category": "misc",
+      "size_bytes": 3255,
+      "sha256": "34db5dbd4b90d3295d5afee17f0051370cdff070b41fe1e8c1783a5fecea4ac5"
+    },
+    {
+      "path": "software/voidos/kernel/mutation_coordinator.py",
+      "category": "misc",
+      "size_bytes": 2483,
+      "sha256": "e3081c071360803b972eeefd1f027c0da96638c66c1e22663d1f6e4ab2c14437"
+    },
+    {
+      "path": "software/voidos/kernel/scheduler.py",
+      "category": "misc",
+      "size_bytes": 1281,
+      "sha256": "0d0a112ed1ee70a3a0a39e3a7b12b5b00cf16fd24726d3a5db3f2ac7098b97f8"
+    },
+    {
+      "path": "software/voidos/services/__init__.py",
+      "category": "misc",
+      "size_bytes": 31,
+      "sha256": "cb3509ec81f0ef4c82697f3f1556904c2c206b7dca2d6e9bce16267ed7ea46b2"
+    },
+    {
+      "path": "software/voidos/services/__pycache__/__init__.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 218,
+      "sha256": "bdf2fbe2a9a2aa596cf4984a4cd09af88b71383500916ef4617ed658d64b0c59"
+    },
+    {
+      "path": "software/voidos/services/__pycache__/__init__.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 263,
+      "sha256": "65ac319150dda726064b01b3e3ee5cce8d76cecced843291c5d353e408eca52e"
+    },
+    {
+      "path": "software/voidos/services/__pycache__/__init__.cpython-314.pyc",
+      "category": "misc",
+      "size_bytes": 265,
+      "sha256": "8d050bd6e0542e35a57159c938f51365cee39bf65778e0baed336b0be1c3c105"
+    },
+    {
+      "path": "software/voidos/services/__pycache__/governance_service.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 7986,
+      "sha256": "7f778a03921bd7ec568ddbf3e0060ed9963f0e0fa0f623eb4c38810d3682e3d5"
+    },
+    {
+      "path": "software/voidos/services/__pycache__/governance_service.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 7364,
+      "sha256": "7429fe09fb162e19df37ab215ebf42755fed7291d8167e9d1d4fa20d1786f00a"
+    },
+    {
+      "path": "software/voidos/services/__pycache__/knowledge_service.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 10636,
+      "sha256": "73183e5cc1fc7aff4526955d68fed7c2e7554cd92712201a0b8c4e7685487844"
+    },
+    {
+      "path": "software/voidos/services/__pycache__/knowledge_service.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 9367,
+      "sha256": "675a9b86706433f5b008ac7232f9cdd14e1d3f3fbd188adf3137ed0fc9e22987"
+    },
+    {
+      "path": "software/voidos/services/__pycache__/legacy_service.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 6638,
+      "sha256": "68958e48fe624bc38f0e702a3aab5f79f82bcae725d9754bc62c9070d63c38cf"
+    },
+    {
+      "path": "software/voidos/services/__pycache__/legacy_service.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 5946,
+      "sha256": "e8a40e72f0bc4e2ea5753f1f2e2359503d7ca6733e0989e88a10908c322edd61"
+    },
+    {
+      "path": "software/voidos/services/__pycache__/legacy_service.cpython-314.pyc",
+      "category": "misc",
+      "size_bytes": 6970,
+      "sha256": "f11edeb4fe0a2a0ab5ef2451ceec22d13c2806626a5eb006d29b20b825929848"
+    },
+    {
+      "path": "software/voidos/services/__pycache__/platform_service.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 25130,
+      "sha256": "ac2f54b5b491b02e9a7ee14ee7d16771d415e6dabf120855f06a9ff69eabf93f"
+    },
+    {
+      "path": "software/voidos/services/__pycache__/platform_service.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 25211,
+      "sha256": "3d5559977e905f76977111f942c138e6197f2159e948b577c306000870ed74a0"
+    },
+    {
+      "path": "software/voidos/services/__pycache__/quest_service.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 10243,
+      "sha256": "02d6b9c898a40b9370ee6b9a14ae1013a4e8a4d86e499d678c1cbcd03bb0c81b"
+    },
+    {
+      "path": "software/voidos/services/__pycache__/quest_service.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 9341,
+      "sha256": "9f33feeb310fcbd78b7bc848c3074b843f7fa81c4eb092b2e5a13ab77a7233bb"
+    },
+    {
+      "path": "software/voidos/services/__pycache__/quest_service.cpython-314.pyc",
+      "category": "misc",
+      "size_bytes": 11330,
+      "sha256": "5d3f00944f7401b66c94c5eb9413144735a82ae85a48130f3da298c0f888b30b"
+    },
+    {
+      "path": "software/voidos/services/__pycache__/treasury_service.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 5193,
+      "sha256": "ab451fd1ad13362bcf8ed6cd84e64cdf5a9f096af2c7a87a8c65d8f46caa90c5"
+    },
+    {
+      "path": "software/voidos/services/__pycache__/treasury_service.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 4671,
+      "sha256": "75e6b752504bcdc61c1119bbdb8f8df04a26f8fbb35e61b7748ae3c7847ce5bd"
+    },
+    {
+      "path": "software/voidos/services/__pycache__/treasury_service.cpython-314.pyc",
+      "category": "misc",
+      "size_bytes": 5634,
+      "sha256": "0fd6d3e06717bee5c0f2fa17b101565b024c4abc4134ab4e53a1ba9cba52a53a"
+    },
+    {
+      "path": "software/voidos/services/governance_service.py",
+      "category": "misc",
+      "size_bytes": 6084,
+      "sha256": "a7f88cfb6b10554f4767b513d20f908968dd8d04aa648b57e96355a2fa2ce4c0"
+    },
+    {
+      "path": "software/voidos/services/knowledge_service.py",
+      "category": "misc",
+      "size_bytes": 7990,
+      "sha256": "83c4d5bdd28119a115bdaeefb7f3c64720cdb6e7d9868d55c0cb495e8ef0e289"
+    },
+    {
+      "path": "software/voidos/services/legacy_service.py",
+      "category": "misc",
+      "size_bytes": 4703,
+      "sha256": "ac8e03e8a59e0cd215563b9e4b7d7376cfe41158d0cc9a62042b1622686720dd"
+    },
+    {
+      "path": "software/voidos/services/platform_service.py",
+      "category": "misc",
+      "size_bytes": 24353,
+      "sha256": "c7b811b56cde8dcec6e4ab6c56366fa87d616cc5737ad78335f6f2ddf5688766"
+    },
+    {
+      "path": "software/voidos/services/quest_service.py",
+      "category": "misc",
+      "size_bytes": 8261,
+      "sha256": "1075158718e4d132fe10cfe373107538d1af9c6dcf87d1d0350ceb6394b3057e"
+    },
+    {
+      "path": "software/voidos/services/treasury_service.py",
+      "category": "misc",
+      "size_bytes": 3421,
+      "sha256": "be247f864689044853057e198f37b38ea796417dc93af0b5163e979813d89b9b"
+    },
+    {
+      "path": "software/voidos/twin/__init__.py",
+      "category": "misc",
+      "size_bytes": 77,
+      "sha256": "836b14d7c24a3b350acc3ed4455c63a318aadcee048bfef3a483ded945de68cb"
+    },
+    {
+      "path": "software/voidos/twin/__pycache__/__init__.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 260,
+      "sha256": "85496c8258e4aaa209893d34aa3376d0de9f876774b05037b1b7ad2b043926b8"
+    },
+    {
+      "path": "software/voidos/twin/__pycache__/__init__.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 305,
+      "sha256": "e726f066548b6468e5a39923346906e1b7561fa68c2998423e0a6d4d9d1f2337"
+    },
+    {
+      "path": "software/voidos/twin/__pycache__/digital_twin.cpython-311.pyc",
+      "category": "misc",
+      "size_bytes": 4640,
+      "sha256": "d74636a62cb3ea62adfb3763334cf80cd208e8cce190d6f9bb8b204f485e7f93"
+    },
+    {
+      "path": "software/voidos/twin/__pycache__/digital_twin.cpython-312.pyc",
+      "category": "misc",
+      "size_bytes": 4246,
+      "sha256": "dac2ed2352fd2521c32a051efec105c104844172ea44375c5a58a60d40f4db84"
+    },
+    {
+      "path": "software/voidos/twin/digital_twin.py",
+      "category": "misc",
+      "size_bytes": 2269,
+      "sha256": "cee72082e91e0ce1e32fb323a4d6b74cc5d5c74cf78d2c7e23a351f9ac7c43aa"
+    },
+    {
+      "path": "src/defect_connectome.sv",
+      "category": "src",
+      "size_bytes": 4582,
+      "sha256": "29779692a37a660e68a3dae7f4bf422f289362b74b460fc0938908afcf198268"
+    },
+    {
+      "path": "src/entanglement_transceiver.sv",
+      "category": "src",
+      "size_bytes": 4654,
+      "sha256": "92182752044cd5331b0d124e18f57e036d507ed5ce82117622bb40fdc0e13f1f"
+    },
+    {
+      "path": "src/entropy_harvester.sv",
+      "category": "src",
+      "size_bytes": 4603,
+      "sha256": "fa11749f2233aa432e9624ea324d2c436beae2d100159d2451ef81e36f1d2784"
+    },
+    {
+      "path": "src/harmonic_oscillator.sv",
+      "category": "src",
+      "size_bytes": 6135,
+      "sha256": "d8f722193e4691cbdd42c96cf7b6710ca3156c092f0fa54fc8bfcf32b3a46e8d"
+    },
+    {
+      "path": "src/immune_pruner.sv",
+      "category": "src",
+      "size_bytes": 1968,
+      "sha256": "68f3c8ca2c17e0de13c2ce8dc104ab25d098f99a7f02ccf1baeb34804720af86"
+    },
+    {
+      "path": "src/plasticity_engine.sv",
+      "category": "src",
+      "size_bytes": 2727,
+      "sha256": "4aa4537b864faf70454bd3a303e1849a9fca47bbebc8c50614caeb376aa8df22"
+    },
+    {
+      "path": "src/sovereign_core_top.sv",
+      "category": "src",
+      "size_bytes": 9017,
+      "sha256": "cb36ebecb766543c841af3063f054a7cccacfa285b0fc5a48d6809544e6ac1ee"
+    },
+    {
+      "path": "src/sovereign_core_top.txt",
+      "category": "src",
+      "size_bytes": 9017,
+      "sha256": "cb36ebecb766543c841af3063f054a7cccacfa285b0fc5a48d6809544e6ac1ee"
+    },
+    {
+      "path": "src/string_resonant_alu.sv",
+      "category": "src",
+      "size_bytes": 6357,
+      "sha256": "1c9df8e9e9d68d6e016e677d87ffa1d6042a881a44c9a595f488a1fd8973710c"
+    },
+    {
+      "path": "src/subnet_charter_reg.sv",
+      "category": "src",
+      "size_bytes": 6022,
+      "sha256": "17adfc9c511d62e0b253c5c4fba74f533c708c3b1efee0fe5e0da188281bf9ca"
+    },
+    {
+      "path": "src/topological_braider.sv",
+      "category": "src",
+      "size_bytes": 4731,
+      "sha256": "194d497b7155fcbb63ad8cb5968431cdad61c54d39d711537beda47a19eff832"
+    },
+    {
+      "path": "src/transaction_routing_alu.sv",
+      "category": "src",
+      "size_bytes": 5523,
+      "sha256": "6fd472027a02d00c6139c3d790d4a8e004b4c7427e0e0975d8a74d45c6f72a2d"
+    },
+    {
+      "path": "tools/apply_void_rebrand.py",
+      "category": "tools",
+      "size_bytes": 2923,
+      "sha256": "acf20b46f534db35214b1c74f0fd8e6df1d02af796d0b3600459c8cdafe88f61"
+    },
+    {
+      "path": "tools/generate_frontier_readiness_report.py",
+      "category": "tools",
+      "size_bytes": 17832,
+      "sha256": "ce9e5f7a948fd0f12ec5912114aeda09294adc6e5e35ea6e0935ebb0fb9ad276"
+    },
+    {
+      "path": "tools/generate_synthetic_pdk.py",
+      "category": "tools",
+      "size_bytes": 12984,
+      "sha256": "96a90f94a7ac21e58db100b7ff30c173cf007ede5e785047e2a4d69cfa4f9692"
+    },
+    {
+      "path": "tools/generate_xenalchemy_release_manifest.py",
+      "category": "tools",
+      "size_bytes": 3762,
+      "sha256": "76b580e2893cdf21d5ba36b9d67395402ee4ab4d128ffab690113b8c5fc71410"
+    },
+    {
+      "path": "tools/generate_yield_report.py",
+      "category": "tools",
+      "size_bytes": 7527,
+      "sha256": "fd1d2030f2d95ce9a32770940dffbe43915ace340f264fb25fab3666a002835c"
+    },
+    {
+      "path": "tools/populate_living_kpis.py",
+      "category": "tools",
+      "size_bytes": 7202,
+      "sha256": "72c207e853f976a1751694e4a06840285beb29b2e2502c21c0f2bf54daf5c83d"
+    },
+    {
+      "path": "tools/run_strict_release_gates.py",
+      "category": "tools",
+      "size_bytes": 8095,
+      "sha256": "5ad5945c8acd441feb16b9616f6641a0b264b219a2603424ad6065d83a7c32a0"
+    },
+    {
+      "path": "tools/run_virtual_tapeout.py",
+      "category": "tools",
+      "size_bytes": 7685,
+      "sha256": "a757e1ebb1090d57e8fa565910fb100a5a194fe95e48ac67204fc650e1632450"
+    },
+    {
+      "path": "validation/__pycache__/quantum_photonic_mesh.cpython-311.pyc",
+      "category": "validation",
+      "size_bytes": 5292,
+      "sha256": "f87aee0056ac7a8c8357985c567b01e8a05a9847d8066c74f27815d45d7be9ec"
+    },
+    {
+      "path": "validation/__pycache__/run_xenalchemy_tests.cpython-311.pyc",
+      "category": "validation",
+      "size_bytes": 3819,
+      "sha256": "e38285e14961d118e175790aa11685bc722674946d171d7df0d3bb7990b9daec"
+    },
+    {
+      "path": "validation/__pycache__/tcad_isotopic_diamond.cpython-311.pyc",
+      "category": "validation",
+      "size_bytes": 3351,
+      "sha256": "4c7c1d5ba5856e63df0acda98bc971d0d98f4c5bda953e88a608a13383364ad6"
+    },
+    {
+      "path": "validation/citizen_livability_report.json",
+      "category": "validation",
+      "size_bytes": 2016,
+      "sha256": "322280d0a23f60a6d03e7386a8c5d47e54ce3cd3bab0a3085b4391267685332f"
+    },
+    {
+      "path": "validation/clockless_gate.py",
+      "category": "validation",
+      "size_bytes": 6215,
+      "sha256": "c9499877c6c5842ef724dc2a0bb95c1a67b7f69ffda876c8db89efd7b7fceca3"
+    },
+    {
+      "path": "validation/clockless_gate_report.json",
+      "category": "validation",
+      "size_bytes": 191,
+      "sha256": "fe89f40543a74880ba20c7d99dac46305f2c16eb18206cc04f25422a7178175b"
+    },
+    {
+      "path": "validation/defect_connectome_mesh.py",
+      "category": "validation",
+      "size_bytes": 10142,
+      "sha256": "236ff4fdae68a7b50530158317bec77236a26fcf1c8a2f21b858ee431a46fc81"
+    },
+    {
+      "path": "validation/defect_connectome_report.json",
+      "category": "validation",
+      "size_bytes": 1350,
+      "sha256": "14d35148afce76767a8d36b8112f7ab0b98f5b5ee780a1ce792ff2bad8efadf6"
+    },
+    {
+      "path": "validation/digital_twin_conformance.py",
+      "category": "validation",
+      "size_bytes": 12439,
+      "sha256": "f6c438e3c8f95b7583cff84b3b3a80b5856dae08a9f25d7a0ba0e9afef1b018c"
+    },
+    {
+      "path": "validation/digital_twin_report.json",
+      "category": "validation",
+      "size_bytes": 9389,
+      "sha256": "36a8d034044aef435d5ee66a1833fc0f6a66dcebbe8293ab9925a084caf46bd5"
+    },
+    {
+      "path": "validation/ecosystem_eons_conformance.py",
+      "category": "validation",
+      "size_bytes": 22510,
+      "sha256": "68afa505e7a5deca41f3ac834bc30742261e14dff65b146bc20fdbc668f88651"
+    },
+    {
+      "path": "validation/ecosystem_eons_report.json",
+      "category": "validation",
+      "size_bytes": 5571,
+      "sha256": "c65051154e9834eccbdd1af5ce212e2efbe4ee9d8b94b3b5fe0044c6fdc7b0b7"
+    },
+    {
+      "path": "validation/formal_core.sby",
+      "category": "validation",
+      "size_bytes": 457,
+      "sha256": "d86550cd0e3788a9545425b0482a5497b128aea5dd3305f70a9555eb81ce4e3c"
+    },
+    {
+      "path": "validation/formal_core/PASS",
+      "category": "validation",
+      "size_bytes": 264,
+      "sha256": "0836118d5daf123f4dbb33b4271083805f3c8d5bf7bdd3f6d67b38f2be80d1a5"
+    },
+    {
+      "path": "validation/formal_core/config.sby",
+      "category": "validation",
+      "size_bytes": 479,
+      "sha256": "109b34bd28279d74b8b1e48e89ef3498b9c9886922e88550045907fd69027654"
+    },
+    {
+      "path": "validation/formal_core/engine_0/logfile_basecase.txt",
+      "category": "validation",
+      "size_bytes": 3140,
+      "sha256": "d5bc72f984093497b9ef035821abde7b00704fc099743b177f2ceb0df6db7c85"
+    },
+    {
+      "path": "validation/formal_core/engine_0/logfile_induction.txt",
+      "category": "validation",
+      "size_bytes": 147,
+      "sha256": "22b068719c3f5ff9b28c997f4b7ad4b9fc5875d1ac02f0299e6576a34bc00b0d"
+    },
+    {
+      "path": "validation/formal_core/formal_core.xml",
+      "category": "validation",
+      "size_bytes": 13927,
+      "sha256": "8fdc5a30416b5d7ed218bf8db8854cc65dcaa0985efccbe1161b5e0a67dc306f"
+    },
+    {
+      "path": "validation/formal_core/logfile.txt",
+      "category": "validation",
+      "size_bytes": 10332,
+      "sha256": "6b318a62f374d958c76729ee30173794bcbcdadd9988f08d021d99d131cf03fa"
+    },
+    {
+      "path": "validation/formal_core/model/design.il",
+      "category": "validation",
+      "size_bytes": 77499,
+      "sha256": "ead9f133118b84f646d3cbd707eb96e7cfb2414657c18eb181b802ba9d05507b"
+    },
+    {
+      "path": "validation/formal_core/model/design.json",
+      "category": "validation",
+      "size_bytes": 100591,
+      "sha256": "9130249b062b51004fdd2420f16d8f9e5036b80680de57e0ef01dfaa8e14501c"
+    },
+    {
+      "path": "validation/formal_core/model/design.log",
+      "category": "validation",
+      "size_bytes": 58354,
+      "sha256": "e3bbaca3663c26dfe90f8ef90042b11da778f340a94f0a43da2c75bf04368d59"
+    },
+    {
+      "path": "validation/formal_core/model/design.ys",
+      "category": "validation",
+      "size_bytes": 393,
+      "sha256": "09c2a64770822c7f4c1bc6c82e56ed770634d9339d1fe0c64de66c2dc623c1b9"
+    },
+    {
+      "path": "validation/formal_core/model/design_prep.il",
+      "category": "validation",
+      "size_bytes": 75193,
+      "sha256": "c34d0965870bb6d149650b4e06d66d512156a0492862599b179d8dad642b0f96"
+    },
+    {
+      "path": "validation/formal_core/model/design_prep.log",
+      "category": "validation",
+      "size_bytes": 6091,
+      "sha256": "750c277a3817a215b2ba933a3fc48cd8f80cf34c94b43ff4a6a97cea54d13b98"
+    },
+    {
+      "path": "validation/formal_core/model/design_prep.ys",
+      "category": "validation",
+      "size_bytes": 367,
+      "sha256": "82d5340de4166902353a808e4bb238cec50a0370d3ae9e1bee1aa901edaa2ee4"
+    },
+    {
+      "path": "validation/formal_core/model/design_smt2.log",
+      "category": "validation",
+      "size_bytes": 4828,
+      "sha256": "beed4ad39e2e3689b4d46a75f75834cc3c2b1483750fef8054cea6456b36b17a"
+    },
+    {
+      "path": "validation/formal_core/model/design_smt2.smt2",
+      "category": "validation",
+      "size_bytes": 121918,
+      "sha256": "4c2883c1271b334c34c29690802b9cae80e1f14743d00e14e10d5bf03168f28e"
+    },
+    {
+      "path": "validation/formal_core/model/design_smt2.ys",
+      "category": "validation",
+      "size_bytes": 170,
+      "sha256": "ccfed361a28e164f801d22c98e9980552fcfa4be6ce8e3e8b82fe0ba2a4b310a"
+    },
+    {
+      "path": "validation/formal_core/src/formal_properties.sv",
+      "category": "validation",
+      "size_bytes": 6626,
+      "sha256": "cb47bd216854be5ba756512e814d2ec296ebd6e0f38f2ce7b640fded9d433161"
+    },
+    {
+      "path": "validation/formal_core/src/sovereign_core_top.sv",
+      "category": "validation",
+      "size_bytes": 9017,
+      "sha256": "cb36ebecb766543c841af3063f054a7cccacfa285b0fc5a48d6809544e6ac1ee"
+    },
+    {
+      "path": "validation/formal_core/src/string_resonant_alu.sv",
+      "category": "validation",
+      "size_bytes": 6357,
+      "sha256": "1c9df8e9e9d68d6e016e677d87ffa1d6042a881a44c9a595f488a1fd8973710c"
+    },
+    {
+      "path": "validation/formal_core/src/subnet_charter_reg.sv",
+      "category": "validation",
+      "size_bytes": 6022,
+      "sha256": "17adfc9c511d62e0b253c5c4fba74f533c708c3b1efee0fe5e0da188281bf9ca"
+    },
+    {
+      "path": "validation/formal_core/src/transaction_routing_alu.sv",
+      "category": "validation",
+      "size_bytes": 5523,
+      "sha256": "6fd472027a02d00c6139c3d790d4a8e004b4c7427e0e0975d8a74d45c6f72a2d"
+    },
+    {
+      "path": "validation/formal_core/status",
+      "category": "validation",
+      "size_bytes": 10,
+      "sha256": "7f8c56eee07fb87b3ba6c252f4fecdfcb4b7f92f600f5f65c3cc32df5bf477ed"
+    },
+    {
+      "path": "validation/formal_core/status.sqlite",
+      "category": "validation",
+      "size_bytes": 57344,
+      "sha256": "1b18f32b0c74730b6b085e323696214248ad6e40091a60466af0b7382c3246b6"
+    },
+    {
+      "path": "validation/formal_properties.sv",
+      "category": "validation",
+      "size_bytes": 6626,
+      "sha256": "cb47bd216854be5ba756512e814d2ec296ebd6e0f38f2ce7b640fded9d433161"
+    },
+    {
+      "path": "validation/frontier_readiness_report.json",
+      "category": "validation",
+      "size_bytes": 4452,
+      "sha256": "6b024a5b9aa57ef35571a000f2d151140d5612a42a2154d2e52c7d50cbbaf8a8"
+    },
+    {
+      "path": "validation/hypothesis_portfolio_template.json",
+      "category": "validation",
+      "size_bytes": 729,
+      "sha256": "6381d4871db9e0f90f35f85bcdc64ba0af6acf00e88becfc8be15a79c778a1b6"
+    },
+    {
+      "path": "validation/living_system_kpi_template.json",
+      "category": "validation",
+      "size_bytes": 2477,
+      "sha256": "0d13f7bfb13215a5e7cad6fc92bc75a4b2a3188daabc3ceea7d4090b185be7bc"
+    },
+    {
+      "path": "validation/material_compliance_check.py",
+      "category": "validation",
+      "size_bytes": 3034,
+      "sha256": "bbfa92c8afd18bd4221fe249bc6490455db28a330ec697b2e22b1038e85db079"
+    },
+    {
+      "path": "validation/material_compliance_report.json",
+      "category": "validation",
+      "size_bytes": 272,
+      "sha256": "e5f07e112b036ace7a50233fe8b3b55769cdb883c887246f4d3374e4a8e3b3bd"
+    },
+    {
+      "path": "validation/motherboard_equivalence_conformance.py",
+      "category": "validation",
+      "size_bytes": 7324,
+      "sha256": "f4f55fbc0a2223d47d2cb0afd0dcfdcc60d2ff44e4673508fb046815b9ef725c"
+    },
+    {
+      "path": "validation/motherboard_equivalence_report.json",
+      "category": "validation",
+      "size_bytes": 2994,
+      "sha256": "01493b17c01040f5e62c6e61d4c3dd01fe99b4a81081c3f3afe7cc0b5b26aaaa"
+    },
+    {
+      "path": "validation/phase1_conformance.py",
+      "category": "validation",
+      "size_bytes": 15699,
+      "sha256": "7c167693ac1a802685a581793da0a461a107f340f38c5a93732d88ae8bf043ec"
+    },
+    {
+      "path": "validation/phase1_conformance_report.json",
+      "category": "validation",
+      "size_bytes": 5293,
+      "sha256": "86be525e2cdeb2c3fa2ca6db541855f08f01841e98e1ec5e5dcc76f3c7d1c086"
+    },
+    {
+      "path": "validation/platform_board_conformance.py",
+      "category": "validation",
+      "size_bytes": 21107,
+      "sha256": "3b15f5b1c29c159fc00eb87e7d12bfd8d154828de6472a87ebf2213d6ea6d44e"
+    },
+    {
+      "path": "validation/platform_board_conformance_report.json",
+      "category": "validation",
+      "size_bytes": 14222,
+      "sha256": "0caecec43eff85cb7f43772ac256856a53a29facb3c7de4386b7c55900b7ea0f"
+    },
+    {
+      "path": "validation/preflight_toolchain.py",
+      "category": "validation",
+      "size_bytes": 9556,
+      "sha256": "1e068bc06adf00f20cc503025c53a3cc1ba0a3d0049df8fcc26e74bacbbb21fb"
+    },
+    {
+      "path": "validation/preflight_toolchain_report.json",
+      "category": "validation",
+      "size_bytes": 2360,
+      "sha256": "4f6c3ca3895d98b297aec0c16fc457cb7b8095b38ba06ef05d36adae0cd1c1b9"
+    },
+    {
+      "path": "validation/quantum_photonic_mesh.py",
+      "category": "validation",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "validation/quantum_photonic_report.json",
+      "category": "validation",
+      "size_bytes": 340,
+      "sha256": "89ea2f312ef98122c1b797f40f8fafa63e7ff78cf7b162ccd1b5a6ef80c8f0fa"
+    },
+    {
+      "path": "validation/requirements.txt",
+      "category": "validation",
+      "size_bytes": 42,
+      "sha256": "4ce0dd8eee9bdeef3c257783dea48f833dcb69b6bf054e938013d60df025daf2"
+    },
+    {
+      "path": "validation/run_xenalchemy_tests.py",
+      "category": "validation",
+      "size_bytes": 8102,
+      "sha256": "ab235ad07882a614e16e5e2154b4c813c74e7afd1bf0a1c7bd0aaee4ec710c09"
+    },
+    {
+      "path": "validation/setup_env.sh",
+      "category": "validation",
+      "size_bytes": 918,
+      "sha256": "a2288c071b2eb48ed60da364101f260135f3b703a7564b1954dcf84b493567e7"
+    },
+    {
+      "path": "validation/stage24_conformance.py",
+      "category": "validation",
+      "size_bytes": 27783,
+      "sha256": "5498373ed09afa6284f969e2e55140c400c7d936bc8fe04ccfbda6505724430c"
+    },
+    {
+      "path": "validation/stage24_conformance_report.json",
+      "category": "validation",
+      "size_bytes": 11764,
+      "sha256": "96ba76f248cf940ac87ea2342f068be7d2781975d735e9a7d6dcd444add65cd0"
+    },
+    {
+      "path": "validation/stage4_disaster_recovery_report.json",
+      "category": "validation",
+      "size_bytes": 302,
+      "sha256": "316a62858ed7b57f183226476cb8ea14796c04e2ea3696ba4c94ed59d04b9bbc"
+    },
+    {
+      "path": "validation/stage4_fault_injection_report.json",
+      "category": "validation",
+      "size_bytes": 687,
+      "sha256": "3e9d6100e0d8c169a9407394fb2c0391b9601d311b423808e6bdb8f8585d5b88"
+    },
+    {
+      "path": "validation/stage4_operational_hardening_report.json",
+      "category": "validation",
+      "size_bytes": 766,
+      "sha256": "231ce057a9f900ce5e5dea27536d1788d7bcf4dc71ac040d44cdf8d452b4737a"
+    },
+    {
+      "path": "validation/stage4_slo_report.json",
+      "category": "validation",
+      "size_bytes": 336,
+      "sha256": "0b48962dad579d11c36db3f3c95b13f88107050cf05662c29b91110dbffb465e"
+    },
+    {
+      "path": "validation/stage4_supply_chain_report.json",
+      "category": "validation",
+      "size_bytes": 1108,
+      "sha256": "fe4e38e79a35572e7d9a8ff6334a5411c6cf2616371e4a7c107f741a4103b3e3"
+    },
+    {
+      "path": "validation/strict_release_gates_report.json",
+      "category": "validation",
+      "size_bytes": 9051,
+      "sha256": "caafd387966d1c41181595e77d550cc134138b80b5fdcc3904addd95816d68b9"
+    },
+    {
+      "path": "validation/synthetic_pdk_gate.py",
+      "category": "validation",
+      "size_bytes": 5082,
+      "sha256": "b7955c6870204b8fa6f673bf5bf777bbbfea36bcc2c6a84a77b24b712f10148b"
+    },
+    {
+      "path": "validation/synthetic_pdk_report.json",
+      "category": "validation",
+      "size_bytes": 597,
+      "sha256": "2f858ed00daffdd6ed57385cad3c69c33309a5e2ceb9f9b3aa559c7f9bb5f777"
+    },
+    {
+      "path": "validation/tcad_isotopic_diamond.py",
+      "category": "validation",
+      "size_bytes": 13958,
+      "sha256": "f4bb34946c56cf0c91790901135bc31e28c18ddcdf461834024a417c3522049e"
+    },
+    {
+      "path": "validation/tcad_report.json",
+      "category": "validation",
+      "size_bytes": 4414,
+      "sha256": "ae8f7e794617c115a9e2cba7c13a5f05810301323f26ca820dac319096f6aafb"
+    },
+    {
+      "path": "validation/virtual_tapeout_report.json",
+      "category": "validation",
+      "size_bytes": 4027,
+      "sha256": "2430af4fadbd88fc7cd6b7e603a308cfd65162cc35c44f1768f4ed6995bf8668"
+    },
+    {
+      "path": "validation/virtual_tapeout_summary.md",
+      "category": "validation",
+      "size_bytes": 1142,
+      "sha256": "0d74ec57b230352e5a70f4fa1300ee0318e3224b9bd9416a4503f4f098ef841a"
+    },
+    {
+      "path": "validation/void_channel_mesh.py",
+      "category": "validation",
+      "size_bytes": 7255,
+      "sha256": "a9ec4e3aae5dadcf6e3338a2d45ddede67fb0b5e22d6e30dcede351bc7755265"
+    },
+    {
+      "path": "validation/void_channel_report.json",
+      "category": "validation",
+      "size_bytes": 3311,
+      "sha256": "abcfde77629eb8cd3f0768d7fd88c508dbc4461c467d02ea94e5cee68ff5fdb0"
+    },
+    {
+      "path": "validation/xenalchemy_test_report.json",
+      "category": "validation",
+      "size_bytes": 9949,
+      "sha256": "d852cdddafbdff83a27e667998fada7b3b55a552431ebec023924b02cd745226"
+    },
+    {
+      "path": "validation/yield_gate.py",
+      "category": "validation",
+      "size_bytes": 1146,
+      "sha256": "7293f9cb89c585c8887095f8eb35871c9915a3c9a75a8411df8a035f34606424"
+    },
+    {
+      "path": "validation/yield_gate_report.json",
+      "category": "validation",
+      "size_bytes": 370,
+      "sha256": "07d76f67998c267060c2e0d64a49c287df8cbfc3a89b4fa8d8c90e85c2538687"
+    },
+    {
+      "path": "validation/yield_report.json",
+      "category": "validation",
+      "size_bytes": 1436,
+      "sha256": "7a89be36621d900bc707ace84c9b67c053ec896e25ed99fd29d597da9914e157"
+    }
+  ]
+}

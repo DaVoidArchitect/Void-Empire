@@ -1,0 +1,24 @@
+intent Scheduler {
+    steward: "kernel_core";
+    target: "scheduler_core";
+    license: "PRIVATE";
+    scope: "Subnet";
+    provenance: "kernel_registry";
+    lifetime: 1 days;
+
+    require {
+        energy 100.0 Wh;
+    }
+
+    state Idle {
+        on dispatch_task [priority > 2] -> Running {
+            require energy 2.0 Wh;
+        }
+        on dispatch_task [priority <= 2] -> Running {
+            require energy 0.5 Wh;
+        }
+    }
+    state Running {
+        on complete -> Idle;
+    }
+}

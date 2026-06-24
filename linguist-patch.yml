@@ -1,8 +1,0 @@
-Logos:
-  name: Logos
-  type: programming
-  color: "#6A0DAD"
-  extensions:
-    - ".logos"
-  tm_scope: source.logos
-  ace_mode: text

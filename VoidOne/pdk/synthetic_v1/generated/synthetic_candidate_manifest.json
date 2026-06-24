@@ -1,0 +1,187 @@
+{
+  "profile_id": "SV-LIVING-STACK-ALPHA",
+  "version": "synthetic_v1",
+  "generated_at_utc": "2026-06-14T15:16:39.471457+00:00",
+  "layers": [
+    {
+      "layer": "L0",
+      "intent": "thermal_barrier",
+      "material_id": "MAT_C60_AEROGEL",
+      "material": "C60 Aerogel Composite",
+      "thickness_um": 2.5,
+      "periodic_basis": [
+        "C"
+      ],
+      "thermal_conductivity_w_mk": 0.12,
+      "dark_channel_affinity": 0.82,
+      "defect_tolerance": 0.9,
+      "thermal_stability": 0.17973,
+      "tags": [
+        "outer_shell",
+        "non_radiative_bias"
+      ]
+    },
+    {
+      "layer": "L1",
+      "intent": "substrate",
+      "material_id": "MAT_12C_DIAMOND",
+      "material": "Isotopic 12C Diamond",
+      "thickness_um": 50.0,
+      "periodic_basis": [
+        "C"
+      ],
+      "thermal_conductivity_w_mk": 2200.0,
+      "dark_channel_affinity": 0.78,
+      "defect_tolerance": 0.95,
+      "thermal_stability": 0.9997,
+      "tags": [
+        "thermal_steering",
+        "reliability"
+      ]
+    },
+    {
+      "layer": "L2",
+      "intent": "coupling",
+      "material_id": "MAT_BEAL2O4",
+      "material": "Beryllium Aluminate",
+      "thickness_um": 1.5,
+      "periodic_basis": [
+        "Be",
+        "Al",
+        "O"
+      ],
+      "thermal_conductivity_w_mk": 200.0,
+      "dark_channel_affinity": 0.72,
+      "defect_tolerance": 0.91,
+      "thermal_stability": 0.469,
+      "tags": [
+        "phase_continuity",
+        "mechanical_coupling"
+      ]
+    },
+    {
+      "layer": "L3",
+      "intent": "logic",
+      "material_id": "MAT_RE6SE8CL2",
+      "material": "Re6Se8Cl2 Superatomic Logic",
+      "thickness_um": 0.35,
+      "periodic_basis": [
+        "Re",
+        "Se",
+        "Cl"
+      ],
+      "thermal_conductivity_w_mk": 320.0,
+      "dark_channel_affinity": 0.95,
+      "defect_tolerance": 0.92,
+      "thermal_stability": 0.399,
+      "tags": [
+        "topological_logic",
+        "treasury_immutability"
+      ]
+    },
+    {
+      "layer": "L4",
+      "intent": "dark_channel",
+      "material_id": "MAT_AMORPH_C_BISB",
+      "material": "Amorphous Carbon / BiSb Dark Layer",
+      "thickness_um": 2.2,
+      "periodic_basis": [
+        "C",
+        "Bi",
+        "Sb"
+      ],
+      "thermal_conductivity_w_mk": 1.8,
+      "dark_channel_affinity": 0.995,
+      "defect_tolerance": 0.94,
+      "thermal_stability": 0.29995,
+      "tags": [
+        "coherence_shield",
+        "non_radiative_transport"
+      ]
+    },
+    {
+      "layer": "L5",
+      "intent": "interconnect",
+      "material_id": "MAT_GRAPHENE_MULTI_DOPED",
+      "material": "Multi-Doped Graphene",
+      "thickness_um": 0.12,
+      "periodic_basis": [
+        "C",
+        "B",
+        "N",
+        "P"
+      ],
+      "thermal_conductivity_w_mk": 1500.0,
+      "dark_channel_affinity": 0.9,
+      "defect_tolerance": 0.94,
+      "thermal_stability": 0.7347,
+      "tags": [
+        "copper_free",
+        "coherent_backbone"
+      ]
+    }
+  ],
+  "constitutional_constraints": {
+    "silicon_allowed": false,
+    "copper_allowed": false,
+    "l3_treasury_mutable": false,
+    "dark_channel_required": true
+  },
+  "process_envelope": {
+    "version": "synthetic_v1",
+    "profile_id": "SV-LIVING-STACK-ALPHA",
+    "thermal_bands": {
+      "cultivation": {
+        "core_temp_k_min": 320.0,
+        "core_temp_k_max": 420.0,
+        "objective": "entropy_gain_and_lock_quality"
+      },
+      "sovereign": {
+        "core_temp_k_min": 420.0,
+        "core_temp_k_max": 900.0,
+        "objective": "sustained_peak_zone"
+      },
+      "sovereign_excursion": {
+        "core_temp_k_min": 900.0,
+        "core_temp_k_max": 950.0,
+        "objective": "qualified_peak_excursion_with_logic_feedback"
+      },
+      "collapse_guard": {
+        "core_temp_k_min": 950.0,
+        "core_temp_k_max": 1100.0,
+        "objective": "stabilize_and_derate"
+      }
+    },
+    "living_system_policy": {
+      "sensing": {
+        "required_signals": [
+          "thermal_input_milliK",
+          "defect_density",
+          "entropy_gain",
+          "route_congestion",
+          "treasury_flow"
+        ]
+      },
+      "homeostasis": {
+        "enabled": true,
+        "max_derate_per_window_pct": 18.0
+      },
+      "immune_response": {
+        "enabled": true,
+        "quarantine_on_anomaly_score_ge": 0.82
+      },
+      "regeneration": {
+        "enabled": true,
+        "remap_latency_cycles_target": 64
+      }
+    },
+    "defect_sovereignty": {
+      "supported_density_ppm": {
+        "min": 10,
+        "max": 5000
+      },
+      "runtime_remap_required": true,
+      "target_performance_retention_pct": 72.0
+    }
+  }
+}

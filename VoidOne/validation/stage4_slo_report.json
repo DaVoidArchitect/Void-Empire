@@ -1,0 +1,14 @@
+{
+  "generated_utc": "2026-06-14T15:16:41.109361+00:00",
+  "targets": {
+    "p95_dispatch_latency_ms_max": 75,
+    "audit_append_latency_ms_max": 30,
+    "error_rate_pct_max": 0.5
+  },
+  "measurements": {
+    "p95_dispatch_latency_ms": 42,
+    "audit_append_latency_ms": 17,
+    "error_rate_pct": 0.08
+  },
+  "pass": true
+}

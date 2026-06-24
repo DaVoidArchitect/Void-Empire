@@ -1,0 +1,131 @@
+{
+  "generated_utc": "2026-06-14T15:16:44.102669+00:00",
+  "design_version": "V2.0-FRONTIER-R1",
+  "release_id": "VOIDONE-2.0-FRONTIER-R1",
+  "program_id": "VOID-MASTER-TAPEOUT-ONE-2.0",
+  "strict_env": {
+    "XENALCHEMY_REQUIRE_SBY": "1",
+    "XENALCHEMY_REQUIRE_QUTIP": "1",
+    "XENALCHEMY_ENABLE_SPDK": "1",
+    "XENALCHEMY_SPDK_AUTOGEN": "1",
+    "XENALCHEMY_REQUIRE_LIVING_POLICY": "1"
+  },
+  "step_results": [
+    {
+      "name": "preflight_toolchain",
+      "command": [
+        "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\scratch\\.venv\\Scripts\\python.exe",
+        "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\preflight_toolchain.py",
+        "--strict"
+      ],
+      "rc": 0,
+      "pass": true,
+      "output_tail": "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\scratch\\.venv\\Lib\\site-packages\\qutip\\__init__.py:24: UserWarning: matplotlib not found: Graphics will not work.\n  warnings.warn(\"matplotlib not found: Graphics will not work.\")\n[preflight] strict_mode: True\n[preflight] python_pass: True\n[preflight] required_package_count: 5\n[preflight] package_pass: True\n[preflight] binary_pass: True\n[preflight] pass: True\n[preflight] report: C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\preflight_toolchain_report.json\n"
+    },
+    {
+      "name": "phase1_conformance",
+      "command": [
+        "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\scratch\\.venv\\Scripts\\python.exe",
+        "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\phase1_conformance.py"
+      ],
+      "rc": 0,
+      "pass": true,
+      "output_tail": "[phase1_conformance] checks: 11\n[phase1_conformance] pass_count: 11\n[phase1_conformance] overall_pass: True\n[phase1_conformance] report: C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\phase1_conformance_report.json\n"
+    },
+    {
+      "name": "run_validation_suite",
+      "command": [
+        "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\scratch\\.venv\\Scripts\\python.exe",
+        "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\run_xenalchemy_tests.py"
+      ],
+      "rc": 0,
+      "pass": true,
+      "output_tail": "=== Void One Validation Summary ===\nversion: V2.0-FRONTIER-R1 release: VOIDONE-2.0-FRONTIER-R1\nclockless: PASS\nformal: PASS\ntcad: PASS\ndefect_connectome: PASS\nvoid_channel: PASS\nmaterial_compliance: PASS\nyield_model: PASS\nyield_gate: PASS\nsynthetic_pdk: PASS\n\nTAPE-OUT READY\n"
+    },
+    {
+      "name": "generate_frontier_readiness",
+      "command": [
+        "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\scratch\\.venv\\Scripts\\python.exe",
+        "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\tools\\generate_frontier_readiness_report.py"
+      ],
+      "rc": 0,
+      "pass": true,
+      "output_tail": "[frontier_readiness] index: 1.0000\n[frontier_readiness] legacy_weighted_index: 1.0000\n[frontier_readiness] hard_gate_fraction: 1.0000\n[frontier_readiness] recommendations: 1\n[frontier_readiness] report: C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\frontier_readiness_report.json\n"
+    },
+    {
+      "name": "generate_release_manifest",
+      "command": [
+        "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\scratch\\.venv\\Scripts\\python.exe",
+        "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\tools\\generate_xenalchemy_release_manifest.py"
+      ],
+      "rc": 0,
+      "pass": true,
+      "output_tail": "[release_manifest] design_version: V2.0-FRONTIER-R1\n[release_manifest] release_id: VOIDONE-2.0-FRONTIER-R1\n[release_manifest] file_count: 260\n[release_manifest] tree_sha256: b281bdc475e22bcfd621073eb04b9c0aee4d82a45f1fda25c2b8537fcefe8bfa\n[release_manifest] output: C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\xenalchemy_release_manifest.json\n"
+    },
+    {
+      "name": "stage24_conformance",
+      "command": [
+        "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\scratch\\.venv\\Scripts\\python.exe",
+        "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\stage24_conformance.py"
+      ],
+      "rc": 0,
+      "pass": true,
+      "output_tail": "[stage24_conformance] check_count: 14\n[stage24_conformance] pass_count: 14\n[stage24_conformance] overall_pass: True\n[stage24_conformance] report: C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\stage24_conformance_report.json\n"
+    },
+    {
+      "name": "platform_board_conformance",
+      "command": [
+        "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\scratch\\.venv\\Scripts\\python.exe",
+        "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\platform_board_conformance.py"
+      ],
+      "rc": 0,
+      "pass": true,
+      "output_tail": "[platform_board_conformance] check_count: 10\n[platform_board_conformance] pass_count: 10\n[platform_board_conformance] overall_pass: True\n[platform_board_conformance] report: C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\platform_board_conformance_report.json\n"
+    },
+    {
+      "name": "digital_twin_conformance",
+      "command": [
+        "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\scratch\\.venv\\Scripts\\python.exe",
+        "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\digital_twin_conformance.py"
+      ],
+      "rc": 0,
+      "pass": true,
+      "output_tail": "[digital_twin_conformance] check_count: 4\n[digital_twin_conformance] pass_count: 4\n[digital_twin_conformance] overall_pass: True\n[digital_twin_conformance] report: C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\digital_twin_report.json\n"
+    },
+    {
+      "name": "motherboard_equivalence_conformance",
+      "command": [
+        "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\scratch\\.venv\\Scripts\\python.exe",
+        "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\motherboard_equivalence_conformance.py"
+      ],
+      "rc": 0,
+      "pass": true,
+      "output_tail": "[motherboard_equivalence_conformance] check_count: 3\n[motherboard_equivalence_conformance] pass_count: 3\n[motherboard_equivalence_conformance] overall_pass: True\n[motherboard_equivalence_conformance] report: C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\motherboard_equivalence_report.json\n"
+    },
+    {
+      "name": "ecosystem_eons_conformance",
+      "command": [
+        "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\scratch\\.venv\\Scripts\\python.exe",
+        "C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\ecosystem_eons_conformance.py"
+      ],
+      "rc": 0,
+      "pass": true,
+      "output_tail": "[ecosystem_eons_conformance] scenario_count: 3\n[ecosystem_eons_conformance] check_count: 4\n[ecosystem_eons_conformance] pass_count: 4\n[ecosystem_eons_conformance] overall_pass: True\n[ecosystem_eons_conformance] report: C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\ecosystem_eons_report.json\n[ecosystem_eons_conformance] livability_report: C:\\Users\\voidi\\OneDrive\\Desktop\\VOID Empire\\Void Archive\\unpacked_void_archive\\VoidAlchmey\\validation\\citizen_livability_report.json\n"
+    }
+  ],
+  "all_steps_pass": true,
+  "validation_overall_pass": true,
+  "phase1_conformance_pass": true,
+  "stage24_conformance_pass": true,
+  "stage4_operational_hardening_pass": true,
+  "platform_board_conformance_pass": true,
+  "digital_twin_conformance_pass": true,
+  "motherboard_equivalence_conformance_pass": true,
+  "ecosystem_eons_conformance_pass": true,
+  "readiness_v2_index": 1.0,
+  "readiness_v2_certification": "FRONTIER_V2_CERTIFIED",
+  "preflight_pass": true,
+  "release_manifest_tree_sha256": "b281bdc475e22bcfd621073eb04b9c0aee4d82a45f1fda25c2b8537fcefe8bfa",
+  "release_manifest_file_count": 260,
+  "overall_strict_release_ready": true
+}
