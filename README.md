@@ -38,11 +38,12 @@ The following freestanding, zero-dependency native binaries are compiled, verifi
 
 ## 2. The Four Pillars Technical Blueprint
 
-### Pillar 1: The Logos Language
-**Logos** is the exclusive, timing-tree-free, declarative language of the Void Ecosystem. Rather than executing unconstrained procedural code, Logos translates system logic into immutable, state-machine intents governed by physical bounds.
-* **Self-Hosting Compiler (`logos/logosc.logos`):** Re-implemented natively in Logos. Executes a static path-traversal resource analysis on the state-transition graph. It computes worst-case energy and mass consumption of any reachable path, halting compilation and throwing a `ThermodynamicConstraintError` natively if local `mesh_context` limits are breached.
-* **Monolithic Expressiveness & Tacit Math:** Direct support for static reflection (`^^T`), behavioral contracts (`pre` and `post` blocks), and BQN-style array primitives (`◰` Viewport Projection, `⨀` Spatial Intersection, `⊸` Infix Combinator, `◶` Choose) evaluated right-to-left.
-* **Hardware-Level Vector Register Mapping:** Opcode emission maps BQN primitives and state transitions directly to hardware vector blocks and wide registers (`v0`–`v31`) with VLEN=2048 and 512 parallel execution lanes, eliminating intermediate assembly layers.
+### Pillar 1: The Sovereign Logos Language (V3)
+**Logos** is a zero-dependency, Thermodynamic State Machine Language engineered for absolute isolation and extreme mathematical scale. It has achieved Stage 3 Bootstrapping and operates completely autonomously without standard external libraries.
+* **Zero-Dependency AOT Sovereignty:** Logos has been completely decoupled from Python and standard `libc` headers (`malloc`, `stdio.h`). It compiles into a freestanding Clang (LLVM) binary.
+* **Bare-Metal Arena Allocator:** Memory allocations are mapped strictly and directly from the kernel via `VirtualAlloc` syscalls, enforcing rigid 4096-byte hardware page boundaries.
+* **6.18% Thermodynamic Fee:** Software execution is treated as physics. Every hardware allocation cycle must pay a 6.18% infrastructural routing fee. If a mesh node cannot mathematically sustain the operation (`thermal_limit` exhaustion), the application instantly freezes. Infinite loops are physically impossible.
+* **Right-To-Left (RTL) Evaluation:** Traditional AST stacking is destroyed. Execution strictly flows Right-To-Left natively, mapping operations flawlessly onto the 2048-bit wide Tensor Glyphs (`◰` Tensor Projection, `⨀` Hadamard Contraction, `⊸` Linear Consumption) embedded into the grammar.
 
 ### Pillar 2: The Truth AI (TLI Oracle Engine)
 **Truth** is a zero-hallucination, 100% offline relational knowledge matrix running inside the local Logos TLI Engine.

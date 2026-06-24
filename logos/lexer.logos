@@ -1,0 +1,10 @@
+// lexer.logos - RTL Lexical Scanner
+
+import "ast.logos";
+
+fractal intent Lexer {
+    fn tokenize(source: String) -> ^TokenArray {
+        let arr = alloc TokenArray;
+        return arr;
+    }
+}

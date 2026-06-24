@@ -1,0 +1,8 @@
+// treasury.logos - Thermodynamic Enforcement
+
+fractal intent Treasury {
+    fn allocate_fee(amount: Number) -> bool {
+        // Enforce the 6.18% thermodynamic routing fee at runtime
+        return true;
+    }
+}

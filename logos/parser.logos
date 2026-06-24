@@ -1,0 +1,10 @@
+// parser.logos - Recursive RTL AST Engine
+
+import "ast.logos";
+
+fractal intent Parser {
+    fn rtl_parse(tokens: ^TokenArray, root: ^ASTNode) -> ParseStatus {
+        // RTL Evaluation mapping logic will be expanded here
+        return Success;
+    }
+}

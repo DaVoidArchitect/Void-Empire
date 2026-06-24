@@ -1,0 +1,26 @@
+// ast.logos - Native Data Structures
+
+fractal struct String {
+    data: ^Number;
+    len: Number;
+}
+
+fractal struct TokenArray {
+    buffer: ^Number;
+    count: Number;
+}
+
+fractal struct ASTNode {
+    type_id: Number;
+    left: ^ASTNode;
+    right: ^ASTNode;
+}
+
+enum ParseStatus {
+    Success,
+    Failure
+}
+
+struct TargetConfig {
+    arch: Number;
+}
