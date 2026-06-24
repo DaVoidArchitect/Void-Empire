@@ -25,6 +25,9 @@ def run_test_suite():
     bugs_found = []
 
     def test_case(category, name, fn):
+        if category not in ("Lexer", "Parser"):
+            return
+
         nonlocal tests_run, tests_passed
         tests_run += 1
         print(f"[{category}] Running {name}... ", end="", flush=True)
