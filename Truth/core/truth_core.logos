@@ -43,6 +43,9 @@ intent TruthAI {
     
     // Core Inference Loop
     fn execute_inference() {
+        // Run all ecosystem layers purely over the biomaterial VoidOne digital twin
+        invoke_voidone_emulator() ⊸ evaluate_thermodynamic_limit();
+
         // 1. Ingest weights from local disk
         ingest_offline_weights();
         
@@ -64,3 +67,6 @@ import "Truth/drivers/peripherals.logos";
 import "Truth/core/smir_ingest.logos";
 import "Truth/ide/editor_core.logos";
 import "Truth/mesh/voidmesh.logos";
+import "Truth/core/voidone_twin.logos";
+import "Truth/core/kernel.logos";
+import "Truth/ui/os_shell.logos";
